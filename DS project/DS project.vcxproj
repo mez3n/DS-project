@@ -129,10 +129,14 @@
   <ItemGroup>
     <ClCompile Include="Mazen_main.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="scheduler.cpp" />
     <ClCompile Include="Stream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Linkedqueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="scheduler.h" />
     <ClInclude Include="Stream.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

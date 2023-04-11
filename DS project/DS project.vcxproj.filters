@@ -27,12 +27,24 @@
     <ClCompile Include="Stream.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="scheduler.cpp">
+      <Filter>Cpp Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Linkedqueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

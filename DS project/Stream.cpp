@@ -9,81 +9,100 @@ Stream::~Stream()
 {
 	delete InputFile;
 	delete OutputFile;
+	string process_no;
+	*InputFile >> process_no;
+	processes_no = stoi(process_no);
+	string no_rr, no_fcfs, no_sjf;
+	*InputFile >> no_fcfs, no_sjf, no_rr;
+	FCFS_no = stoi(no_fcfs);
+	SJF_no = stoi(no_sjf);
+	RR_no = stoi(no_rr);
 }
 
-void Stream::LoadInputs(int& fcfs_no,int& sjf_no,int& rr_no,int& Processes_no)
+void Stream::LoadProcesses(int pid ,int no_IO, int at, int rt, int ct,int*& IO_r, int*& IO_d)
 {
 	// all of this is string you should use stoi()
+	// any string has S before its name
 
-	string FCFS_no, SJF_no, RR_no;  //number of each type of processor
-	string timeslice_RR;            // time slice for round robin processor
-	string RTF, MaxW, STL, Fork_prop;   // data of processors //overheating number should be added
-	*InputFile >> FCFS_no >> SJF_no >> RR_no;
-	*InputFile >> RTF >> MaxW >> STL >> Fork_prop;  // EDF should be added
 	// constructor of processor class should be called here 
-
-
-	string processes_no;
-	*InputFile >> processes_no;
-	string pid, at, rt, ct, tt, no_IO, IO; //each process specifications 
-	for (int pid = 0; pid < stoi(processes_no); pid++)
+	string Spid, Sat, Srt, Sct, Stt, Sno_IO, SIO; //each process specifications 
+	*InputFile >> Sat>> Spid >> Sct >>Sno_IO >> SIO;
+	no_IO = stoi(Sat);
+	at = stoi(Sat);
+	rt = stoi(Srt);
+	ct = stoi(Sct);
+	no_IO=stoi(Sno_IO);
+	pid = stoi(Spid);
+	int* IO_R = new int[no_IO] {0};
+	int* IO_D = new int[no_IO] {0};
+	int j = 0;
+	for (int i = 0; i < SIO.length(); i++)  //processing the IO string 
 	{
-		*InputFile >> no_IO >> at >> rt >> ct >> tt >> IO;
-		int* IO_R = new int[stoi(processes_no)] {0};
-		int* IO_D = new int[stoi(processes_no)] {0};
-		for (int i = 0; i < IO.length(); i++)  //processing the IO string 
+		if (isdigit(SIO[i]))
 		{
-			if (isdigit(IO[i]))
+			if (SIO[i - 1] == '(')
 			{
-				if (IO[i - 1]=='(')
+				while (isdigit(SIO[i]))
 				{
-					while (isdigit(IO[i]))
-					{
-						IO_R[pid] = IO_R[pid] * 10 + IO[i];
-						i++;
-					}
+					IO_R[j] = IO_R[j] * 10 + SIO[i];
+					i++;
 				}
-				else
-				{
-					while (isdigit(IO[i]))
-					{
-						IO_D[pid] = IO_D[pid] * 10 + IO[i];
-						i++;
-					}
-				}
+
 			}
 			else
 			{
-				continue;
+				while (isdigit(SIO[i]))
+				{
+					IO_D[j] = IO_D[j] * 10 + SIO[i];
+					i++;
+				}
+				j++;
 			}
 		}
-
-		//sigkill Times
-		string kill_id, kill_time;
-		int* kill_time_arr = new int [stoi(processes_no)] {-1};
-		while (!InputFile->eof())
+		else
 		{
-			*InputFile >> kill_time >> kill_id;
-			kill_time_arr[stoi(kill_id)] = stoi(kill_time);
-		}  
-		// finished reading all inputs
-
-
-
-
-		// settle on a way to make the processes list
-
-		
-
-		
-
-
-
-
+			continue;
+		}
 	}
-    fcfs_no=stoi(FCFS_no);
-	sjf_no=stoi(SJF_no);
-	rr_no=stoi(RR_no);
-	Processes_no=stoi(processes_no);
 
+
+
+	// finished reading all inputs
+
+
+
+
+	// settle on a way to make the processes list
+
+
+
+
+
+
+
+
+
+}
+
+void Stream::get_counts(int& no_fcfs, int& no_sjf, int& no_rr, int& process_no)
+{
+	no_fcfs = FCFS_no;
+	no_sjf = SJF_no;
+	no_rr = RR_no;
+	process_no = processes_no;
+}
+
+void Stream::load_sigkill(int* &kill_arr)
+{
+	//sigkill Times
+
+
+	string kill_id, kill_time;
+	int* kill_time_arr = new int [processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
+	while (!InputFile->eof())
+	{
+		*InputFile >> kill_time >> kill_id;
+		kill_time_arr[stoi(kill_id)] = stoi(kill_time);
+	}
+	kill_arr = kill_time_arr;
 }

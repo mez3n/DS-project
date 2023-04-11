@@ -10,7 +10,8 @@
 class scheduler:public Stream{
 LinkedList<Processor*> Processors;
 LinkedQueue<Process> Processes;
-int FCFS_no, SJF_no, RR_no,Process_no;
+Stream IO;
+int FCFS_no, SJF_no, RR_no,Processes_no;
 public:
 scheduler();
 }
