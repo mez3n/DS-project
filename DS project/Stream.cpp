@@ -11,7 +11,7 @@ Stream::~Stream()
 	delete OutputFile;
 }
 
-void Stream::LoadInputs()
+void Stream::LoadInputs(int& fcfs_no,int& sjf_no,int& rr_no,int& Processes_no)
 {
 	// all of this is string you should use stoi()
 
@@ -81,6 +81,9 @@ void Stream::LoadInputs()
 
 
 	}
-
+    fcfs_no=stoi(FCFS_no);
+	sjf_no=stoi(SJF_no);
+	rr_no=stoi(RR_no);
+	Processes_no=stoi(processes_no);
 
 }
