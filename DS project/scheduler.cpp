@@ -24,7 +24,7 @@ scheduler::scheduler()
 	for (int i = 0; i < Processes_no; i++)
 	{
 		Process p;
-		p.AddProcess();// please update process class as mentioned in the pdf so i can continue
+		p.AddProcess();// please update process class as mentioned in the pdf so I can continue
 		processesList.enqueue(p);
 	}
 }
