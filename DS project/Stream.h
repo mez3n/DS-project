@@ -12,7 +12,7 @@ private:
 public:
 	Stream();
 	~Stream();
-	void LoadInputs(); // will be called in main, the function behind reading all inputs from txt file 
+	void LoadInputs(int& fcfs_no,int& sjf_no,int& rr_no,int& Processes_no); // will be called in main, the function behind reading all inputs from txt file 
 };
 
 
