@@ -136,6 +136,11 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Linkedqueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="processor.h" />
+    <ClInclude Include="Processor_EDF.h" />
+    <ClInclude Include="Processor_FCFS.h" />
+    <ClInclude Include="Processor_RR.h" />
+    <ClInclude Include="Processor_SJF.h" />
     <ClInclude Include="scheduler.h" />
     <ClInclude Include="Stream.h" />
   </ItemGroup>

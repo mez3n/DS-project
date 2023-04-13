@@ -1,7 +1,7 @@
 #pragma once
-#include"Processor_FCFS"
-#include"Processor_SJF"
-#include"Processor_RR"
+#include"Processor_FCFS.h"
+#include"Processor_SJF.h"
+#include"Processor_RR.h"
 #include"Process.h"
 #include"Processor.h"
 #include"LinkedList.h"
