@@ -28,6 +28,6 @@ scheduler::scheduler()
 		IO.LoadProcesses(pid,no_IO,at,rt,ct,IO_r,IO_d);
 		Process p;
 		p.AddProcess(pid, no_IO, at, rt, ct, IO_r, IO_d);// please update process class as mentioned in the pdf so I can continue // updated
-		Processes.enqueue(p);
+		NEW_LIST.enqueue(p);
 	}
 }
