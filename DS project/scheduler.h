@@ -9,7 +9,7 @@
 #include"Stream.h"
 class scheduler:public Stream{
 LinkedList<Processor*> Processors;
-LinkedQueue<Process> Processes;
+LinkedQueue<Process> NEW_LIST;
 Stream IO;
 int FCFS_no, SJF_no, RR_no,Processes_no;
 public:
