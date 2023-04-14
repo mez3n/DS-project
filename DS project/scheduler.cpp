@@ -179,7 +179,7 @@ void scheduler::simulate_system()
 		// 2- Check the RDY lists and move one process from each RDY list to RUN state of its processor. This is done if the processor is IDLE. If the processor is BUSY the process should wait in the RDY list.
 		while (Pr_ptr1)
 		{
-			if (Pr_ptr1->getItem()->IsIdle())
+			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
 				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
@@ -207,17 +207,20 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr2 = Processors.gethead();
 		// 4- For the process at the top of the BLK list, Generate a random number from 1 to 100. If this number is less than 10, move the process from BLK to RDY
-		NO_Generated = GenerateNo();
-		if (NO_Generated < 10)
+		if (!BLK_LIST.isEmpty())
 		{
-			BLK_LIST.dequeue(p1);
-			AddToRdy(p1);
+			NO_Generated = GenerateNo();
+			if (NO_Generated < 10)
+			{
+				BLK_LIST.dequeue(p1);
+				AddToRdy(p1);
+			}
 		}
 		// 5- For the processes in the FFS RDY list, randomly pick any process in the list and terminate it. This can be done by generating a random ID and checking if this ID is in any RDY list then kill it.
 		NO_Generated = 1 + (rand() % Processes_no);
 		for (int i = 0; i < FCFS_no; i++)
 		{
-			if (Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
+			if (!(Pr_ptr3 ->getItem()->IsRdyEmpty()) && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
