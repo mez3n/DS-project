@@ -19,7 +19,7 @@ Stream::~Stream()
 	RR_no = stoi(no_rr);
 }
 
-void Stream::LoadProcesses(int pid ,int no_IO, int at, int rt, int ct,int*& IO_r, int*& IO_d)
+void Stream::LoadProcesses(int pid ,int no_IO, int at, int rt, int ct,int*& IO_r, int*& IO_d) 
 {
 	// all of this is string you should use stoi()
 	// any string has S before its name
@@ -64,22 +64,11 @@ void Stream::LoadProcesses(int pid ,int no_IO, int at, int rt, int ct,int*& IO_r
 			continue;
 		}
 	}
-
+	IO_d = IO_D;
+	IO_r = IO_R;
 
 
 	// finished reading all inputs
-
-
-
-
-	// settle on a way to make the processes list
-
-
-
-
-
-
-
 
 
 }
