@@ -106,7 +106,7 @@ void scheduler::simulate_system()
 
 	NEW_LIST.peek(p);
 	// system here is working with checking the new list as its not empty yet
-	while (TRM_LIST.getcount() != Processes_no)// stop when all process move to trm list
+	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
