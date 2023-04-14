@@ -129,7 +129,7 @@ void scheduler::simulate_system()
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
-        Pr_ptr1 = Processors.gethead();
+                Pr_ptr1 = Processors.gethead();
 		// 3- For each process in RUN state, Generate a random number from 1 to 100.
 		while (Pr_ptr2)
 		{
