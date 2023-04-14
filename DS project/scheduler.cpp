@@ -31,8 +31,8 @@ public:
 		return next;
 	}
 };
-#endif
 
+ 
 scheduler::scheduler()
 {
 	InputFile = new ifstream("InputFile.txt");
