@@ -1,2 +1,4 @@
-﻿  Mazen_main.cpp
-  DS project.vcxproj -> C:\Users\moham\source\repos\DS project\x64\Debug\DS project.exe
+﻿  scheduler.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(220): error C4700: uninitialized local variable 'p2' used

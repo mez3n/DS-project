@@ -1,4 +1,6 @@
 #pragma once
+#ifndef NODE_
+#define NODE_
 template<class T>
 class Node {
 	T item;
@@ -29,6 +31,7 @@ public:
 		return next;
 	}
 };
+#endif
 template<class T>
 class LinkedList {
 	Node<T>* head;

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef NODE_
+#define NODE_
 using namespace std;
 template < typename T>
 class Node
@@ -15,6 +17,7 @@ public:
 	T getItem() const;
 	Node<T>* getNext() const;
 }; // end Node
+#endif
 template < typename T>
 Node<T>::Node()
 {

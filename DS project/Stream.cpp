@@ -3,12 +3,6 @@
 Stream::Stream()
 {
 	InputFile = new ifstream("InputFile.txt");
-}
-
-Stream::~Stream()
-{
-	delete InputFile;
-	delete OutputFile;
 	string process_no;
 	*InputFile >> process_no;
 	processes_no = stoi(process_no);
@@ -17,6 +11,12 @@ Stream::~Stream()
 	FCFS_no = stoi(no_fcfs);
 	SJF_no = stoi(no_sjf);
 	RR_no = stoi(no_rr);
+}
+
+Stream::~Stream()
+{
+	delete InputFile;
+	delete OutputFile;
 }
 
 void Stream::LoadProcesses(int pid ,int no_IO, int at, int rt, int ct,int*& IO_r, int*& IO_d) 
