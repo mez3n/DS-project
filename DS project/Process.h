@@ -30,6 +30,8 @@ public:
 	bool GetRunState();
 	void set_termination_times(int tt); //calculated after termination and calculates TRT and WT by default
 	void Add_child(Process*& child);
+	bool is_parent();
+	void kill_children();
 	
 	
 };

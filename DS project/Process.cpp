@@ -53,3 +53,13 @@ void Process::Add_child(Process* & child)
 {
 	El_3yal.add(child);
 }
+
+bool Process::is_parent()
+{
+	return !El_3yal.isEmpty();
+}
+
+void Process::kill_children()
+{
+	El_3yal.~BinaryNodeTree(); // needs modifications
+}
