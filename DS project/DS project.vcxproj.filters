@@ -16,6 +16,9 @@
     <Filter Include="Cpp Files">
       <UniqueIdentifier>{93c611c5-2553-4dd7-9218-c9d2c4daaf60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Used DS">
+      <UniqueIdentifier>{e41a6c16-2f7f-4a26-a967-0c422ba9aa0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mazen_main.cpp">
@@ -38,12 +41,6 @@
     <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Linkedqueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -61,6 +58,21 @@
     </ClInclude>
     <ClInclude Include="Processor_EDF.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Linkedqueue.h">
+      <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTreeInterface.h">
+      <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryNode.h">
+      <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryNodeTree.h">
+      <Filter>Used DS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

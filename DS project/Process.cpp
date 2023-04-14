@@ -49,3 +49,7 @@ int TT=tt;     //time when the process finishes execution
 int TRT=TT-AT; //total time spent from arrival time to termiantion TT-AT
 int WT=TRT-CT; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 }
+void Process::Add_child(Process* & child)
+{
+	El_3yal.add(child);
+}

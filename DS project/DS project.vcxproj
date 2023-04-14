@@ -127,15 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BSTree.cpp" />
     <ClCompile Include="Mazen_main.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="scheduler.cpp" />
     <ClCompile Include="Stream.cpp" />
-    <ClCompile Include="Tnode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BSTree.h" />
+    <ClInclude Include="BinaryNode.h" />
+    <ClInclude Include="BinaryNodeTree.h" />
+    <ClInclude Include="BinaryTreeInterface.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Linkedqueue.h" />
     <ClInclude Include="Process.h" />
@@ -146,7 +146,6 @@
     <ClInclude Include="Processor_SJF.h" />
     <ClInclude Include="scheduler.h" />
     <ClInclude Include="Stream.h" />
-    <ClInclude Include="Tnode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

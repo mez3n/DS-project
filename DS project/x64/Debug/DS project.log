@@ -1,6 +1,9 @@
-﻿  scheduler.cpp
+﻿  Process.cpp
+  scheduler.cpp
 C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,19): warning C4101: 'IO_d': unreferenced local variable
 C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,8): warning C4101: 'IO_r': unreferenced local variable
+  Generating Code...
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
 scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_FCFS::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_FCFS@@UEAAXXZ)
 scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::RunProcess(void)" (?RunProcess@Processor_FCFS@@UEAA_NXZ)
 scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_FCFS::AddToList(class Process *)" (?AddToList@Processor_FCFS@@UEAAXPEAVProcess@@@Z)
