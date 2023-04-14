@@ -4,6 +4,7 @@
 class Processor
 {
 private:
+	// note: i think you should add a data member (Process* Run_Process) which it is the process that run in a certain processor
 	bool state;// describe the state of processor if BUSY true if IDLE false
 	int count;// the number of processors in RDY list
 	int TotalBusyTime; // for calculate total busy time along the program
