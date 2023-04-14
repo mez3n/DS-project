@@ -22,3 +22,23 @@ void Process::AddProcess(int pid, int at, int rt, int ct,int io_count, int* IO_r
 	//int WT=TRT-ct; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	
 }
+int Process::get_CT()
+{
+	return CT;
+}
+int Process::get_RT()
+{
+	return RT;
+}
+int Process::get_AT()
+{
+	return AT;
+}
+void Process::SetRunState(bool b)
+{
+	RunState = b;
+}
+bool Process::GetRunState()
+{
+	return RunState;
+}
