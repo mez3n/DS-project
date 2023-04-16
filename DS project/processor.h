@@ -18,5 +18,6 @@ public:
 	virtual bool IsIdle() = 0;// return true if idle and return false if busy
 	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
 	virtual bool GetProcessById(int id,Process* p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
-        virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not
+    virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not
+	virtual bool printProcessor() = 0;
 };

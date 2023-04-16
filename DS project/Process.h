@@ -2,11 +2,17 @@
 #define PROCESS_
 #include"Linkedqueue.h"
 #include"BinaryNodeTree.h"
+#include<iostream>
+using namespace std;
+
+
+
+
 struct IO
 {
 	int IO_R; // Request time
 	int IO_D; // Duration time
-		
+
 };
 class Process  // scheduler class should have a list of all processes
 {
@@ -22,7 +28,7 @@ private:
 	LinkedQueue<IO> IO_queue; // storage for all IO 
 	BinaryNodeTree<Process*> El_3yal; // tree for forking for all the children of the process
 public:
-	void AddProcess(int pid, int at, int rt, int ct,int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
+	void AddProcess(int pid, int at, int rt, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
 	int get_CT();
 	int get_RT();
 	int get_AT();
@@ -32,8 +38,9 @@ public:
 	void Add_child(Process*& child);
 	bool is_parent();
 	void kill_children();
+	friend ostream& operator << (ostream& out, Process* P);
 	
-	
+
 };
 
 

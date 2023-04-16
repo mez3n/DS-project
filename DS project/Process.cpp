@@ -1,5 +1,11 @@
 #include "Process.h"
 
+ostream& operator << (ostream& out, Process* P)
+{
+	cout << P->PID << " ";
+	return out;
+}
+
 void Process::AddProcess(int pid, int at, int rt, int ct,int io_count, int* IO_r, int* IO_d)
 {
 	int PID=pid;   //unique id for each process
