@@ -31,7 +31,7 @@ public:
 		return next;
 	}
 };
-
+#endif
  
 scheduler::scheduler()
 {
@@ -57,7 +57,7 @@ scheduler::scheduler()
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF;
+		Processor_SJF* P = new Processor_SJF(Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)

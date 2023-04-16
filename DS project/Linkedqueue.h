@@ -165,7 +165,7 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 template<typename T>
 void LinkedQueue<T>::PrintList()
 {
-	Node<T>* p = frontptr;
+	Node<T>* p = frontPtr;
 	while (p)
 	{
 		cout << p->getItem()->getPID() << ",";
