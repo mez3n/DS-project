@@ -40,6 +40,10 @@ int Process::get_AT()
 {
 	return AT;
 }
+int Process::getPID() 
+{
+	return PID;
+}
 void Process::SetRunState(bool b)
 {
 	RunState = b;

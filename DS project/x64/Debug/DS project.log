@@ -1,39 +1,183 @@
 ﻿  Mazen_main.cpp
   Process.cpp
-  Stream.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(171,3): error C3861: 'cout': identifier not found
+  Processor_EDF.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(83,4): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(182): message : see reference to class template instantiation 'ListADT<T>' being compiled
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,10): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,18): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(29,30): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(171,3): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,14): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,22): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,17): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,25): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(13,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(19,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(20,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,13): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,23): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,7): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,17): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(35,2): error C2953: 'HeapNode': class template has already been defined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(2): message : see declaration of 'HeapNode'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(130,2): error C2953: 'PeriorityQueue': class template has already been defined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(40): message : see declaration of 'PeriorityQueue'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(4,50): error C2514: 'PeriorityQueue': class template cannot be constructed
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(40): message : see declaration of 'PeriorityQueue'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(9,32): error C2662: 'bool PeriorityQueue<T>::enqueue(T,int)': cannot convert 'this' pointer from 'PeriorityQueue' to 'PeriorityQueue<T> &'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(9,32): message : Reason: cannot convert from 'PeriorityQueue' to 'PeriorityQueue<T>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(9,2): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(75,7): message : see declaration of 'PeriorityQueue<T>::enqueue'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(13,5): error C2662: 'bool PeriorityQueue<T>::isEmpty(void) const': cannot convert 'this' pointer from 'PeriorityQueue' to 'const PeriorityQueue<T> &'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(13,5): message : Reason: cannot convert from 'PeriorityQueue' to 'const PeriorityQueue<T>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(13,6): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(70,7): message : see declaration of 'PeriorityQueue<T>::isEmpty'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(20,30): error C2662: 'bool PeriorityQueue<T>::dequeue(T &)': cannot convert 'this' pointer from 'PeriorityQueue' to 'PeriorityQueue<T> &'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(20,30): message : Reason: cannot convert from 'PeriorityQueue' to 'PeriorityQueue<T>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(20,3): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(92,7): message : see declaration of 'PeriorityQueue<T>::dequeue'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(32,21): error C2662: 'void PeriorityQueue<T>::PrintList(void)': cannot convert 'this' pointer from 'PeriorityQueue' to 'PeriorityQueue<T> &'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(32,21): message : Reason: cannot convert from 'PeriorityQueue' to 'PeriorityQueue<T>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(32,2): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(65,7): message : see declaration of 'PeriorityQueue<T>::PrintList'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(36,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(43,61): error C2662: 'bool PeriorityQueue<T>::isEmpty(void) const': cannot convert 'this' pointer from 'PeriorityQueue' to 'const PeriorityQueue<T> &'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(43,61): message : Reason: cannot convert from 'PeriorityQueue' to 'const PeriorityQueue<T>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(43,44): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\PeriorityQueue.h(70,7): message : see declaration of 'PeriorityQueue<T>::isEmpty'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_EDF.cpp(45,1): error C2600: 'Processor_EDF::~Processor_EDF': cannot define a compiler-generated special member function (must be declared in the class first)
+  Processor_FCFS.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(171,3): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,14): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,22): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,17): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,25): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(13,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(19,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(20,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,13): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,23): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,7): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,17): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.cpp(32,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Processor_RR.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(83,4): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(182): message : see reference to class template instantiation 'ListADT<T>' being compiled
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,10): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,18): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(29,30): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,17): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(8,25): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(13,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(19,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(20,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(22,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,13): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,23): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,7): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,17): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.cpp(32,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Processor_SJF.cpp
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(83,4): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\ListADT.h(182): message : see reference to class template instantiation 'ListADT<T>' being compiled
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,10): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(8,18): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(29,30): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(171,3): error C3861: 'cout': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(6,1): error C2504: 'Processor': base class undefined
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,14): error C2065: 'Process': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(8,22): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(17,17): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(23,22): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(24,23): error C2061: syntax error: identifier 'Process'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C2143: syntax error: missing ';' before '*'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(26,26): error C2238: unexpected token(s) preceding ';'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,13): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(11,23): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,7): error C2065: 'Processor': undeclared identifier
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.h(15,17): error C2059: syntax error: '>'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.cpp(36,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   scheduler.cpp
-C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,19): warning C4101: 'IO_d': unreferenced local variable
-C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(72,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Linkedqueue.h(168,15): error C3861: 'frontptr': identifier not found
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55): error C2259: 'Processor_FCFS': cannot instantiate abstract class
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(5): message : see declaration of 'Processor_FCFS'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55): message : due to following members:
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55): message : 'bool Processor::GetProcessById(int,Process *)': is abstract
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\processor.h(31): message : see declaration of 'Processor::GetProcessById'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55,23): error C2259: 'Processor_FCFS': cannot instantiate abstract class
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_FCFS.h(5): message : see declaration of 'Processor_FCFS'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55,23): message : due to following members:
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(55,23): message : 'bool Processor::GetProcessById(int,Process *)': is abstract
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\processor.h(31): message : see declaration of 'Processor::GetProcessById'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(60): error C2259: 'Processor_SJF': cannot instantiate abstract class
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_SJF.h(5): message : see declaration of 'Processor_SJF'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(60): message : due to following members:
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(60): message : 'bool Processor::GetProcessById(int,Process *)': is abstract
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\processor.h(31): message : see declaration of 'Processor::GetProcessById'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(60,39): error C2512: 'Processor_SJF': no appropriate default constructor available
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65): error C2259: 'Processor_RR': cannot instantiate abstract class
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(5): message : see declaration of 'Processor_RR'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65): message : due to following members:
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65): message : 'bool Processor::GetProcessById(int,Process *)': is abstract
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\processor.h(31): message : see declaration of 'Processor::GetProcessById'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65,21): error C2259: 'Processor_RR': cannot instantiate abstract class
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\Processor_RR.h(5): message : see declaration of 'Processor_RR'
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65,21): message : due to following members:
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\scheduler.cpp(65,21): message : 'bool Processor::GetProcessById(int,Process *)': is abstract
+C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\processor.h(31): message : see declaration of 'Processor::GetProcessById'
+  Stream.cpp
+  UI.cpp
   Generating Code...
-C:\Users\moham\source\repos\DS-project-after-scheduler\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_FCFS::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_FCFS@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::RunProcess(void)" (?RunProcess@Processor_FCFS@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_FCFS::AddToList(class Process *)" (?AddToList@Processor_FCFS@@UEAAXPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_FCFS::ExpectedFinishTime(void)" (?ExpectedFinishTime@Processor_FCFS@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_FCFS::print(void)" (?print@Processor_FCFS@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_FCFS::GetPload(void)" (?GetPload@Processor_FCFS@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::IsIdle(void)" (?IsIdle@Processor_FCFS@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_FCFS::GetRunProcess(void)" (?GetRunProcess@Processor_FCFS@@UEAAPEAVProcess@@XZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::GetProcessById(int,class Process *)" (?GetProcessById@Processor_FCFS@@UEAA_NHPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::IsRdyEmpty(void)" (?IsRdyEmpty@Processor_FCFS@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_RR::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_RR@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::RunProcess(void)" (?RunProcess@Processor_RR@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_RR::AddToList(class Process *)" (?AddToList@Processor_RR@@UEAAXPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_RR::ExpectedFinishTime(void)" (?ExpectedFinishTime@Processor_RR@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_RR::print(void)" (?print@Processor_RR@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_RR::GetPload(void)" (?GetPload@Processor_RR@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::IsIdle(void)" (?IsIdle@Processor_RR@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_RR::GetRunProcess(void)" (?GetRunProcess@Processor_RR@@UEAAPEAVProcess@@XZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::GetProcessById(int,class Process *)" (?GetProcessById@Processor_RR@@UEAA_NHPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::IsRdyEmpty(void)" (?IsRdyEmpty@Processor_RR@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_SJF::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_SJF@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::RunProcess(void)" (?RunProcess@Processor_SJF@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_SJF::AddToList(class Process *)" (?AddToList@Processor_SJF@@UEAAXPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_SJF::ExpectedFinishTime(void)" (?ExpectedFinishTime@Processor_SJF@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_SJF::print(void)" (?print@Processor_SJF@@UEAAXXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual int __cdecl Processor_SJF::GetPload(void)" (?GetPload@Processor_SJF@@UEAAHXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::IsIdle(void)" (?IsIdle@Processor_SJF@@UEAA_NXZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_SJF::GetRunProcess(void)" (?GetRunProcess@Processor_SJF@@UEAAPEAVProcess@@XZ)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::GetProcessById(int,class Process *)" (?GetProcessById@Processor_SJF@@UEAA_NHPEAVProcess@@@Z)
-scheduler.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::IsRdyEmpty(void)" (?IsRdyEmpty@Processor_SJF@@UEAA_NXZ)
-C:\Users\moham\source\repos\DS-project-after-scheduler\x64\Debug\DS project.exe : fatal error LNK1120: 30 unresolved externals

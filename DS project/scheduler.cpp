@@ -31,8 +31,8 @@ public:
 		return next;
 	}
 };
-#endif
 
+ 
 scheduler::scheduler()
 {
 	InputFile = new ifstream("InputFile.txt");
@@ -162,7 +162,6 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 
 	NEW_LIST.peek(p);
-	// system here is working with checking the new list as its not empty yet
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
 		// in each timestep we check:

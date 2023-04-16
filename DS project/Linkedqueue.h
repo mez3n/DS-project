@@ -70,6 +70,7 @@ public:
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
 	void PrintQueue(LinkedQueue<T> Q);
+	void PrintList();
 	~LinkedQueue();
 
 	//copy constructor
@@ -159,5 +160,15 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 		backPtr->setNext(ptr);
 		backPtr = ptr;
 		NodePtr = NodePtr->getNext();
+	}
+}
+template<typename T>
+void LinkedQueue<T>::PrintList()
+{
+	Node<T>* p = frontptr;
+	while (p)
+	{
+		cout << p->getItem()->getPID() << ",";
+		p = p->getNext();
 	}
 }

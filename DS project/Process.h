@@ -25,6 +25,8 @@ private:
 	int TRT; //total time spent from arrival time to termiantion TT-AT
 	int WT;  //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	bool RunState;// get run state for a process
+	int LeftCT;// we don't want to change CT for output file so we use this
+	int Deadline;// the expected deadline for process
 	LinkedQueue<IO> IO_queue; // storage for all IO 
 	BinaryNodeTree<Process*> El_3yal; // tree for forking for all the children of the process
 public:
@@ -32,6 +34,7 @@ public:
 	int get_CT();
 	int get_RT();
 	int get_AT();
+	int getPID();
 	void SetRunState(bool b);
 	bool GetRunState();
 	void set_termination_times(int tt); //calculated after termination and calculates TRT and WT by default
