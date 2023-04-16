@@ -31,7 +31,7 @@ public:
 		return next;
 	}
 };
-
+#endif
  
 scheduler::scheduler()
 {
