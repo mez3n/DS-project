@@ -2,7 +2,7 @@
 #include "processor.h"
 #include"ListADT.h"
 #include"scheduler.h"
-class Processor_FCFS :public Processor
+class Processor_FCFS : public Processor
 {
 private:
 	ListADT<Process*> RDYlist;

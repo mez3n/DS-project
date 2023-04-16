@@ -45,6 +45,9 @@
     <ClCompile Include="Processor_EDF.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stream.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="ListADT.h">
       <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

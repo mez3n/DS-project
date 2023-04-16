@@ -1,5 +1,5 @@
 #pragma once
-#include"scheduler.h"
+//#include"scheduler.h"
 #include"Process.h"
 class Processor
 {
@@ -13,7 +13,7 @@ protected:
 	Process* Runprocess;// point to processes in run state
 	int n;// time step that processor will be out of work 
 public:
-	Processor();
+	Processor() {};
 	virtual void ScheduleAlgo() = 0;// determine next process to be run
 	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list

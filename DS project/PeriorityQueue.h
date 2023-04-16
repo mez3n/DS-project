@@ -80,7 +80,7 @@ public:
 		int i = count;
 		Heap[i].setitem(newitem);
 		Heap[i].setkey(newkey);
-		while (i > 1 && (Heap[getparent(i)].getkey > Heap[i].getkey()))
+		while (i > 1 && (Heap[getparent(i)].getkey() > Heap[i].getkey()))
 		{
 			HeapNode<T> tmp = Heap[getparent(i)];
 			Heap[getparent(i)] = Heap[i];

@@ -1,6 +1,7 @@
 #pragma once
 #ifndef NODE_
 #define NODE_
+#include<iostream>
 using namespace std;
 template < typename T>
 class Node
