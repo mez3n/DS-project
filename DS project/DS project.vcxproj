@@ -135,7 +135,6 @@
     <ClCompile Include="Processor_SJF.cpp" />
     <ClCompile Include="scheduler.cpp" />
     <ClCompile Include="Stream.cpp" />
-    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryNode.h" />
@@ -153,7 +152,6 @@
     <ClInclude Include="Processor_SJF.h" />
     <ClInclude Include="scheduler.h" />
     <ClInclude Include="Stream.h" />
-    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

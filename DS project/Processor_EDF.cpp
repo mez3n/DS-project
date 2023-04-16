@@ -45,3 +45,7 @@ Processor_EDF::~Processor_EDF()
 {
 	delete RDYlist;
 }
+bool  Processor_EDF::GetProcessById(int id, Process*& p) 
+{
+	return true;
+}

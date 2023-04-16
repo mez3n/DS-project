@@ -1,4 +1,6 @@
-﻿  Processor_EDF.cpp
+﻿  Mazen_main.cpp
+  Process.cpp
+  Processor_EDF.cpp
 D:\DS_project\DS-project\DS project\Processor_EDF.cpp(36,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   Processor_FCFS.cpp
 D:\DS_project\DS-project\DS project\Processor_FCFS.cpp(32,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
@@ -9,7 +11,7 @@ D:\DS_project\DS-project\DS project\Processor_SJF.cpp(36,23): warning C4244: 're
   scheduler.cpp
 D:\DS_project\DS-project\DS project\scheduler.cpp(72,19): warning C4101: 'IO_d': unreferenced local variable
 D:\DS_project\DS-project\DS project\scheduler.cpp(72,8): warning C4101: 'IO_r': unreferenced local variable
-  UI.cpp
-c1xx : fatal error C1083: Cannot open source file: 'UI.cpp': No such file or directory
+  Stream.cpp
   Generating Code...
 D:\DS_project\DS-project\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
+  DS project.vcxproj -> D:\DS_project\DS-project\x64\Debug\DS project.exe

@@ -37,3 +37,7 @@ Process* Processor_RR::GetRunProcess()
 	return Runprocess;
 }
 bool Processor_RR::IsRdyEmpty() { return (RDYlist.isEmpty()); }
+bool  Processor_RR::GetProcessById(int id, Process*& p)
+{
+	return true;
+}

@@ -45,3 +45,7 @@ Processor_SJF::~Processor_SJF()
 {
 	delete RDYlist;
 }
+bool  Processor_SJF::GetProcessById(int id, Process*& p)
+{
+	return true;
+}
