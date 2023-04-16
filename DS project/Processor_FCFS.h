@@ -11,7 +11,7 @@ private:
 	float Fork;// it is the fork probability
 	int* ArrSigKill;
 public:
-	Processor_FCFS();
+	Processor_FCFS() {};
 	void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
@@ -29,5 +29,7 @@ public:
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
 	void forking();
 	void migration();
+	~Processor_FCFS() {};
+
 
 };

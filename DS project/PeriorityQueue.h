@@ -1,23 +1,20 @@
-#pragma once
 template<typename T>
 class HeapNode
 {
 private:
 	T item;	// A data item (can be any complex sturcture)
 	int key;
-	int position;
 public:
 
 	HeapNode() //default constructor
 	{
+		item = nullptr;
 		key = 0;
-		position = 0;
 	}
-	HeapNode(int newkey,int p, T newItem) //non-default constructor
+	HeapNode(int newkey, T newItem) //non-default constructor
 	{
 		item = newItem;
 		key = newkey;
-		position = p;
 	}
 	void setkey(int newkey)
 	{
@@ -35,10 +32,7 @@ public:
 	{
 		return item;
 	} // end getItem
-	void setPosition(int p) { position = p; }
-	int getPosition() { return position; }
 }; // end Node
-
 #include<iostream>
 using namespace std;
 // periority Queue implemented by Heap
@@ -68,26 +62,25 @@ public:
 			Heap[i] = Q.Heap[i];
 		}
 	}
-	void print()
+	void PrintList()
 	{
 		for (int i = 1; i <= count; i++)
-			cout << Heap[i].getPosition() << " ";
+			cout << Heap[i].getitem()->getPID()<<",";
 	}
 	bool isEmpty() const
 	{
 		return(count == 0);
 	}
 	int getparent(int i) { return (i / 2); }
-	bool enqueue(int newkey,int p, T newitem)
+	bool enqueue(T newitem,int newkey)
 	{
 		if (count == Max_Size - 1)
 			return false;
 		count++;
 		int i = count;
-		Heap[i].setkey(newkey);
 		Heap[i].setitem(newitem);
-		Heap[i].setPosition(p);
-		while (i > 1 && (Heap[getparent(i)].getkey() > Heap[i].getkey()))
+		Heap[i].setkey(newkey);
+		while (i > 1 && (Heap[getparent(i)].getkey > Heap[i].getkey()))
 		{
 			HeapNode<T> tmp = Heap[getparent(i)];
 			Heap[getparent(i)] = Heap[i];

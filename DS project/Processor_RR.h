@@ -1,11 +1,11 @@
 #pragma once
 #include "Processor.h"
-#include"ListADT.h"
+#include"Linkedqueue.h"
 #include"scheduler.h"
 class Processor_RR :public Processor
 {
 private:
-	ListADT<Process*> RDYlist;
+	LinkedQueue<Process*> RDYlist;
 	int RTF;// if a process has CT less than RTF it should be moved to SJF RDYlist
 	int numRTF;// number of processes migrated
 	int RRslice;// time slice for each process to be excuted
@@ -27,4 +27,5 @@ public:
 	bool IsRdyEmpty();//returns if the ready list is empty or not ->
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	void migration();
+	~Processor_RR() {};
 };

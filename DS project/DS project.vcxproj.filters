@@ -86,10 +86,10 @@
     <ClInclude Include="BinaryNodeTree.h">
       <Filter>Used DS</Filter>
     </ClInclude>
-    <ClInclude Include="ListADT.h">
+    <ClInclude Include="PeriorityQueue.h">
       <Filter>Used DS</Filter>
     </ClInclude>
-    <ClInclude Include="PeriorityQueue.h">
+    <ClInclude Include="ListADT.h">
       <Filter>Used DS</Filter>
     </ClInclude>
   </ItemGroup>

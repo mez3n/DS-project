@@ -2,7 +2,7 @@
 void Processor_RR::AddToList(Process* p)
 {
 	FinishTime += p->get_CT();
-	RDYlist.InsertEnd(p, p->getPID(), 0);
+	RDYlist.enqueue(p);
 }
 bool Processor_RR::RunProcess()
 {
@@ -13,7 +13,7 @@ bool Processor_RR::RunProcess()
 	}
 	else
 	{
-		RDYlist.DeleteFirst(Runprocess);
+		RDYlist.dequeue(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
 	}

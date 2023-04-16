@@ -2,7 +2,7 @@
 void Processor_FCFS::AddToList(Process* p)
 {
 	FinishTime += p->get_CT();
-	RDYlist.InsertEnd(p, p->getPID(), 0);
+	RDYlist.InsertEnd(p);
 }
 bool Processor_FCFS::RunProcess()
 {

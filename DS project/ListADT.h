@@ -3,8 +3,6 @@ class LNode
 {
 private:
 	T item;	// A data item (can be any complex sturcture)
-	int key;
-	int position;
 	LNode<T>* next;	// Pointer to next node
 public:
 
@@ -13,28 +11,18 @@ public:
 		next = nullptr;
 	}
 
-	LNode(T newItem, int p, int k) //non-default constructor
+	LNode(T newItem) //non-default constructor
 	{
 		item = newItem;
-		key = k;
-		position = p;
 		next = nullptr;
 
-	}
-	void setkey(int newkey)
-	{
-		key = newkey;
-	}
-	int getkey()
-	{
-		return key;
 	}
 	void setItem(T newItem)
 	{
 		item = newItem;
 	} // end setItem
 
-	void setNext(Node<T>* nextNodePtr)
+	void setNext(LNode<T>* nextNodePtr)
 	{
 		next = nextNodePtr;
 	} // end setNext
@@ -48,8 +36,6 @@ public:
 	{
 		return next;
 	}
-	void setPosition(int p) { position = p; }
-	int getPosition() { return position; }
 }; // end Node
 template <typename T>
 class ListADT
@@ -77,7 +63,7 @@ public:
 		Head = tail = nullptr;
 		while (curptrL)
 		{
-			InsertEnd(curptrL->getItem(), curptrL->getPosition(), curptrL->getkey());
+			InsertEnd(curptrL->getItem());
 			curptrL = curptrL->getNext();
 		}
 	}
@@ -94,7 +80,7 @@ public:
 		LNode<T>* p = Head;
 		while (p)
 		{
-			cout << p->getposition() << ",";
+			cout << p->getItem()->getPID() << ",";
 			p = p->getNext();
 		}
 	}
@@ -106,9 +92,9 @@ public:
 	* Parameters:
 	*	- data : The value to be stored in the new node.
 	*/
-	void InsertBeg(const T& data, int p, int k)
+	void InsertBeg(const T& data)
 	{
-		LNode<T>* R = new LNode<T>(data, p, k);
+		LNode<T>* R = new LNode<T>(data);
 		R->setNext(Head);
 		Head = R;
 		if (!tail)
@@ -134,10 +120,10 @@ public:
 		tail = nullptr;
 	}
 	//inserts a new node at end if the list
-	void InsertEnd(const T& data, int p, int k)
+	void InsertEnd(const T& data)
 	{
 		itemcount++;
-		LNode<T> newptr = new LNode<T>(data, p, k);
+		LNode<T>* newptr = new LNode<T>(data);
 		if (!tail)
 		{
 			tail = newptr;
@@ -162,8 +148,7 @@ public:
 		delete ptr;
 		itemcount--;
 	}
-	bool isEmpty() 
-	{ return (itemcount == 0); }
+	bool isEmpty() { return (itemcount == 0); }
 	bool DeleteNode(T& value, int p)
 	{
 		LNode<T>* curptr;
@@ -171,7 +156,7 @@ public:
 		curptr = Head;
 		while (curptr)
 		{
-			if (curptr->getPosition() == p)
+			if (curptr->getItem()->getPID() == p)
 			{
 				if (!prev)
 					DeleteFirst(value);

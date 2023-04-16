@@ -1,13 +1,13 @@
 #pragma once
 #include "processor.h"
-#include"ListADT.h"
+#include"PeriorityQueue.h"
 #include"scheduler.h"
 class Processor_SJF :public Processor
 {
 private:
-	ListADT<Process*> RDYlist;
+	PeriorityQueue<Process*>* RDYlist;
 public:
-	Processor_SJF();
+	Processor_SJF(int MAX_SIZE);
 	void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
@@ -22,4 +22,5 @@ public:
 	Process* GetRunProcess();// function to get the process that runs in a processor->to do
 	bool IsRdyEmpty();//returns if the ready list is empty or not ->
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
+	~Processor_SJF();
 };

@@ -1,19 +1,23 @@
 #include"Processor_SJF.h"
+Processor_SJF::Processor_SJF(int MAX_SIZE) 
+{
+	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
+}
 void Processor_SJF::AddToList(Process* p)
 {
 	FinishTime += p->get_CT();
-	RDYlist.InsertEnd(p, p->getPID(), 0);
+	RDYlist->enqueue( p,p->get_CT());
 }
 bool Processor_SJF::RunProcess()
 {
-	if (RDYlist.isEmpty())
+	if (RDYlist->isEmpty())
 	{
 		state = false;
 		Runprocess = nullptr;
 	}
 	else
 	{
-		RDYlist.DeleteFirst(Runprocess);
+		RDYlist->dequeue(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
 	}
@@ -25,7 +29,7 @@ int Processor_SJF::ExpectedFinishTime()
 }
 void Processor_SJF::print()
 {
-	RDYlist.PrintList();
+	RDYlist->PrintList();
 }
 float Processor_SJF::GetPload()
 {
@@ -36,4 +40,8 @@ Process* Processor_SJF::GetRunProcess()
 {
 	return Runprocess;
 }
-bool Processor_SJF::IsRdyEmpty() { return (RDYlist.isEmpty()); }
+bool Processor_SJF::IsRdyEmpty() { return (RDYlist->isEmpty()); }
+Processor_SJF::~Processor_SJF() 
+{
+	delete RDYlist;
+}

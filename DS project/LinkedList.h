@@ -32,6 +32,7 @@ public:
 	}
 };
 #endif
+#include"Process.h"
 template<class T>
 class LinkedList {
 	Node<T>* head;
@@ -75,7 +76,7 @@ public:
 			Node<T>* p = head;
 			while (p)
 			{
-				cout << p->getItem() << "->";
+				cout << p->getItem()<< "->";
 				p = p->getNext();
 			}
 			cout << "NULL\n";
@@ -184,4 +185,5 @@ public:
 		}
 		return false;
 	}
+
 };
