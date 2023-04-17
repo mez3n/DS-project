@@ -166,6 +166,8 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
+	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
+	Node<Process*>* ptr_R = Run_List.gethead();// a pointer to run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -208,7 +210,21 @@ void scheduler::simulate_system()
 					// removing the process from Run list (if you dont want this part then remove it)
 					while (ptr->getItem()->getPID() != Run_P->getPID())
 						ptr = ptr->getNext();
-					Run_List.deletenode(ptr);
+					// delete the process from run list note after this operation it will be no tail for run list
+					if (ptr == Run_List.gethead())
+					{
+						ptr = ptr->getNext();
+						delete Run_List.gethead();
+						Run_List.sethead(ptr);
+					}
+					else
+					{
+						if (!ptr->getNext())
+							delete ptr;
+						else
+							Run_List.deletenode(ptr);
+					}
+					ptr_R = Run_List.gethead();
 				}
 				else
 					if (20 <= NO_Generated && NO_Generated <= 30)
@@ -218,7 +234,21 @@ void scheduler::simulate_system()
 						// removing the process from Run list (if you dont want this part then remove it)
 						while (ptr->getItem()->getPID() != Run_P->getPID())
 							ptr = ptr->getNext();
-						Run_List.deletenode(ptr);
+						// delete the process from run list note after this operation it will be no tail for run list
+						if (ptr == Run_List.gethead())
+						{
+							ptr = ptr->getNext();
+							delete Run_List.gethead();
+							Run_List.sethead(ptr);
+						}
+						else
+						{
+							if (!ptr->getNext())
+								delete ptr;
+							else
+								Run_List.deletenode(ptr);
+						}
+						ptr_R = Run_List.gethead();
 					}
 					else
 						if (50 <= NO_Generated && NO_Generated <= 60)
@@ -228,7 +258,21 @@ void scheduler::simulate_system()
 							// removing the process from Run list (if you dont want this part then remove it)
 							while (ptr->getItem()->getPID() != Run_P->getPID())
 								ptr = ptr->getNext();
-							Run_List.deletenode(ptr);
+							// delete the process from run list note after this operation it will be no tail for run list
+							if (ptr == Run_List.gethead())
+							{
+								ptr = ptr->getNext();
+								delete Run_List.gethead();
+								Run_List.sethead(ptr);
+							}
+							else
+							{
+								if (!ptr->getNext())
+									delete ptr;
+								else
+									Run_List.deletenode(ptr);
+							}
+							ptr_R = Run_List.gethead();
 						}
 			}
 			Pr_ptr2 = Pr_ptr2->getNext();
@@ -252,7 +296,42 @@ void scheduler::simulate_system()
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
+		Pr_ptr3 = Processors.gethead();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
+		// this part may be used if not then comment it
+		//------------------------------------------------------------------------------------------------------------------
+		if (Run_List.gethead())
+		{
+			while (Pr_ptr4)
+			{
+				if (!Pr_ptr4->getItem()->IsIdle())//if its busy then there is a process in run state
+					if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
+					{
+						Pr_ptr2->getItem()->SetState(false);
+						// removing the process from Run list (if you dont want this part then remove it)
+						while (ptr_R->getItem()->getPID() != Run_P->getPID())
+							ptr_R = ptr_R->getNext();
+						// delete the process from run list note after this operation it will be no tail for run list
+						if (ptr_R == Run_List.gethead())
+						{
+							ptr_R = ptr_R->getNext();
+							delete Run_List.gethead();
+							Run_List.sethead(ptr_R);
+						}
+						else
+						{
+							if (!ptr_R->getNext())
+								delete ptr_R;
+							else
+								Run_List.deletenode(ptr_R);
+						}
+						ptr_R = Run_List.gethead();
+					}
+				Pr_ptr4 = Pr_ptr4->getNext();
+			}
+			Pr_ptr4 = Processors.gethead();
+		}
+		//------------------------------------------------------------------------------------------------------------------
 		update_TimeStep();
 	}
 }
