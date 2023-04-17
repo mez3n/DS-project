@@ -44,8 +44,6 @@ public:
 	bool is_parent();
 	void kill_children();
 	friend ostream& operator << (ostream& out, Process* P);
-	
-
 };
 
 

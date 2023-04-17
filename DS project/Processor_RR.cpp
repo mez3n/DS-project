@@ -1,5 +1,5 @@
 #include"Processor_RR.h"
-Processor_RR::Processor_RR(int N,int id,string name, int rtf, int rrslice) :Processor(N,id,name)
+Processor_RR::Processor_RR(int N, int id, string name, int rtf, int rrslice) :Processor(N, id, name)
 {
 	RTF = rtf;
 	RRslice = rrslice;
@@ -40,11 +40,11 @@ float Processor_RR::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_RR::IsIdle() 
+bool Processor_RR::IsIdle()
 {
 	if (Runprocess == nullptr)
 		state = false;
-	return!state; 
+	return!state;
 }
 Process* Processor_RR::GetRunProcess()
 {

@@ -1,5 +1,5 @@
 #include"Processor_SJF.h"
-Processor_SJF::Processor_SJF(int N,int id,string name, int MAX_SIZE):Processor(N,id,name)
+Processor_SJF::Processor_SJF(int N, int id, string name, int MAX_SIZE) :Processor(N, id, name)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
@@ -7,7 +7,7 @@ void Processor_SJF::AddToList(Process* p)
 {
 	count++;
 	FinishTime += p->get_CT();
-	RDYlist->enqueue( p,p->get_CT());
+	RDYlist->enqueue(p, p->get_CT());
 }
 bool Processor_SJF::RunProcess()
 {
@@ -37,7 +37,7 @@ float Processor_SJF::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_SJF::IsIdle() 
+bool Processor_SJF::IsIdle()
 {
 	if (Runprocess == nullptr)
 		state = false;
@@ -49,7 +49,7 @@ Process* Processor_SJF::GetRunProcess()
 	return Runprocess;
 }
 bool Processor_SJF::IsRdyEmpty() { return (RDYlist->isEmpty()); }
-Processor_SJF::~Processor_SJF() 
+Processor_SJF::~Processor_SJF()
 {
 	delete RDYlist;
 }

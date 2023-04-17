@@ -1,5 +1,5 @@
 #include"Processor_FCFS.h"
-Processor_FCFS::Processor_FCFS(int N,int id,string name, int maxw, float fork) :Processor(N,id,name)
+Processor_FCFS::Processor_FCFS(int N, int id, string name, int maxw, float fork) :Processor(N, id, name)
 {
 	MaxW = maxw;
 	Fork = fork;
@@ -62,7 +62,7 @@ int Processor_FCFS::GetRdyCount()
 {
 	return count;
 }
-void Processor_FCFS::removerunprocess() 
+void Processor_FCFS::removerunprocess()
 {
 	Runprocess = nullptr;
 }
