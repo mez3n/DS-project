@@ -1,10 +1,12 @@
 #include"Processor_SJF.h"
-Processor_SJF::Processor_SJF(int MAX_SIZE) 
+Processor_SJF::Processor_SJF(int MAX_SIZE,int N):Processor(N)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
 void Processor_SJF::AddToList(Process* p)
 {
+	count++;
+	state = true;
 	FinishTime += p->get_CT();
 	RDYlist->enqueue( p,p->get_CT());
 }

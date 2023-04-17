@@ -1,6 +1,13 @@
 #include"Processor_RR.h"
+Processor_RR::Processor_RR(int N, int rtf, int rrslice) :Processor(N) 
+{
+	RTF = rtf;
+	RRslice = rrslice;
+}
 void Processor_RR::AddToList(Process* p)
 {
+	count++;
+	state = true;
 	FinishTime += p->get_CT();
 	RDYlist.enqueue(p);
 }

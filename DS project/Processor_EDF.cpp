@@ -1,10 +1,13 @@
 #include"Processor_EDF.h"
-Processor_EDF::Processor_EDF(int MAX_SIZE)
+Processor_EDF::Processor_EDF(int MAX_SIZE,int N):Processor(N)
 {
+	num = 0;
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
 void Processor_EDF::AddToList(Process* p)
 {
+	count++;
+	state = true;
 	FinishTime += p->get_CT();
 	RDYlist->enqueue(p,p->get_CT());
 }

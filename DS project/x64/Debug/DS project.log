@@ -1,9 +1,17 @@
-﻿Processor_RR.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Process *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcess@@@Z) already defined in Mazen_main.obj
-Processor_RR.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Processor *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcessor@@@Z) already defined in Mazen_main.obj
-Processor_SJF.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Process *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcess@@@Z) already defined in Mazen_main.obj
-Processor_SJF.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Processor *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcessor@@@Z) already defined in Mazen_main.obj
-scheduler.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Process *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcess@@@Z) already defined in Mazen_main.obj
-scheduler.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Processor *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcessor@@@Z) already defined in Mazen_main.obj
-UI.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Process *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcess@@@Z) already defined in Mazen_main.obj
-UI.obj : error LNK2005: "class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl operator<<(class std::basic_ostream<char,struct std::char_traits<char> > &,class Processor *)" (??6@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@PEAVProcessor@@@Z) already defined in Mazen_main.obj
-C:\Users\moham\Source\Repos\DS-project finishing UI\x64\Debug\DS project.exe : fatal error LNK1169: one or more multiply defined symbols found
+﻿  Mazen_main.cpp
+  Processor_EDF.cpp
+D:\DS_Project\DS-project\DS project\Processor_EDF.cpp(39,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Processor_FCFS.cpp
+D:\DS_Project\DS-project\DS project\Processor_FCFS.cpp(40,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Processor_RR.cpp
+D:\DS_Project\DS-project\DS project\Processor_RR.cpp(39,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  Processor_SJF.cpp
+D:\DS_Project\DS-project\DS project\Processor_SJF.cpp(38,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  scheduler.cpp
+D:\DS_Project\DS-project\DS project\scheduler.cpp(74,19): warning C4101: 'IO_d': unreferenced local variable
+D:\DS_Project\DS-project\DS project\scheduler.cpp(74,8): warning C4101: 'IO_r': unreferenced local variable
+  UI.cpp
+D:\DS_Project\DS-project\DS project\scheduler.h(22,5): error C3646: 'Console_out': unknown override specifier
+D:\DS_Project\DS-project\DS project\scheduler.h(22,16): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+  Generating Code...
+D:\DS_Project\DS-project\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value

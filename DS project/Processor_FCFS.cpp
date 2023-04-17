@@ -1,6 +1,14 @@
 #include"Processor_FCFS.h"
+Processor_FCFS::Processor_FCFS(int maxw, float fork, int N) :Processor(N) 
+{
+	MaxW = maxw;
+	Fork = fork;
+	ArrSigKill = nullptr;
+}
 void Processor_FCFS::AddToList(Process* p)
 {
+	count++;
+	state = true;
 	FinishTime += p->get_CT();
 	RDYlist.InsertEnd(p);
 }
