@@ -1,8 +1,5 @@
 #pragma once 
 #include "Process.h"
-
-
-
 void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO_d)
 {
 	 PID=pid;   //unique id for each process
