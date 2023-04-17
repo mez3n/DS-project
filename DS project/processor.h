@@ -48,6 +48,9 @@ public:
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
 	friend ostream& operator << (ostream& out, Processor* P);
-
+        virtual void SetState(bool b)
+	{
+		state = b;
+	}
 	
 };
