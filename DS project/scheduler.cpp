@@ -254,8 +254,6 @@ void scheduler::simulate_system()
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
-
-
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		update_TimeStep();
 	}
