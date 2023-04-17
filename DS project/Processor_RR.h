@@ -11,7 +11,7 @@ private:
 	int RRslice;// time slice for each process to be excuted
 	int LeftRRslice;// this will help me determine if the time slice ended or not
 public:
-	Processor_RR(int N,int rtf,int rrslice);
+	Processor_RR(int N,int id,int rtf,int rrslice);
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
@@ -30,6 +30,7 @@ public:
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
 	/*bool printProcessor();*/
 	~Processor_RR() {};
+	void removerunprocess();
 	int GetRdyCount() ;
 
 };

@@ -7,7 +7,7 @@ class Processor_SJF :public Processor
 private:
 	PeriorityQueue<Process*>* RDYlist;
 public:
-	Processor_SJF(int MAX_SIZE,int N);
+	Processor_SJF(int MAX_SIZE,int N,int id);
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
@@ -24,6 +24,7 @@ public:
 	//bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
 	/*bool printProcessor();*/
+	void removerunprocess();
 	~Processor_SJF();
 	int GetRdyCount() ;
 };

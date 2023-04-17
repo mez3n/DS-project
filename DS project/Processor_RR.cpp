@@ -1,5 +1,5 @@
 #include"Processor_RR.h"
-Processor_RR::Processor_RR(int N, int rtf, int rrslice) :Processor(N) 
+Processor_RR::Processor_RR(int N,int id, int rtf, int rrslice) :Processor(N,id) 
 {
 	RTF = rtf;
 	RRslice = rrslice;
@@ -7,7 +7,6 @@ Processor_RR::Processor_RR(int N, int rtf, int rrslice) :Processor(N)
 void Processor_RR::AddToList(Process* p)
 {
 	count++;
-	state = true;
 	FinishTime += p->get_CT();
 	RDYlist.enqueue(p);
 }
@@ -20,6 +19,7 @@ bool Processor_RR::RunProcess()
 	}
 	else
 	{
+		count--;
 		RDYlist.dequeue(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
@@ -38,7 +38,12 @@ float Processor_RR::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_RR::IsIdle() { return!state; }
+bool Processor_RR::IsIdle() 
+{
+	if (Runprocess == nullptr)
+		state = false;
+	return!state; 
+}
 Process* Processor_RR::GetRunProcess()
 {
 	return Runprocess;
@@ -52,4 +57,8 @@ bool  Processor_RR::GetProcessById(int id, Process*& p)
 int Processor_RR::GetRdyCount()
 {
 	return count;
+}
+void Processor_RR::removerunprocess()
+{
+	Runprocess = nullptr;
 }

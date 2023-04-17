@@ -1,12 +1,11 @@
 #include"Processor_SJF.h"
-Processor_SJF::Processor_SJF(int MAX_SIZE,int N):Processor(N)
+Processor_SJF::Processor_SJF(int MAX_SIZE,int N,int id):Processor(N,id)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
 void Processor_SJF::AddToList(Process* p)
 {
 	count++;
-	state = true;
 	FinishTime += p->get_CT();
 	RDYlist->enqueue( p,p->get_CT());
 }
@@ -19,6 +18,7 @@ bool Processor_SJF::RunProcess()
 	}
 	else
 	{
+		count--;
 		RDYlist->dequeue(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
@@ -37,7 +37,13 @@ float Processor_SJF::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_SJF::IsIdle() { return!state; }
+bool Processor_SJF::IsIdle() 
+{
+	if (Runprocess == nullptr)
+		state = false;
+	return!state;
+}
+
 Process* Processor_SJF::GetRunProcess()
 {
 	return Runprocess;
@@ -54,4 +60,8 @@ int Processor_SJF::GetRdyCount()
 bool  Processor_SJF::GetProcessById(int id, Process*& p)
 {
 	return true;
+}
+void Processor_SJF::removerunprocess()
+{
+	Runprocess = nullptr;
 }
