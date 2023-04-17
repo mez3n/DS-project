@@ -21,6 +21,7 @@ class scheduler
 	ofstream* OutputFile;
 	UI Console_out;
 	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
+	LinkedList<Process*> Run_lList;
 public:
 	scheduler();
 	void AddToRdy(Process* p);
