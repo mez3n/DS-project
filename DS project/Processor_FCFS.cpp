@@ -24,7 +24,7 @@ bool Processor_FCFS::RunProcess()
 		count--;
 		RDYlist.DeleteFirst(Runprocess);
 		state = true;
-		Runprocess->SetRunState(true);
+		//Runprocess->SetRunState(true);
 	}
 	return false;
 }

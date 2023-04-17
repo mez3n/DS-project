@@ -21,7 +21,7 @@ bool Processor_SJF::RunProcess()
 		count--;
 		RDYlist->dequeue(Runprocess);
 		state = true;
-		Runprocess->SetRunState(true);
+		//Runprocess->SetRunState(true);
 	}
 	return false;
 }

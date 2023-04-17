@@ -131,10 +131,6 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 }
-
-
-
-
 // this function will be used in phase 2
 // 
 // insert a process to the processor with the least CT
@@ -257,6 +253,7 @@ void scheduler::simulate_system()
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
+		Pr_ptr3 = Processors.gethead();
 		update_TimeStep();
 	}
 }

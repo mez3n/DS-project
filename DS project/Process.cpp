@@ -42,7 +42,7 @@ void Process::set_start_RUN(int first_RUN)
 {
 	RT = first_RUN-AT;
 }
-void Process::SetRunState(bool b)
+/*void Process::SetRunState(bool b)
 {
 	RunState = b;
 }
@@ -50,7 +50,7 @@ bool Process::GetRunState()
 {
 	return RunState;
 }
-
+*/
 void Process::set_termination_times(int tt)
 {
  TT=tt;     //time when the process finishes execution 

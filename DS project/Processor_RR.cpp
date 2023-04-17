@@ -24,7 +24,7 @@ bool Processor_RR::RunProcess()
 		count--;
 		RDYlist.dequeue(Runprocess);
 		state = true;
-		Runprocess->SetRunState(true);
+		//Runprocess->SetRunState(true);
 	}
 	return false;
 }
