@@ -166,9 +166,6 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
-	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
-	Node<Process*>* ptr_R = Run_List.gethead();// pointer to run list
-	cout << NEW_LIST.Get_Count();
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -255,29 +252,6 @@ void scheduler::simulate_system()
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
-		Pr_ptr3 = Processors.gethead();
-		// this part is additional if its needed we will keep it, else we will comment it
-		//----------------------------------------------------------------------------------------------------------------------------
-		if (Run_List.gethead())
-		{
-			while (Pr_ptr4)
-			{
-				if (!Pr_ptr4->getItem()->IsIdle())// if its busy then there is a process in run state
-				{
-					if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
-					{
-						Pr_ptr4->getItem()->SetState(false);
-						while (ptr_R->getItem()->getPID() != Run_P->getPID())
-							ptr_R = ptr_R->getNext();
-						Run_List.deletenode(ptr_R);
-						ptr_R = Run_List.gethead();
-					}
-				}
-				Pr_ptr4 = Pr_ptr4->getNext();
-			}
-			Pr_ptr4 = Processors.gethead();
-		}
-		//----------------------------------------------------------------------------------------------------------------------------
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		update_TimeStep();
 	}
