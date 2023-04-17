@@ -21,6 +21,8 @@ class scheduler
 	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
 	int RTF, MaxW, STL, Fork_prob;
 	int T_RR; //time slice for RR processor
+	LinkedList<Process*> Run_lList;
+	
 public:
 	scheduler();
 	void AddToRdy(Process* p);

@@ -1,6 +1,13 @@
 #include"Processor_FCFS.h"
+Processor_FCFS::Processor_FCFS(int maxw, float fork, int N,int id) :Processor(N,id) 
+{
+	MaxW = maxw;
+	Fork = fork;
+	ArrSigKill = nullptr;
+}
 void Processor_FCFS::AddToList(Process* p)
 {
+	count++;
 	FinishTime += p->get_CT();
 	RDYlist.InsertEnd(p);
 }
@@ -13,6 +20,7 @@ bool Processor_FCFS::RunProcess()
 	}
 	else
 	{
+		count--;
 		RDYlist.DeleteFirst(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
@@ -31,7 +39,12 @@ float Processor_FCFS::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_FCFS::IsIdle() { return!state; }
+bool Processor_FCFS::IsIdle()
+{
+	if (Runprocess == nullptr)
+		state = false;
+	return!state;
+}
 Process* Processor_FCFS::GetRunProcess()
 {
 	return Runprocess;
@@ -47,4 +60,8 @@ bool  Processor_FCFS::GetProcessById(int id, Process*& p)
 int Processor_FCFS::GetRdyCount()
 {
 	return count;
+}
+void Processor_FCFS::removerunprocess() 
+{
+	Runprocess = nullptr;
 }

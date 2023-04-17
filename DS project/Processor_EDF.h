@@ -7,7 +7,7 @@ private:
 	PeriorityQueue<Process*>* RDYlist;
 	int num;//number of process finished before they deadline
 public:
-	Processor_EDF(int MAX_SIZE);
+	Processor_EDF(int MAX_SIZE,int N,int id);
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
@@ -27,4 +27,5 @@ public:
 	/*bool printProcessor();*/
 	~Processor_EDF();
 	int GetRdyCount();
+	void removerunprocess();
 };

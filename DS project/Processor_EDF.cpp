@@ -1,10 +1,12 @@
 #include"Processor_EDF.h"
-Processor_EDF::Processor_EDF(int MAX_SIZE)
+Processor_EDF::Processor_EDF(int MAX_SIZE,int N,int id):Processor(N,id)
 {
+	num = 0;
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
 void Processor_EDF::AddToList(Process* p)
 {
+	count++;
 	FinishTime += p->get_CT();
 	RDYlist->enqueue(p,p->get_CT());
 }
@@ -17,6 +19,7 @@ bool Processor_EDF::RunProcess()
 	}
 	else
 	{
+		count--;
 		RDYlist->dequeue(Runprocess);
 		state = true;
 		Runprocess->SetRunState(true);
@@ -35,7 +38,12 @@ float Processor_EDF::GetPload()
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
-bool Processor_EDF::IsIdle() { return!state; }
+bool Processor_EDF::IsIdle() 
+{
+	if (Runprocess == nullptr)
+		state = false;
+	return!state;
+}
 Process* Processor_EDF::GetRunProcess()
 {
 	return Runprocess;
@@ -52,4 +60,8 @@ int Processor_EDF::GetRdyCount()
 bool  Processor_EDF::GetProcessById(int id, Process*& p) 
 {
 	return true;
+}
+void Processor_EDF::removerunprocess()
+{
+	Runprocess = nullptr;
 }
