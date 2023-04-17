@@ -127,8 +127,8 @@ scheduler::scheduler()
 			}
 		}
 		Process* p = new Process;
-		p->AddProcess(pid, no_IO, at,ct, IO_R, IO_D);
-		
+		p->AddProcess(pid, at,ct, no_IO, IO_R, IO_D);
+		NEW_LIST.enqueue(p);
 	}
 }
 
@@ -158,13 +158,10 @@ scheduler::scheduler()
 //		}
 //	}
 //}
-
-
-
-
 // we will complete filling the rdy lists
 void scheduler::simulate_system()
 {
+	Ctrl_Processors = Processors.gethead();
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -173,7 +170,6 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
-
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -181,11 +177,12 @@ void scheduler::simulate_system()
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
 		{
-			while (p->get_AT() == Time_Step)
+			while (p->get_AT() == Time_Step && !NEW_LIST.isEmpty())
 			{
 				NEW_LIST.dequeue(p);
-				AddToRdy(p);
-				NEW_LIST.peek(p);
+				AddToRdy(p);// add process to rdy lists 1,2,...
+				if(!NEW_LIST.isEmpty())
+					NEW_LIST.peek(p);
 			}
 		}
 		// 2- Check the RDY lists and move one process from each RDY list to RUN state of its processor. This is done if the processor is IDLE. If the processor is BUSY the process should wait in the RDY list.
@@ -195,6 +192,7 @@ void scheduler::simulate_system()
 			{
 				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+				Run_List.InsertEnd(Pr_ptr1->getItem()->GetRunProcess());
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
@@ -206,14 +204,36 @@ void scheduler::simulate_system()
 			{
 				Run_P = Pr_ptr2->getItem()->GetRunProcess();// get thr run process
 				NO_Generated = GenerateNo();// generate a number for that process
-				if (1 <= NO_Generated && NO_Generated <= 50)
+				Node<Process*>* ptr = Run_List.gethead();// pointer to run list
+				if (1 <= NO_Generated && NO_Generated <= 15)
+				{
+					Pr_ptr2->getItem()->SetState(false);
 					BLK_LIST.enqueue(Run_P);
+					// removing the process from Run list (if you dont want this part then remove it)
+					while (ptr->getItem()->getPID() != Run_P->getPID())
+						ptr = ptr->getNext();
+					Run_List.deletenode(ptr);
+				}
 				else
 					if (20 <= NO_Generated && NO_Generated <= 30)
+					{
+						Pr_ptr2->getItem()->SetState(false);
 						Pr_ptr2->getItem()->AddToList(Run_P);
+						// removing the process from Run list (if you dont want this part then remove it)
+						while (ptr->getItem()->getPID() != Run_P->getPID())
+							ptr = ptr->getNext();
+						Run_List.deletenode(ptr);
+					}
 					else
 						if (50 <= NO_Generated && NO_Generated <= 60)
+						{
+							Pr_ptr2->getItem()->SetState(false);
 							TRM_LIST.InsertEnd(Run_P);
+							// removing the process from Run list (if you dont want this part then remove it)
+							while (ptr->getItem()->getPID() != Run_P->getPID())
+								ptr = ptr->getNext();
+							Run_List.deletenode(ptr);
+						}
 			}
 			Pr_ptr2 = Pr_ptr2->getNext();
 		}
@@ -236,8 +256,6 @@ void scheduler::simulate_system()
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
-
-
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		update_TimeStep();
 	}
