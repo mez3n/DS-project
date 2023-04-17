@@ -1,37 +1,5 @@
 #include"scheduler.h"
-class UI;
-#ifndef NODE_
-#define NODE_
-template<class T>
-class Node {
-	T item;
-	Node* next;
-public:
-	Node() {};
-	Node(T newItem); //non-default constructor
-	void setItem(T a)
-	{
-		item = a;
-	}
-	T getItem() const
-	{
-		if (this == NULL)
-		{
-			return 0;
-		}
-		return item;
-	}
-	void setNext(Node<T>* n)
-	{
-		next = n;
-	}
-	Node<T>* getNext() const
-	{
-		return next;
-	}
-};
-#endif
- 
+
 scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
@@ -58,17 +26,17 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8,9,"FCFS",MaxW,Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8,i+1,"FCFS",MaxW,Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8,8,"SJF",Processes_no);
+		Processor_SJF* P = new Processor_SJF(8,i+1+FCFS_no,"SJF",Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8,7,"RR",RTF,T_RR);
+		Processor_RR* P = new Processor_RR(8,i+1+FCFS_no+SJF_no,"RR",RTF,T_RR);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -76,11 +44,9 @@ scheduler::scheduler()
 	{
 		int pid, no_IO, at, rt, ct;
 		int* IO_r; int* IO_d;
-		/*IO.LoadProcesses(pid,no_IO,at,rt,ct,IO_r,IO_d);*/
-		// all of this is string you should use stoi()
+		
 	// any string has S before its name
 
-	// constructor of processor class should be called here 
 		string Spid, Sat,Sct, Sno_IO; //each process specifications 
 		*InputFile >> Sat >> Spid >> Sct >> Sno_IO;
 		
@@ -131,6 +97,8 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 }
+
+
 // this function will be used in phase 2
 // 
 // insert a process to the processor with the least CT
@@ -155,6 +123,8 @@ scheduler::scheduler()
 //	}
 //}
 // we will complete filling the rdy lists
+
+
 void scheduler::simulate_system()
 {
 	Ctrl_Processors = Processors.gethead();
@@ -254,7 +224,8 @@ void scheduler::simulate_system()
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
-		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
+		
+		Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);
 		update_TimeStep();
 	}
 }

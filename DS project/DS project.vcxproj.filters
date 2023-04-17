@@ -42,9 +42,6 @@
     <ClCompile Include="Processor_EDF.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
-    <ClCompile Include="processor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>

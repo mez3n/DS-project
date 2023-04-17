@@ -6,6 +6,8 @@
 #include"LinkedList.h"
 #include<fstream>
 #include<string>
+#include "UI.h"
+
 #ifndef SCHEDULER_
 #define SCHEDULER_
 class scheduler 
@@ -17,7 +19,7 @@ class scheduler
 	Node<Processor*>* Ctrl_Processors; // pointer to control Processors list
 	ifstream* InputFile;
 	ofstream* OutputFile;
-	/*UI Console_out;*/  //object of UI class needed to pass the console window information
+	UI Console_out ;  //object of UI class needed to pass the console window information
 	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
 	int RTF, MaxW, STL, Fork_prob;
 	int T_RR; //time slice for RR processor

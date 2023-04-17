@@ -27,3 +27,14 @@ void UI::PrintOutput(LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK
 UI::~UI()
 {
 }
+ostream& operator << (ostream& out, Process* P)
+{
+	cout << P->PID << " ";
+	return out;
+}
+ostream& operator << (ostream& out, Processor* P)
+{
+	cout << "Processor " << P->ID << " [" <<  P->Name << "]:  " << "RDY: ";
+	P->print();
+	return out;
+}
