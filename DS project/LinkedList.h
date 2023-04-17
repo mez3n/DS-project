@@ -32,7 +32,6 @@ public:
 	}
 };
 #endif
-#include"Process.h"
 template<class T>
 class LinkedList {
 	Node<T>* head;

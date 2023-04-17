@@ -1,4 +1,4 @@
-#include "UI.h"
+#include"UI.h"
 
 UI::UI()
 {
@@ -22,4 +22,8 @@ void UI::PrintOutput(LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK
 	cout << "PRESS ANY KEY TO MOVE TO THE NEXT STEP !";
 	char x;
 	cin >> x;
+}
+
+UI::~UI()
+{
 }

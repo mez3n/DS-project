@@ -2,4 +2,5 @@
 int main()
 {
 	scheduler sh;
+	sh.simulate_system();
 }

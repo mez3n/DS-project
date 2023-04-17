@@ -1,7 +1,6 @@
 #pragma once
 #include "processor.h"
 #include"PeriorityQueue.h"
-#include"scheduler.h"
 class Processor_SJF :public Processor
 {
 private:

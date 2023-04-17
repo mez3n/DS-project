@@ -1,6 +1,5 @@
 #pragma once
-//#include"scheduler.h"
-#include"Process.h"
+#include"process.h"
 class Processor
 {
 protected:

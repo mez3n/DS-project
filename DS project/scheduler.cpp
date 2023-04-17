@@ -1,8 +1,5 @@
 #include"scheduler.h"
-#include<iostream>
-#include<fstream>
-#include<string>
-using namespace std;
+class UI;
 #ifndef NODE_
 #define NODE_
 template<class T>
@@ -37,20 +34,27 @@ public:
  
 scheduler::scheduler()
 {
-	InputFile = new ifstream("InputFile.txt");
-	string processes_no;
-	*InputFile >> processes_no;
-	Processes_no = stoi(processes_no);
+	// anything with S before its name is a data member in string
+	InputFile = new ifstream("InputFile.txt",ios::in);
 	string no_rr, no_fcfs, no_sjf;
-	*InputFile >> no_fcfs, no_sjf, no_rr;
+	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
+	string S_T_RR;
+	*InputFile >> no_fcfs>> no_sjf>> no_rr>>S_T_RR>>S_RTF>>S_MaxW>>S_STL>>S_Fork_Prob;
 	FCFS_no = stoi(no_fcfs);
 	SJF_no = stoi(no_sjf);
 	RR_no = stoi(no_rr);
+	RTF = stoi(S_RTF);
+	MaxW = stoi(S_MaxW);
+	STL = stoi(S_STL);
+	Fork_prob = stoi(S_Fork_Prob);
+	T_RR = stoi(S_T_RR);
+	string S_processes_no;
+	*InputFile >> S_processes_no;
+	Processes_no = stoi(S_processes_no);
 
 	//====================================================================================// inputfile is up 
 	Time_Step = 0;
 	Ctrl_Processors = Processors.gethead();
-	string process_no;
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
@@ -77,47 +81,54 @@ scheduler::scheduler()
 	// any string has S before its name
 
 	// constructor of processor class should be called here 
-		string Spid, Sat, Srt, Sct, Stt, Sno_IO, SIO; //each process specifications 
-		*InputFile >> Sat >> Spid >> Sct >> Sno_IO >> SIO;
+		string Spid, Sat,Sct, Sno_IO; //each process specifications 
+		*InputFile >> Sat >> Spid >> Sct >> Sno_IO;
+		
 		no_IO = stoi(Sat);
 		at = stoi(Sat);
-		rt = stoi(Srt);
 		ct = stoi(Sct);
 		no_IO = stoi(Sno_IO);
 		pid = stoi(Spid);
 		int* IO_R = new int[no_IO] {0};
 		int* IO_D = new int[no_IO] {0};
 		int j = 0;
-		for (int i = 0; i < SIO.length(); i++)  //processing the IO string 
+		char* SIO = new char[no_IO * 20];
+		InputFile->getline(SIO, no_IO * 10);
+		
+		if (no_IO > 0)
 		{
-			if (isdigit(SIO[i]))
+			for (int i = 1; SIO[i] != '\0'; i++)  //processing the IO string 
 			{
-				if (SIO[i - 1] == '(')
+				if (isdigit(SIO[i]))
 				{
-					while (isdigit(SIO[i]))
+					if (SIO[i - 1] == '(')
 					{
-						IO_R[j] = IO_R[j] * 10 + SIO[i];
-						i++;
-					}
+						while (isdigit(SIO[i]))
+						{
+							IO_R[j] = IO_R[j] * 10 + SIO[i] - '0';
+							i++;
+						}
 
+					}
+					else
+					{
+						while (isdigit(SIO[i]))
+						{
+							IO_D[j] = IO_D[j] * 10 + SIO[i] - '0';
+							i++;
+						}
+						j++;
+					}
 				}
 				else
 				{
-					while (isdigit(SIO[i]))
-					{
-						IO_D[j] = IO_D[j] * 10 + SIO[i];
-						i++;
-					}
-					j++;
+					continue;
 				}
-			}
-			else
-			{
-				continue;
 			}
 		}
 		Process* p = new Process;
-		p->AddProcess(pid, no_IO, at, rt, ct, IO_R, IO_D);
+		p->AddProcess(pid, no_IO, at,ct, IO_R, IO_D);
+		
 	}
 }
 
@@ -227,7 +238,7 @@ void scheduler::simulate_system()
 		}
 
 
-		Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);
+		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		update_TimeStep();
 	}
 }

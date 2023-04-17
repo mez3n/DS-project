@@ -3,13 +3,12 @@
 
 
 
-void Process::AddProcess(int pid, int at, int rt, int ct,int io_count, int* IO_r, int* IO_d)
+void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO_d)
 {
 	int PID=pid;   //unique id for each process
 	int AT=at;     //the time when the process is ready to get scheduled
-	int RT=rt;     //the difference between the arrival time and first time getting processed
 	int CT=ct;     //total work time needed to run the process
-
+	
 	IO po;
 	for (int i = 0; i < io_count; i++)
 	{
@@ -20,6 +19,7 @@ void Process::AddProcess(int pid, int at, int rt, int ct,int io_count, int* IO_r
 
 	//rest of data members should be calculated later
 
+	/*int RT   */  //the difference between the arrival time and first time getting processed // needs modifications
 	//int TT=tt;     //time when the process finishes execution 
 	//int TRT=tt-at; //total time spent from arrival time to termiantion TT-AT
 	//int WT=TRT-ct; //total time a process spends in system without being executed by the cpu WT=TRT-CT
@@ -40,6 +40,10 @@ int Process::get_AT()
 int Process::getPID() 
 {
 	return PID;
+}
+void Process::set_start_RUN(int first_RUN)
+{
+	RT = first_RUN-AT;
 }
 void Process::SetRunState(bool b)
 {

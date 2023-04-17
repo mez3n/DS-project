@@ -1,15 +1,13 @@
 #pragma once
-
-
 #include"Processor_FCFS.h"
 #include"Processor_RR.h"
 #include"Processor_SJF.h"
 #include"Process.h"
-#include"Processor.h"
 #include"LinkedList.h"
-#include"Linkedqueue.h"
-#include "UI.h"
-
+#include<fstream>
+#include<string>
+#ifndef SCHEDULER_
+#define SCHEDULER_
 class scheduler 
 {
 	LinkedList<Processor*> Processors; // both linkedlist or queue can be used (linkedlist more flexible) 
@@ -19,8 +17,10 @@ class scheduler
 	Node<Processor*>* Ctrl_Processors; // pointer to control Processors list
 	ifstream* InputFile;
 	ofstream* OutputFile;
-	UI Console_out;
+	/*UI Console_out;*/  //object of UI class needed to pass the console window information
 	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
+	int RTF, MaxW, STL, Fork_prob;
+	int T_RR; //time slice for RR processor
 public:
 	scheduler();
 	void AddToRdy(Process* p);
@@ -32,3 +32,4 @@ public:
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
 	void load_sigkill(int*& kill_arr);
 };
+#endif
