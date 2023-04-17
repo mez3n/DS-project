@@ -131,10 +131,6 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 }
-
-
-
-
 // this function will be used in phase 2
 // 
 // insert a process to the processor with the least CT
@@ -170,6 +166,7 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
+	cout << NEW_LIST.Get_Count();
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -256,6 +253,9 @@ void scheduler::simulate_system()
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
+		Pr_ptr3 = Processors.gethead();
+
+
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		update_TimeStep();
 	}
@@ -267,8 +267,6 @@ int scheduler::GenerateNo()
 void scheduler::load_sigkill(int*& kill_arr)
 {
 	//sigkill Times
-
-
 	string kill_id, kill_time;
 	int* kill_time_arr = new int [Processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
 	while (!InputFile->eof())
