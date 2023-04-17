@@ -31,6 +31,5 @@ public:
 	/*bool printProcessor();*/
 	~Processor_RR() {};
 	int GetRdyCount() ;
-	friend ostream& operator << (ostream& out, Processor* P);
 
 };

@@ -1,5 +1,9 @@
 #include "UI.h"
 
+UI::UI()
+{
+}
+
 void UI::PrintOutput(LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK_LIST, LinkedList<Process*>& TRM_LIST, LinkedList<Processor*>& Processors,
 	int timestep, int Processes_no, int Term_no)
 {

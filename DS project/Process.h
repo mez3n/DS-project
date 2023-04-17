@@ -1,9 +1,9 @@
+#pragma once 
 #ifndef PROCESS_
 #define PROCESS_
 #include"Linkedqueue.h"
 #include"BinaryNodeTree.h"
-#include<iostream>
-using namespace std;
+
 
 
 

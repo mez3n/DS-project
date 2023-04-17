@@ -32,5 +32,5 @@ public:
 	void migration();*/
 	~Processor_FCFS() {};
 	int GetRdyCount();
-	friend ostream& operator << (ostream& out, Processor* P);
+	
 };

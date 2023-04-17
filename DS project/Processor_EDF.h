@@ -27,5 +27,4 @@ public:
 	/*bool printProcessor();*/
 	~Processor_EDF();
 	int GetRdyCount();
-	friend ostream& operator << (ostream& out, Processor* P);
 };

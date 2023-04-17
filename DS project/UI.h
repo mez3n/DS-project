@@ -1,6 +1,5 @@
+#pragma once 
 #include<iostream>
-#include"process.h"
-#include"processor.h"
 #include"scheduler.h"
 using namespace std;
 #ifndef UI_
@@ -21,6 +20,8 @@ ostream& operator << (ostream& out, Processor* P)
 class UI
 {
 public:
+	UI();
+	
 	void PrintOutput(LinkedQueue<Process*> &NEW_LIST,LinkedQueue<Process*>& BLK_LIST,LinkedList<Process*> &TRM_LIST, LinkedList<Processor*>& Processors,
 		int timestep, int Processes_no,int Term_no);
 };
