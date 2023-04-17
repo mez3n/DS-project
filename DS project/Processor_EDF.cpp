@@ -1,5 +1,5 @@
 #include"Processor_EDF.h"
-Processor_EDF::Processor_EDF(int MAX_SIZE,int N,int id):Processor(N,id)
+Processor_EDF::Processor_EDF(int N,int id,string name,int MAX_SIZE):Processor(N,id,name)
 {
 	num = 0;
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);

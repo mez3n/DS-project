@@ -6,7 +6,8 @@ class Processor
 {
 protected:
 	bool state;// describe the state of processor if BUSY true if IDLE false
-	int ID;
+	int ID;// each processor has ID
+	string Name;// each processor has name 
 	int count;// the number of processors in RDY list
 	int TotalBusyTime; // for calculate total busy time along the program
 	int FinishTime;// in every time process is added or removed it must be edited
@@ -15,7 +16,7 @@ protected:
 	Process* Runprocess;// point to processes in run state
 	int n;// time step that processor will be out of work 
 public:
-	Processor(int N,int id)
+	Processor(int N,int id,string name)
 	{
 		state = false;
 		count = 0;
@@ -26,6 +27,7 @@ public:
 		Runprocess = nullptr;
 		n = N;
 		ID = id;
+		Name = name;
 	}
 	//virtual void ScheduleAlgo() = 0;// determine next process to be run
 	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 

@@ -1,5 +1,5 @@
 #include"Processor_SJF.h"
-Processor_SJF::Processor_SJF(int MAX_SIZE,int N,int id):Processor(N,id)
+Processor_SJF::Processor_SJF(int N,int id,string name, int MAX_SIZE):Processor(N,id,name)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }

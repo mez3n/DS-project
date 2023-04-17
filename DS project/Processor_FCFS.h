@@ -11,7 +11,7 @@ private:
 	float Fork;// it is the fork probability
 	int* ArrSigKill;
 public:
-	Processor_FCFS(int maxw,float fork,int N,int id);
+	Processor_FCFS(int N,int id,string name, int maxw, float fork);
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do

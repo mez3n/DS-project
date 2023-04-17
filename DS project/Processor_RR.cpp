@@ -1,8 +1,10 @@
 #include"Processor_RR.h"
-Processor_RR::Processor_RR(int N,int id, int rtf, int rrslice) :Processor(N,id) 
+Processor_RR::Processor_RR(int N,int id,string name, int rtf, int rrslice) :Processor(N,id,name)
 {
 	RTF = rtf;
 	RRslice = rrslice;
+	LeftRRslice = 0;
+	numRTF = 0;
 }
 void Processor_RR::AddToList(Process* p)
 {

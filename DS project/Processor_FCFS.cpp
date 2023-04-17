@@ -1,8 +1,9 @@
 #include"Processor_FCFS.h"
-Processor_FCFS::Processor_FCFS(int maxw, float fork, int N,int id) :Processor(N,id) 
+Processor_FCFS::Processor_FCFS(int N,int id,string name, int maxw, float fork) :Processor(N,id,name)
 {
 	MaxW = maxw;
 	Fork = fork;
+	numMaxW = 0;
 	ArrSigKill = nullptr;
 }
 void Processor_FCFS::AddToList(Process* p)
