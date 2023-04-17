@@ -82,7 +82,7 @@ public:
 		LNode<T>* p = Head;
 		while (p)
 		{
-			cout << p->getItem()->getPID() << ",";
+			cout << p->getItem() << ",";
 			p = p->getNext();
 		}
 	}

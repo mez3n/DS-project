@@ -1,5 +1,7 @@
 #include<iostream>
 #include"scheduler.h"
+#include<fstream>
+#include<string>
 using namespace std;
 #ifndef NODE_
 #define NODE_
@@ -225,7 +227,7 @@ void scheduler::simulate_system()
 		}
 
 
-
+		Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);
 		update_TimeStep();
 	}
 }

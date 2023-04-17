@@ -41,3 +41,8 @@ bool  Processor_RR::GetProcessById(int id, Process*& p)
 {
 	return true;
 }
+
+int Processor_RR::GetRdyCount()
+{
+	return count;
+}

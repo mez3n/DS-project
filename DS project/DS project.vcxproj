@@ -129,12 +129,13 @@
   <ItemGroup>
     <ClCompile Include="Mazen_main.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="processor.cpp" />
     <ClCompile Include="Processor_EDF.cpp" />
     <ClCompile Include="Processor_FCFS.cpp" />
     <ClCompile Include="Processor_RR.cpp" />
     <ClCompile Include="Processor_SJF.cpp" />
     <ClCompile Include="scheduler.cpp" />
-    <ClCompile Include="Stream.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryNode.h" />
@@ -151,7 +152,7 @@
     <ClInclude Include="Processor_RR.h" />
     <ClInclude Include="Processor_SJF.h" />
     <ClInclude Include="scheduler.h" />
-    <ClInclude Include="Stream.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

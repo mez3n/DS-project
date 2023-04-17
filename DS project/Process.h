@@ -14,6 +14,7 @@ struct IO
 	int IO_D; // Duration time
 
 };
+
 class Process  // scheduler class should have a list of all processes
 {
 private:
@@ -47,22 +48,24 @@ public:
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

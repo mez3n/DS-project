@@ -6,8 +6,10 @@
 #include"Processor.h"
 #include"LinkedList.h"
 #include"Linkedqueue.h"
-#include"Stream.h"
-class scheduler :public Stream {
+#include "UI.h"
+
+class scheduler 
+{
 	LinkedList<Processor*> Processors; // both linkedlist or queue can be used (linkedlist more flexible) 
 	LinkedQueue<Process*> NEW_LIST; // queue is used as it can maintain the processes that have been created but not yet arrived.
 	LinkedQueue<Process*> BLK_LIST; // The blocked list can be implemented using a queue The processes that are waiting for I/O resources can be added to the end of the queue and when the resources become available they can be moved to the ready queue
@@ -15,7 +17,8 @@ class scheduler :public Stream {
 	Node<Processor*>* Ctrl_Processors; // pointer to control Processors list
 	ifstream* InputFile;
 	ofstream* OutputFile;
-	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step;
+	UI Console_out;
+	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
 public:
 	scheduler();
 	void AddToRdy(Process* p);

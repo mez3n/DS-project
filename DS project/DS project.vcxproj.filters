@@ -27,9 +27,6 @@
     <ClCompile Include="Process.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stream.cpp">
-      <Filter>Cpp Files</Filter>
-    </ClCompile>
     <ClCompile Include="scheduler.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
@@ -45,11 +42,14 @@
     <ClCompile Include="Processor_EDF.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Cpp Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Stream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -91,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="ListADT.h">
       <Filter>Used DS</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

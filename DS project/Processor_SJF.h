@@ -25,4 +25,6 @@ public:
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
 	/*bool printProcessor();*/
 	~Processor_SJF();
+	int GetRdyCount() ;
+	friend ostream& operator << (ostream& out, Processor* P);
 };

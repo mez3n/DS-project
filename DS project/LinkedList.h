@@ -76,10 +76,9 @@ public:
 			Node<T>* p = head;
 			while (p)
 			{
-				cout << p->getItem()<< "->";
+				cout << p->getItem()<< " ";
 				p = p->getNext();
 			}
-			cout << "NULL\n";
 		}
 
 	}

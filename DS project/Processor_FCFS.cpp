@@ -43,3 +43,8 @@ bool  Processor_FCFS::GetProcessById(int id, Process*& p)
 	bool b = RDYlist.DeleteNode(p, id);
 	return b;
 }
+
+int Processor_FCFS::GetRdyCount()
+{
+	return count;
+}

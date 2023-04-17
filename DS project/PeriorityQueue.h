@@ -65,7 +65,7 @@ public:
 	void PrintList()
 	{
 		for (int i = 1; i <= count; i++)
-			cout << Heap[i].getitem()->getPID()<<",";
+			cout << Heap[i].getitem()<<",";
 	}
 	bool isEmpty() const
 	{
@@ -126,6 +126,14 @@ public:
 			return false;
 		frontitem = Heap[1].getitem();
 		return true;
+	}
+	void print(PeriorityQueue q1)
+	{
+		while (!q1.isEmpty())
+		{
+			cout << q1.peek() << " ";
+			q1.dequeue();
+		}
 	}
 };
 

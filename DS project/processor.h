@@ -28,7 +28,10 @@ public:
 	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
 	virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not 
 	//virtual bool IsStop()=0;// determine if the processor stop due to overheaten take probability 5%
+	virtual int GetRdyCount() = 0;  //returns count of ready processes
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
+	friend ostream& operator << (ostream& out, Processor* P);
 	virtual ~Processor() {};
-	/*virtual bool printProcessor() = 0;*/
+
+	
 };
