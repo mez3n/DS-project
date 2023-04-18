@@ -194,7 +194,6 @@ void scheduler::simulate_system()
 			{
 				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
-				Run_List.InsertEnd(Pr_ptr1->getItem()->GetRunProcess());
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
