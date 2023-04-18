@@ -58,17 +58,17 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, i+1, "FCFS", MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", MaxW, Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8, i+1+FCFS_no, "SJF", Processes_no);
+		Processor_SJF* P = new Processor_SJF(8, i + 1 + FCFS_no, "SJF", Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, i+1+FCFS_no+SJF_no, "RR", RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", RTF, T_RR);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -76,10 +76,10 @@ scheduler::scheduler()
 	{
 		int pid, no_IO, at, rt, ct;
 		int* IO_r; int* IO_d;
-		
-	// any string has S before its name
 
-	// constructor of processor class should be called here 
+		// any string has S before its name
+
+		// constructor of processor class should be called here 
 		string Spid, Sat, Sct, Sno_IO; //each process specifications 
 		*InputFile >> Sat >> Spid >> Sct >> Sno_IO;
 
@@ -92,10 +92,11 @@ scheduler::scheduler()
 		int* IO_D = new int[no_IO] {0};
 		int j = 0;
 		char* SIO = new char[no_IO * 20];
-		InputFile->getline(SIO, no_IO * 10);
-		string;
 		if (no_IO > 0)
 		{
+			InputFile->getline(SIO, no_IO * 10);
+			string;
+
 			for (int i = 1; SIO[i] != '\0'; i++)  //processing the IO string 
 			{
 				if (isdigit(SIO[i]))
