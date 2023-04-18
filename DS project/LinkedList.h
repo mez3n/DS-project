@@ -69,6 +69,7 @@ public:
 		if (this == NULL)
 		{
 			cout << "no list to print\n";
+			cout << endl;
 		}
 		else
 		{
@@ -78,8 +79,9 @@ public:
 				cout << p->getItem()<< " ";
 				p = p->getNext();
 			}
+			
 		}
-
+		cout << endl;
 	}
 	int getcount()
 	{

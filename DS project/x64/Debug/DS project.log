@@ -1,2 +1,8 @@
-﻿  UI.cpp
+﻿  scheduler.cpp
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\scheduler.cpp(61,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\scheduler.cpp(96,9): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\scheduler.cpp(78,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\scheduler.cpp(78,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\scheduler.cpp(77,23): warning C4101: 'rt': unreferenced local variable
+C:\Users\moham\source\repos\DS-project finishing UI\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
   DS project.vcxproj -> C:\Users\moham\source\repos\DS-project finishing UI\x64\Debug\DS project.exe

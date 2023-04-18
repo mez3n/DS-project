@@ -58,17 +58,17 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, 9, "FCFS", MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i+1, "FCFS", MaxW, Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8, 8, "SJF", Processes_no);
+		Processor_SJF* P = new Processor_SJF(8, i+1+FCFS_no, "SJF", Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, 7, "RR", RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i+1+FCFS_no+SJF_no, "RR", RTF, T_RR);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -93,7 +93,7 @@ scheduler::scheduler()
 		int j = 0;
 		char* SIO = new char[no_IO * 20];
 		InputFile->getline(SIO, no_IO * 10);
-
+		string;
 		if (no_IO > 0)
 		{
 			for (int i = 1; SIO[i] != '\0'; i++)  //processing the IO string 
@@ -335,8 +335,9 @@ void scheduler::simulate_system()
 			Pr_ptr4 = Processors.gethead();
 		}
 		//------------------------------------------------------------------------------------------------------------------
+		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		update_TimeStep();
-		Console_out.PrintOutput(Run_List,NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
+		
 	}
 }
 int scheduler::GenerateNo()

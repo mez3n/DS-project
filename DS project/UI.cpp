@@ -40,5 +40,6 @@ ostream& operator << (ostream& out, Processor* P)
 {
 	cout << "Processor " << P->ID << " [" <<  P->Name << "]:  " << "RDY: ";
 	P->print();
+	cout << endl;
 	return out;
 }
