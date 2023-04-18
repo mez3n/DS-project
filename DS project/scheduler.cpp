@@ -257,7 +257,7 @@ void scheduler::simulate_system()
 		//while (Pr_ptr4)
 		//{
 		//	if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
-		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
+		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == 0)
 		//		{
 		//			Pr_ptr2->getItem()->SetState(false);
 		//			TRM_LIST.InsertEnd(Pr_ptr4->getItem()->GetRunProcess());
