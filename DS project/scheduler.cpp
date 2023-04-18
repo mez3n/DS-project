@@ -270,7 +270,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr5 = Processors.gethead();
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
-		Run_List.DeleteAll();// deleting all processes in run list
+		Run_List.DeleteAll();// deleteing all processes in Run List
 		update_TimeStep();
 	}
 }
