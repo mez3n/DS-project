@@ -219,6 +219,7 @@ void scheduler::simulate_system()
 						ptr = ptr->getNext();
 						delete Run_List.gethead();
 						Run_List.sethead(ptr);
+						Run_List.setcount(Run_List.getcount() - 1);
 					}
 					else
 					{
@@ -229,6 +230,7 @@ void scheduler::simulate_system()
 								ptr = ptr->getNext();
 							Run_List.settail(ptr);
 							delete ptr->getNext();
+							Run_List.setcount(Run_List.getcount() - 1);
 						}
 						else
 							Run_List.deletenode(ptr);
@@ -249,6 +251,7 @@ void scheduler::simulate_system()
 							ptr = ptr->getNext();
 							delete Run_List.gethead();
 							Run_List.sethead(ptr);
+							Run_List.setcount(Run_List.getcount() - 1);
 						}
 						else
 						{
@@ -259,6 +262,7 @@ void scheduler::simulate_system()
 									ptr = ptr->getNext();
 								Run_List.settail(ptr);
 								delete ptr->getNext();
+								Run_List.setcount(Run_List.getcount() - 1);
 							}
 							else
 								Run_List.deletenode(ptr);
@@ -279,6 +283,7 @@ void scheduler::simulate_system()
 								ptr = ptr->getNext();
 								delete Run_List.gethead();
 								Run_List.sethead(ptr);
+								Run_List.setcount(Run_List.getcount() - 1);
 							}
 							else
 							{
@@ -289,6 +294,7 @@ void scheduler::simulate_system()
 										ptr = ptr->getNext();
 									Run_List.settail(ptr);
 									delete ptr->getNext();
+									Run_List.setcount(Run_List.getcount() - 1);
 								}
 								else
 									Run_List.deletenode(ptr);
@@ -338,6 +344,7 @@ void scheduler::simulate_system()
 							ptr_R = ptr_R->getNext();
 							delete Run_List.gethead();
 							Run_List.sethead(ptr_R);
+							Run_List.setcount(Run_List.getcount() - 1);
 						}
 						else
 						{
@@ -348,6 +355,7 @@ void scheduler::simulate_system()
 									ptr_R = ptr_R->getNext();
 								Run_List.settail(ptr_R); 
 								delete ptr_R->getNext();
+								Run_List.setcount(Run_List.getcount() - 1);
 							}
 							else
 								Run_List.deletenode(ptr_R);
