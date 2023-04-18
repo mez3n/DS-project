@@ -1,4 +1,6 @@
 #pragma once
+#ifndef NODE_
+#define NODE_
 template<class T>
 class Node {
 	T item;
@@ -14,7 +16,9 @@ public:
 	{
 		if (this == NULL)
 		{
+			//cout << "0";
 			return 0;
+
 		}
 		return item;
 	}
@@ -27,6 +31,7 @@ public:
 		return next;
 	}
 };
+#endif
 template<class T>
 class LinkedList {
 	Node<T>* head;
@@ -134,38 +139,6 @@ public:
 			//cout << "NULL\n";
 			return false;
 		}
-	}
-	bool DeleteElements(LinkedList<int>& freq)
-	{
-		if (!head)
-			return true;
-		Node<T>* ptr1 = head;
-		Node<T>* ptr2 = ptr1->getNext();
-		Node<T>* ptr3 = freq.gethead();
-		int x = ptr3->getItem();
-		int y = ptr1->getItem();
-		while (ptr1)
-		{
-			if (ptr3 == NULL && ptr1 != NULL)
-				return false;
-			for (int i = 0; i < x; i++)
-			{
-				deletenode(ptr2);
-				ptr2 = ptr1->getNext();
-			}
-			if (x >= 0)
-			{
-				while (ptr1 != NULL && ptr1->getItem() == y)
-					ptr1 = ptr1->getNext();
-			}
-			if (!ptr1)
-				return true;
-			y = ptr1->getItem();
-			ptr2 = ptr1->getNext();
-			ptr3 = ptr3->getNext();
-			x = ptr3->getItem();
-		}
-		return true;
 	}
 	bool deletenode(Node<T>* n)
 	{
