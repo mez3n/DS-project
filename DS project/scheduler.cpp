@@ -170,7 +170,8 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
-	Node<Process*>* ptr_R = Run_List.gethead();// a pointer to run list
+	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
+
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -205,101 +206,22 @@ void scheduler::simulate_system()
 			{
 				Run_P = Pr_ptr2->getItem()->GetRunProcess();// get thr run process
 				NO_Generated = GenerateNo();// generate a number for that process
-				Node<Process*>* ptr = Run_List.gethead();// pointer to run list
 				if (1 <= NO_Generated && NO_Generated <= 15)
 				{
 					Pr_ptr2->getItem()->SetState(false);
 					BLK_LIST.enqueue(Run_P);
-					// removing the process from Run list (if you dont want this part then remove it)
-					while (ptr->getItem()->getPID() != Run_P->getPID())
-						ptr = ptr->getNext();
-					// delete the process from run list 
-					if (ptr == Run_List.gethead())
-					{
-						ptr = ptr->getNext();
-						delete Run_List.gethead();
-						Run_List.sethead(ptr);
-						Run_List.setcount(Run_List.getcount() - 1);
-					}
-					else
-					{
-						if (ptr == Run_List.gettail())
-						{
-							ptr = Run_List.gethead();
-							while (ptr->getNext() != Run_List.gettail())
-								ptr = ptr->getNext();
-							Run_List.settail(ptr);
-							delete ptr->getNext();
-							Run_List.setcount(Run_List.getcount() - 1);
-						}
-						else
-							Run_List.deletenode(ptr);
-					}
-					ptr_R = Run_List.gethead();
 				}
 				else
 					if (20 <= NO_Generated && NO_Generated <= 30)
 					{
 						Pr_ptr2->getItem()->SetState(false);
 						Pr_ptr2->getItem()->AddToList(Run_P);
-						// removing the process from Run list (if you dont want this part then remove it)
-						while (ptr->getItem()->getPID() != Run_P->getPID())
-							ptr = ptr->getNext();
-						// delete the process from run list 
-						if (ptr == Run_List.gethead())
-						{
-							ptr = ptr->getNext();
-							delete Run_List.gethead();
-							Run_List.sethead(ptr);
-							Run_List.setcount(Run_List.getcount() - 1);
-						}
-						else
-						{
-							if (ptr == Run_List.gettail())
-							{
-								ptr = Run_List.gethead();
-								while (ptr->getNext() != Run_List.gettail())
-									ptr = ptr->getNext();
-								Run_List.settail(ptr);
-								delete ptr->getNext();
-								Run_List.setcount(Run_List.getcount() - 1);
-							}
-							else
-								Run_List.deletenode(ptr);
-						}
-						ptr_R = Run_List.gethead();
 					}
 					else
 						if (50 <= NO_Generated && NO_Generated <= 60)
 						{
 							Pr_ptr2->getItem()->SetState(false);
 							TRM_LIST.InsertEnd(Run_P);
-							// removing the process from Run list (if you dont want this part then remove it)
-							while (ptr->getItem()->getPID() != Run_P->getPID())
-								ptr = ptr->getNext();
-							// delete the process from run list 
-							if (ptr == Run_List.gethead())
-							{
-								ptr = ptr->getNext();
-								delete Run_List.gethead();
-								Run_List.sethead(ptr);
-								Run_List.setcount(Run_List.getcount() - 1);
-							}
-							else
-							{
-								if (ptr == Run_List.gettail())
-								{
-									ptr = Run_List.gethead();
-									while (ptr->getNext() != Run_List.gettail())
-										ptr = ptr->getNext();
-									Run_List.settail(ptr);
-									delete ptr->getNext();
-									Run_List.setcount(Run_List.getcount() - 1);
-								}
-								else
-									Run_List.deletenode(ptr);
-							}
-							ptr_R = Run_List.gethead();
 						}
 			}
 			Pr_ptr2 = Pr_ptr2->getNext();
@@ -325,51 +247,31 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr3 = Processors.gethead();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
-		// this part may be used if not then comment it
+		// 5- this part may be used if not then comment it (depending on ct)(phase 2)
 		//------------------------------------------------------------------------------------------------------------------
-		if (Run_List.gethead())
+		//while (Pr_ptr4)
+		//{
+		//	if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
+		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
+		//		{
+		//			Pr_ptr2->getItem()->SetState(false);
+		//			TRM_LIST.InsertEnd(Pr_ptr4->getItem()->GetRunProcess());
+		//		}
+		//	Pr_ptr4 = Pr_ptr4->getNext();
+		//}
+		//Pr_ptr4 = Processors.gethead();
+		//------------------------------------------------------------------------------------------------------------------
+		// 6- filling run list with run processes for each processor
+		while (Pr_ptr5)
 		{
-			while (Pr_ptr4)
-			{
-				if (!Pr_ptr4->getItem()->IsIdle())//if its busy then there is a process in run state
-					if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
-					{
-						Pr_ptr2->getItem()->SetState(false);
-						// removing the process from Run list (if you dont want this part then remove it)
-						while (ptr_R->getItem()->getPID() != Run_P->getPID())
-							ptr_R = ptr_R->getNext();
-						// delete the process from run list 
-						if (ptr_R == Run_List.gethead())
-						{
-							ptr_R = ptr_R->getNext();
-							delete Run_List.gethead();
-							Run_List.sethead(ptr_R);
-							Run_List.setcount(Run_List.getcount() - 1);
-						}
-						else
-						{
-							if (ptr_R == Run_List.gettail())
-							{
-								ptr_R = Run_List.gethead();
-								while (ptr_R->getNext() != Run_List.gettail())
-									ptr_R = ptr_R->getNext();
-								Run_List.settail(ptr_R); 
-								delete ptr_R->getNext();
-								Run_List.setcount(Run_List.getcount() - 1);
-							}
-							else
-								Run_List.deletenode(ptr_R);
-						}
-						ptr_R = Run_List.gethead();
-					}
-				Pr_ptr4 = Pr_ptr4->getNext();
-			}
-			Pr_ptr4 = Processors.gethead();
+			if (!(Pr_ptr5->getItem()->IsIdle()))// if its busy then there is a process in run state
+				Run_List.InsertEnd(Pr_ptr5->getItem()->GetRunProcess());
+			Pr_ptr5 = Pr_ptr5->getNext();
 		}
-		//------------------------------------------------------------------------------------------------------------------
+		Pr_ptr5 = Processors.gethead();
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
+		Run_List.DeleteAll();// deleting all processes in run list
 		update_TimeStep();
-		
 	}
 }
 int scheduler::GenerateNo()
