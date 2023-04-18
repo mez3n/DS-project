@@ -56,6 +56,7 @@ public:
 			delete head;
 			head = P;
 		}
+	        count = 0;
 	}
 	void InsertEnd(T item)
 	{
