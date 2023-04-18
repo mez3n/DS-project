@@ -213,7 +213,7 @@ void scheduler::simulate_system()
 					// removing the process from Run list (if you dont want this part then remove it)
 					while (ptr->getItem()->getPID() != Run_P->getPID())
 						ptr = ptr->getNext();
-					// delete the process from run list note after this operation it will be no tail for run list
+					// delete the process from run list 
 					if (ptr == Run_List.gethead())
 					{
 						ptr = ptr->getNext();
@@ -222,8 +222,14 @@ void scheduler::simulate_system()
 					}
 					else
 					{
-						if (!ptr->getNext())
-							delete ptr;
+						if (ptr == tail)
+						{
+							ptr = Run_List.gethead();
+							while (ptr->getNext() != tail)
+								ptr = ptr->getNext();
+							tail = ptr;
+							delete ptr->getNext();
+						}
 						else
 							Run_List.deletenode(ptr);
 					}
@@ -237,7 +243,7 @@ void scheduler::simulate_system()
 						// removing the process from Run list (if you dont want this part then remove it)
 						while (ptr->getItem()->getPID() != Run_P->getPID())
 							ptr = ptr->getNext();
-						// delete the process from run list note after this operation it will be no tail for run list
+						// delete the process from run list 
 						if (ptr == Run_List.gethead())
 						{
 							ptr = ptr->getNext();
@@ -246,8 +252,14 @@ void scheduler::simulate_system()
 						}
 						else
 						{
-							if (!ptr->getNext())
-								delete ptr;
+							if (ptr == tail)
+							{
+								ptr = Run_List.gethead();
+								while (ptr->getNext() != tail)
+									ptr = ptr->getNext();
+								tail = ptr;
+								delete ptr->getNext();
+							}
 							else
 								Run_List.deletenode(ptr);
 						}
@@ -261,7 +273,7 @@ void scheduler::simulate_system()
 							// removing the process from Run list (if you dont want this part then remove it)
 							while (ptr->getItem()->getPID() != Run_P->getPID())
 								ptr = ptr->getNext();
-							// delete the process from run list note after this operation it will be no tail for run list
+							// delete the process from run list 
 							if (ptr == Run_List.gethead())
 							{
 								ptr = ptr->getNext();
@@ -270,8 +282,14 @@ void scheduler::simulate_system()
 							}
 							else
 							{
-								if (!ptr->getNext())
-									delete ptr;
+								if (ptr == tail)
+								{
+									ptr = Run_List.gethead();
+									while (ptr->getNext() != tail)
+										ptr = ptr->getNext();
+									tail = ptr;
+									delete ptr->getNext();
+								}
 								else
 									Run_List.deletenode(ptr);
 							}
@@ -314,19 +332,25 @@ void scheduler::simulate_system()
 						// removing the process from Run list (if you dont want this part then remove it)
 						while (ptr_R->getItem()->getPID() != Run_P->getPID())
 							ptr_R = ptr_R->getNext();
-						// delete the process from run list note after this operation it will be no tail for run list
-						if (ptr_R == Run_List.gethead())
+						// delete the process from run list 
+						if (ptr == Run_List.gethead())
 						{
-							ptr_R = ptr_R->getNext();
+							ptr = ptr->getNext();
 							delete Run_List.gethead();
-							Run_List.sethead(ptr_R);
+							Run_List.sethead(ptr);
 						}
 						else
 						{
-							if (!ptr_R->getNext())
-								delete ptr_R;
+							if (ptr == tail)
+							{
+								ptr = Run_List.gethead();
+								while (ptr->getNext() != tail)
+									ptr = ptr->getNext();
+								tail = ptr;
+								delete ptr->getNext();
+							}
 							else
-								Run_List.deletenode(ptr_R);
+								Run_List.deletenode(ptr);
 						}
 						ptr_R = Run_List.gethead();
 					}
