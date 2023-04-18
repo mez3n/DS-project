@@ -1,6 +1,4 @@
 #pragma once
-#ifndef NODE_
-#define NODE_
 template<class T>
 class Node {
 	T item;
@@ -16,9 +14,7 @@ public:
 	{
 		if (this == NULL)
 		{
-			//cout << "0";
 			return 0;
-
 		}
 		return item;
 	}
@@ -31,7 +27,6 @@ public:
 		return next;
 	}
 };
-#endif
 template<class T>
 class LinkedList {
 	Node<T>* head;
@@ -46,6 +41,11 @@ public:
 	LinkedList(LinkedList& L)
 	{
 		this = L;
+	}
+	void setcount(int c)
+	{
+		if (c >= 0)
+			count = c;
 	}
 	void InsertEnd(T item)
 	{
@@ -177,6 +177,7 @@ public:
 				ptr->setNext(n->getNext());
 				n->setNext(NULL);
 				delete n;
+				count--;
 				return true;
 			}
 			ptr = ptr->getNext();
