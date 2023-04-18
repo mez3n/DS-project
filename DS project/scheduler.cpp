@@ -222,12 +222,12 @@ void scheduler::simulate_system()
 					}
 					else
 					{
-						if (ptr == tail)
+						if (ptr == Run_List.gettail())
 						{
 							ptr = Run_List.gethead();
-							while (ptr->getNext() != tail)
+							while (ptr->getNext() != Run_List.gettail())
 								ptr = ptr->getNext();
-							tail = ptr;
+							Run_List.settail(ptr);
 							delete ptr->getNext();
 						}
 						else
@@ -252,12 +252,12 @@ void scheduler::simulate_system()
 						}
 						else
 						{
-							if (ptr == tail)
+							if (ptr == Run_List.gettail())
 							{
 								ptr = Run_List.gethead();
-								while (ptr->getNext() != tail)
+								while (ptr->getNext() != Run_List.gettail())
 									ptr = ptr->getNext();
-								tail = ptr;
+								Run_List.settail(ptr);
 								delete ptr->getNext();
 							}
 							else
@@ -282,12 +282,12 @@ void scheduler::simulate_system()
 							}
 							else
 							{
-								if (ptr == tail)
+								if (ptr == Run_List.gettail())
 								{
 									ptr = Run_List.gethead();
-									while (ptr->getNext() != tail)
+									while (ptr->getNext() != Run_List.gettail())
 										ptr = ptr->getNext();
-									tail = ptr;
+									Run_List.settail(ptr);
 									delete ptr->getNext();
 								}
 								else
@@ -333,24 +333,24 @@ void scheduler::simulate_system()
 						while (ptr_R->getItem()->getPID() != Run_P->getPID())
 							ptr_R = ptr_R->getNext();
 						// delete the process from run list 
-						if (ptr == Run_List.gethead())
+						if (ptr_R == Run_List.gethead())
 						{
-							ptr = ptr->getNext();
+							ptr_R = ptr_R->getNext();
 							delete Run_List.gethead();
-							Run_List.sethead(ptr);
+							Run_List.sethead(ptr_R);
 						}
 						else
 						{
-							if (ptr == tail)
+							if (ptr_R == Run_List.gettail())
 							{
-								ptr = Run_List.gethead();
-								while (ptr->getNext() != tail)
-									ptr = ptr->getNext();
-								tail = ptr;
-								delete ptr->getNext();
+								ptr_R = Run_List.gethead();
+								while (ptr_R->getNext() != Run_List.gettail())
+									ptr_R = ptr_R->getNext();
+								Run_List.settail(ptr_R); 
+								delete ptr_R->getNext();
 							}
 							else
-								Run_List.deletenode(ptr);
+								Run_List.deletenode(ptr_R);
 						}
 						ptr_R = Run_List.gethead();
 					}
