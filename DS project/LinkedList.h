@@ -47,10 +47,15 @@ public:
 	{
 		this = L;
 	}
-	void setcount(int c)
+	void DeleteAll()
 	{
-		if (c >= 0)
-			count = c;
+		Node<T>* P = head;
+		while (head)
+		{
+			P = head->getNext();
+			delete head;
+			head = P;
+		}
 	}
 	void InsertEnd(T item)
 	{
