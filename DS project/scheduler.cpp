@@ -336,6 +336,7 @@ void scheduler::simulate_system()
 		}
 		//------------------------------------------------------------------------------------------------------------------
 		update_TimeStep();
+		Console_out.PrintOutput(Run_List,NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 	}
 }
 int scheduler::GenerateNo()
