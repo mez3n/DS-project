@@ -28,6 +28,7 @@ private:
 	bool RunState;// get run state for a process
 	int LeftCT;// we don't want to change CT for output file so we use this
 	int Deadline;// the expected deadline for process
+	int Processor_id; //id of the processor running the process else it is -1 
 	LinkedQueue<IO> IO_queue; // storage for all IO 
 	BinaryNodeTree<Process*> El_3yal; // tree for forking for all the children of the process
 public:
@@ -37,12 +38,13 @@ public:
 	int get_AT();
 	int getPID();
 	void set_start_RUN(int start);   // when the process eun for the first time set this function with the time step
-	//void SetRunState(bool b);
+	void SetRunState(bool b);
 	//bool GetRunState();
 	void set_termination_times(int tt); //calculated after termination and calculates TRT and WT by default
 	void Add_child(Process*& child);
 	bool is_parent();
 	void kill_children();
+	void set_Processor_id(int n);
 	friend ostream& operator << (ostream& out, Process* P);
 };
 

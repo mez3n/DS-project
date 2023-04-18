@@ -65,7 +65,7 @@ public:
 	void PrintList()
 	{
 		for (int i = 1; i <= count; i++)
-			cout << Heap[i].getitem()<<",";
+			cout << Heap[i].getitem()<<" ";
 	}
 	bool isEmpty() const
 	{

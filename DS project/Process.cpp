@@ -2,6 +2,7 @@
 #include "Process.h"
 void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO_d)
 {
+	Processor_id = -1;
 	 PID=pid;   //unique id for each process
 	 AT=at;     //the time when the process is ready to get scheduled
 	 CT=ct;     //total work time needed to run the process
@@ -42,6 +43,18 @@ void Process::set_start_RUN(int first_RUN)
 {
 	RT = first_RUN-AT;
 }
+void Process::SetRunState(bool b)
+{
+	if (!b)
+	{
+		Processor_id = -1;
+		RunState = b;
+	}
+	else
+	{
+		RunState = b;
+	}
+}
 /*void Process::SetRunState(bool b)
 {
 	RunState = b;
@@ -70,4 +83,9 @@ bool Process::is_parent()
 void Process::kill_children()
 {
 	El_3yal.~BinaryNodeTree(); // needs modifications
+}
+
+void Process::set_Processor_id(int n)
+{
+	Processor_id = n;
 }

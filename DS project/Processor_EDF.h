@@ -24,7 +24,6 @@ public:
 	//bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	//bool checkdeadline(int currenttimestep);// the scheduler must pass current time step for scheduleAlgo which will call this function to determine if process finish before its deadline
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
-	/*bool printProcessor();*/
 	~Processor_EDF();
 	int GetRdyCount();
 	void removerunprocess();

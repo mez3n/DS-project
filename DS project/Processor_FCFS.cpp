@@ -62,6 +62,7 @@ int Processor_FCFS::GetRdyCount()
 {
 	return count;
 }
+
 void Processor_FCFS::removerunprocess()
 {
 	Runprocess = nullptr;
