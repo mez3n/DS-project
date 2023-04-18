@@ -175,8 +175,6 @@ public:
 				ptr->setNext(n->getNext());
 				n->setNext(NULL);
 				delete n;
-				/*if (ptr->getNext())
-					n = ptr->getNext();*/
 				return true;
 			}
 			ptr = ptr->getNext();

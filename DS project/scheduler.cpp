@@ -1,13 +1,45 @@
 #include"scheduler.h"
+class UI;
+#ifndef NODE_
+#define NODE_
+template<class T>
+class Node {
+	T item;
+	Node* next;
+public:
+	Node() {};
+	Node(T newItem); //non-default constructor
+	void setItem(T a)
+	{
+		item = a;
+	}
+	T getItem() const
+	{
+		if (this == NULL)
+		{
+			return 0;
+		}
+		return item;
+	}
+	void setNext(Node<T>* n)
+	{
+		next = n;
+	}
+	Node<T>* getNext() const
+	{
+		return next;
+	}
+};
+#endif
 
 scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
-	InputFile = new ifstream("InputFile.txt",ios::in);
+	InputFile = new ifstream("InputFile.txt", ios::in);
 	string no_rr, no_fcfs, no_sjf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
 	string S_T_RR;
-	*InputFile >> no_fcfs>> no_sjf>> no_rr>>S_T_RR>>S_RTF>>S_MaxW>>S_STL>>S_Fork_Prob;
+	*InputFile >> no_fcfs >> no_sjf >> no_rr >> S_T_RR >> S_RTF >> S_MaxW >> S_STL >> S_Fork_Prob;
 	FCFS_no = stoi(no_fcfs);
 	SJF_no = stoi(no_sjf);
 	RR_no = stoi(no_rr);
@@ -26,17 +58,17 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8,i+1,"FCFS",MaxW,Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, 9, "FCFS", MaxW, Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8,i+1+FCFS_no,"SJF",Processes_no);
+		Processor_SJF* P = new Processor_SJF(8, 8, "SJF", Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8,i+1+FCFS_no+SJF_no,"RR",RTF,T_RR);
+		Processor_RR* P = new Processor_RR(8, 7, "RR", RTF, T_RR);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -47,9 +79,10 @@ scheduler::scheduler()
 		
 	// any string has S before its name
 
-		string Spid, Sat,Sct, Sno_IO; //each process specifications 
+	// constructor of processor class should be called here 
+		string Spid, Sat, Sct, Sno_IO; //each process specifications 
 		*InputFile >> Sat >> Spid >> Sct >> Sno_IO;
-		
+
 		no_IO = stoi(Sat);
 		at = stoi(Sat);
 		ct = stoi(Sct);
@@ -60,7 +93,7 @@ scheduler::scheduler()
 		int j = 0;
 		char* SIO = new char[no_IO * 20];
 		InputFile->getline(SIO, no_IO * 10);
-		
+
 		if (no_IO > 0)
 		{
 			for (int i = 1; SIO[i] != '\0'; i++)  //processing the IO string 
@@ -93,7 +126,7 @@ scheduler::scheduler()
 			}
 		}
 		Process* p = new Process;
-		p->AddProcess(pid, at,ct, no_IO, IO_R, IO_D);
+		p->AddProcess(pid, at, ct, no_IO, IO_R, IO_D);
 		NEW_LIST.enqueue(p);
 	}
 }
@@ -136,7 +169,8 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
-	cout << NEW_LIST.Get_Count();
+	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
+	Node<Process*>* ptr_R = Run_List.gethead();// a pointer to run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -148,7 +182,7 @@ void scheduler::simulate_system()
 			{
 				NEW_LIST.dequeue(p);
 				AddToRdy(p);// add process to rdy lists 1,2,...
-				if(!NEW_LIST.isEmpty())
+				if (!NEW_LIST.isEmpty())
 					NEW_LIST.peek(p);
 			}
 		}
@@ -179,7 +213,21 @@ void scheduler::simulate_system()
 					// removing the process from Run list (if you dont want this part then remove it)
 					while (ptr->getItem()->getPID() != Run_P->getPID())
 						ptr = ptr->getNext();
-					Run_List.deletenode(ptr);
+					// delete the process from run list note after this operation it will be no tail for run list
+					if (ptr == Run_List.gethead())
+					{
+						ptr = ptr->getNext();
+						delete Run_List.gethead();
+						Run_List.sethead(ptr);
+					}
+					else
+					{
+						if (!ptr->getNext())
+							delete ptr;
+						else
+							Run_List.deletenode(ptr);
+					}
+					ptr_R = Run_List.gethead();
 				}
 				else
 					if (20 <= NO_Generated && NO_Generated <= 30)
@@ -189,7 +237,21 @@ void scheduler::simulate_system()
 						// removing the process from Run list (if you dont want this part then remove it)
 						while (ptr->getItem()->getPID() != Run_P->getPID())
 							ptr = ptr->getNext();
-						Run_List.deletenode(ptr);
+						// delete the process from run list note after this operation it will be no tail for run list
+						if (ptr == Run_List.gethead())
+						{
+							ptr = ptr->getNext();
+							delete Run_List.gethead();
+							Run_List.sethead(ptr);
+						}
+						else
+						{
+							if (!ptr->getNext())
+								delete ptr;
+							else
+								Run_List.deletenode(ptr);
+						}
+						ptr_R = Run_List.gethead();
 					}
 					else
 						if (50 <= NO_Generated && NO_Generated <= 60)
@@ -199,7 +261,21 @@ void scheduler::simulate_system()
 							// removing the process from Run list (if you dont want this part then remove it)
 							while (ptr->getItem()->getPID() != Run_P->getPID())
 								ptr = ptr->getNext();
-							Run_List.deletenode(ptr);
+							// delete the process from run list note after this operation it will be no tail for run list
+							if (ptr == Run_List.gethead())
+							{
+								ptr = ptr->getNext();
+								delete Run_List.gethead();
+								Run_List.sethead(ptr);
+							}
+							else
+							{
+								if (!ptr->getNext())
+									delete ptr;
+								else
+									Run_List.deletenode(ptr);
+							}
+							ptr_R = Run_List.gethead();
 						}
 			}
 			Pr_ptr2 = Pr_ptr2->getNext();
@@ -219,13 +295,46 @@ void scheduler::simulate_system()
 		NO_Generated = 1 + (rand() % Processes_no);
 		for (int i = 0; i < FCFS_no; i++)
 		{
-			if (!(Pr_ptr3 ->getItem()->IsRdyEmpty()) && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
+			if (!(Pr_ptr3->getItem()->IsRdyEmpty()) && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
 				TRM_LIST.InsertEnd(p2);
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
-		
-		Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);
+		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
+		// this part may be used if not then comment it
+		//------------------------------------------------------------------------------------------------------------------
+		if (Run_List.gethead())
+		{
+			while (Pr_ptr4)
+			{
+				if (!Pr_ptr4->getItem()->IsIdle())//if its busy then there is a process in run state
+					if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
+					{
+						Pr_ptr2->getItem()->SetState(false);
+						// removing the process from Run list (if you dont want this part then remove it)
+						while (ptr_R->getItem()->getPID() != Run_P->getPID())
+							ptr_R = ptr_R->getNext();
+						// delete the process from run list note after this operation it will be no tail for run list
+						if (ptr_R == Run_List.gethead())
+						{
+							ptr_R = ptr_R->getNext();
+							delete Run_List.gethead();
+							Run_List.sethead(ptr_R);
+						}
+						else
+						{
+							if (!ptr_R->getNext())
+								delete ptr_R;
+							else
+								Run_List.deletenode(ptr_R);
+						}
+						ptr_R = Run_List.gethead();
+					}
+				Pr_ptr4 = Pr_ptr4->getNext();
+			}
+			Pr_ptr4 = Processors.gethead();
+		}
+		//------------------------------------------------------------------------------------------------------------------
 		update_TimeStep();
 	}
 }

@@ -37,15 +37,13 @@ public:
 	int get_AT();
 	int getPID();
 	void set_start_RUN(int start);   // when the process eun for the first time set this function with the time step
-	void SetRunState(bool b);
-	bool GetRunState();
+	//void SetRunState(bool b);
+	//bool GetRunState();
 	void set_termination_times(int tt); //calculated after termination and calculates TRT and WT by default
 	void Add_child(Process*& child);
 	bool is_parent();
 	void kill_children();
 	friend ostream& operator << (ostream& out, Process* P);
-	
-
 };
 
 
