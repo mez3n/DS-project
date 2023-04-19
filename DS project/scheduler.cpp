@@ -131,8 +131,6 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 }
-
-
 // this function will be used in phase 2
 // 
 // insert a process to the processor with the least CT
@@ -157,8 +155,6 @@ scheduler::scheduler()
 //	}
 //}
 // we will complete filling the rdy lists
-
-
 void scheduler::simulate_system()
 {
 	Ctrl_Processors = Processors.gethead();
@@ -246,8 +242,12 @@ void scheduler::simulate_system()
 		NO_Generated = 1 + (rand() % Processes_no);
 		for (int i = 0; i < FCFS_no; i++)
 		{
-			if (!(Pr_ptr3->getItem()->IsRdyEmpty()) && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
-				TRM_LIST.InsertEnd(p2);
+			if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
+			{
+				p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
+				if(p2)
+					TRM_LIST.InsertEnd(p2);
+			}
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
