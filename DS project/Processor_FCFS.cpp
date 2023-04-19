@@ -77,3 +77,20 @@ void Processor_FCFS::removerunprocess()
 {
 	Runprocess = nullptr;
 }
+Process* Processor_FCFS::getprocessbyidfcfs(int id)
+{
+	LNode<Process*>* ptr = RDYlist.getbrain();
+	Process* p = NULL;
+	while (ptr)
+	{
+		if (ptr->getItem()->getPID() == id)
+		{
+			p = ptr->getItem();
+			RDYlist.MoveProcess(ptr->getItem());
+			count--;
+			return p;
+		}
+		ptr = ptr->getNext();
+	}
+	return p;
+}
