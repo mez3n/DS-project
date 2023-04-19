@@ -161,7 +161,7 @@ public:
 			if (prevcur->getItem() == value)
 			{
 				Head = Head->getNext();
-				curptr->setNext(NULL);
+				prevcur->setNext(NULL);
 				itemcount--;
 				break;
 			}
