@@ -162,7 +162,7 @@ public:
 			{
 				Head = Head->getNext();
 				prevcur->setNext(NULL);
-				//itemcount--;
+				itemcount--;
 				break;
 			}
 			else
@@ -173,7 +173,7 @@ public:
 					curptr->setNext(NULL);
 					if (curptr == tail)
 						tail = prevcur;
-					//itemcount--;
+					itemcount--;
 					break;
 				}
 			}
