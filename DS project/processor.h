@@ -57,5 +57,6 @@ public:
 	{
 		state = b;
 	}
+	Process* getprocessbyidfcfs(int id);
 
 };
