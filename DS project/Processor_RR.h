@@ -11,6 +11,8 @@ private:
 	int RRslice;// time slice for each process to be excuted
 	int LeftRRslice;// this will help me determine if the time slice ended or not
 public:
+	Processor_RR(int N,int id,string name, int rtf, int rrslice);
+
 Process* getprocessbyidfcfs(int id) { return NULL; }
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
