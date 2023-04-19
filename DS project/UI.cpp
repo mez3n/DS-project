@@ -9,6 +9,7 @@ void UI::PrintOutput(LinkedList<Process*>& RUN_List,LinkedQueue<Process*>& NEW_L
 {
 	cout << "Current Timestep:" << timestep<<endl;
 	cout << "---------------" << "	RDY processes	" << "---------------"<<endl;
+	cout << " ";
 	Processors.PrintList();
 	cout << "---------------" << "	BLK processes	" << "---------------" << endl;
 	cout << BLK_LIST.Get_Count() << " BLK: ";
