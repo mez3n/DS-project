@@ -54,8 +54,18 @@ bool Processor_FCFS::IsRdyEmpty() { return (RDYlist.isEmpty()); }
 bool  Processor_FCFS::GetProcessById(int id, Process*& p)
 {
 	p = nullptr;
-	bool b = RDYlist.DeleteNode(p, id);
-	return b;
+	LNode<Process*>* ptr = RDYlist.getbrain();
+	while (ptr)
+	{
+		if (ptr->getItem()->getPID() == id)
+		{
+			p = ptr->getItem();
+			RDYlist.MoveProcess(ptr->getItem());
+			return true;
+		}
+		ptr = ptr->getNext();
+	}
+	return false;
 }
 
 int Processor_FCFS::GetRdyCount()
