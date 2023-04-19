@@ -65,4 +65,3 @@ void Processor_RR::removerunprocess()
 {
 	Runprocess = nullptr;
 }
-Process* Processor_RR::getprocessbyidfcfs(int id) { return NULL; }
