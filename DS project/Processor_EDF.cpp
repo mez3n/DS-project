@@ -66,3 +66,4 @@ void Processor_EDF::removerunprocess()
 {
 	Runprocess = nullptr;
 }
+Process* Processor_RR::getprocessbyidfcfs(int id) { return NULL; }
