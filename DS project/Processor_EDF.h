@@ -8,6 +8,8 @@ private:
 	int num;//number of process finished before they deadline
 public:
 	Processor_EDF(int N,int id,string name, int MAX_SIZE);
+	Process* getprocessbyidfcfs(int id) { return NULL; }
+
 	//void ScheduleAlgo();// determine next process to be run
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
