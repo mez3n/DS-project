@@ -33,5 +33,6 @@ public:
 	~Processor_FCFS() {};
 	void removerunprocess();
 	int GetRdyCount();
-	
+	Process* getprocessbyidfcfs(int id);
+
 };
