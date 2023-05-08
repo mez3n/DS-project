@@ -43,6 +43,8 @@ public:
 	int get_RT();
 	int get_AT();
 	int getPID();
+	int getLeftCT();
+	void decrementCT();
 	void set_start_RUN(int start);   // when the process eun for the first time set this function with the time step
 	void SetRunState(bool b);
 	//bool GetRunState();

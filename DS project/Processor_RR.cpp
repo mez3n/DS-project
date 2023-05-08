@@ -1,5 +1,5 @@
 #include"Processor_RR.h"
-Processor_RR::Processor_RR(int N, int id, string name, int rtf, int rrslice) :Processor(N, id, name)
+Processor_RR::Processor_RR(int N, int id, string name,scheduler* p, int rtf, int rrslice) :Processor(N, id, name,p)
 {
 	RTF = rtf;
 	RRslice = rrslice;
@@ -24,7 +24,6 @@ bool Processor_RR::RunProcess()
 		count--;
 		RDYlist.dequeue(Runprocess);
 		state = true;
-		//Runprocess->SetRunState(true);
 	}
 	return false;
 }
@@ -36,7 +35,7 @@ void Processor_RR::print()
 {
 	RDYlist.PrintList();
 }
-float Processor_RR::GetPload()
+float Processor_RR::GetPload(int TotalTRTProcesses)
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }

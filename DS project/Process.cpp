@@ -151,3 +151,13 @@ void Process::fork_process(int& process_no, int time_step)
 	child->AddProcess(process_no, time_step, CT, 0, nullptr, nullptr);
 	Add_child(child);
 }
+
+int Process::getLeftCT() 
+{
+	return LeftCT;
+}
+
+void Process::decrementCT() 
+{
+	LeftCT--;
+}
