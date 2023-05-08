@@ -81,17 +81,17 @@ void Processor_FCFS::removerunprocess()
 	Runprocess = nullptr;
 }
 
-void Processor_FCFS::ScheduleAlgo() 
+void Processor_FCFS::ScheduleAlgo()
 {
 	// first check runprocess
-	if (!Runprocess) 
+	if (!Runprocess)
 	{
 		if (!RDYlist.isEmpty())
 		{
 			RDYlist.DeleteFirst(Runprocess);
 			count--;
 		}
-		else 
+		else
 		{
 			state = false;
 			TotalIDLETime++;
@@ -102,7 +102,7 @@ void Processor_FCFS::ScheduleAlgo()
 	/*bool b = p->Migration_FCFS(Runprocess);
 	if (b)
 	{
-	    Runprocess=nullptr;
+		Runprocess=nullptr;
 		ScheduleAlgo(p);
 		return;
 	}*/
@@ -111,12 +111,13 @@ void Processor_FCFS::ScheduleAlgo()
 	// fourth excute
 	Runprocess->decrementCT();
 	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0) 
+	if (Runprocess->getLeftCT() == 0)
 	{
 		/*p->AddToTRM(Runprocess);*/
 		Runprocess == nullptr;
 	}
 	// fifth check for I_O request
+}
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
 {
 	LNode<Process*>* ptr = RDYlist.getbrain();
