@@ -4,7 +4,11 @@ Processor_FCFS::Processor_FCFS(int N, int id, string name, int maxw, float fork)
 	MaxW = maxw;
 	Fork = fork;
 	numMaxW = 0;
-	ArrSigKill = nullptr;
+	ArrSigKill =nullptr;
+}
+void Processor_FCFS::set_sigkill(int* sigkill)
+{
+	ArrSigKill = sigkill;
 }
 void Processor_FCFS::AddToList(Process* p)
 {

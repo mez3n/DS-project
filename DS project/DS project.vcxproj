@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Mazen_main.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="Processor_EDF.cpp" />
     <ClCompile Include="Processor_FCFS.cpp" />

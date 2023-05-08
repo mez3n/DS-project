@@ -129,6 +129,14 @@ scheduler::scheduler()
 		Process* p = new Process;
 		p->AddProcess(pid, at, ct, no_IO, IO_R, IO_D);
 		NEW_LIST.enqueue(p);
+
+
+		int* kill_arr = nullptr;
+		load_sigkill(kill_arr);
+		for (int i = 0; i < FCFS_no; i++)
+		{
+
+		}
 	}
 }
 // this function will be used in phase 2
