@@ -82,7 +82,7 @@ public:
 		LNode<T>* p = Head;
 		while (p)
 		{
-			cout << p->getItem() << ",";
+			cout << p->getItem() << " ";
 			p = p->getNext();
 		}
 	}
@@ -151,34 +151,38 @@ public:
 		itemcount--;
 	}
 	bool isEmpty() { return (itemcount == 0); }
-	bool DeleteNode(T& value, int p)
+	void MoveProcess(T value)
 	{
 		LNode<T>* curptr;
-		LNode<T>* prev = nullptr;
-		curptr = Head;
+		LNode<T>* prevcur = Head;
+		curptr = Head->getNext();
 		while (curptr)
 		{
-			if (curptr->getItem()->getPID() == p)
+			if (prevcur->getItem() == value)
 			{
-				if (!prev)
-					DeleteFirst(value);
-				else
-				{
-					prev->setNext(curptr->getNext());
-					value = curptr->getItem();
-					if (curptr == tail)
-						tail = prev;
-					delete curptr;
-					itemcount--;
-				}
-				return true;
+				Head = Head->getNext();
+				prevcur->setNext(NULL);
+				itemcount--;
+				break;
 			}
 			else
 			{
-				prev = curptr;
-				curptr = curptr->getNext();
+				if (curptr->getItem() == value)
+				{
+					prevcur->setNext(curptr->getNext());
+					curptr->setNext(NULL);
+					if (curptr == tail)
+						tail = prevcur;
+					itemcount--;
+					break;
+				}
 			}
+			curptr = curptr->getNext();
+			prevcur = prevcur->getNext();
 		}
-		return false;
+	}
+	LNode<T>* getbrain()
+	{
+		return Head;
 	}
 };

@@ -95,8 +95,8 @@ scheduler::scheduler()
 		if (no_IO > 0)
 		{
 			InputFile->getline(SIO, no_IO * 10);
-			string;
 
+			string;
 			for (int i = 1; SIO[i] != '\0'; i++)  //processing the IO string 
 			{
 				if (isdigit(SIO[i]))
@@ -129,10 +129,16 @@ scheduler::scheduler()
 		Process* p = new Process;
 		p->AddProcess(pid, at, ct, no_IO, IO_R, IO_D);
 		NEW_LIST.enqueue(p);
+
+
+		int* kill_arr = nullptr;
+		load_sigkill(kill_arr);
+		for (int i = 0; i < FCFS_no; i++)
+		{
+
+		}
 	}
 }
-
-
 // this function will be used in phase 2
 // 
 // insert a process to the processor with the least CT
@@ -157,8 +163,6 @@ scheduler::scheduler()
 //	}
 //}
 // we will complete filling the rdy lists
-
-
 void scheduler::simulate_system()
 {
 	Ctrl_Processors = Processors.gethead();
@@ -195,6 +199,8 @@ void scheduler::simulate_system()
 			{
 				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
@@ -209,18 +215,21 @@ void scheduler::simulate_system()
 				if (1 <= NO_Generated && NO_Generated <= 15)
 				{
 					Pr_ptr2->getItem()->SetState(false);
+					Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
 					BLK_LIST.enqueue(Run_P);
 				}
 				else
 					if (20 <= NO_Generated && NO_Generated <= 30)
 					{
 						Pr_ptr2->getItem()->SetState(false);
+						Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
 						Pr_ptr2->getItem()->AddToList(Run_P);
 					}
 					else
 						if (50 <= NO_Generated && NO_Generated <= 60)
 						{
 							Pr_ptr2->getItem()->SetState(false);
+							Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
 							TRM_LIST.InsertEnd(Run_P);
 						}
 			}
@@ -241,8 +250,12 @@ void scheduler::simulate_system()
 		NO_Generated = 1 + (rand() % Processes_no);
 		for (int i = 0; i < FCFS_no; i++)
 		{
-			if (!(Pr_ptr3->getItem()->IsRdyEmpty()) && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2))
-				TRM_LIST.InsertEnd(p2);
+			if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
+			{
+				p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
+				if(p2)
+					TRM_LIST.InsertEnd(p2);
+			}
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
@@ -252,7 +265,7 @@ void scheduler::simulate_system()
 		//while (Pr_ptr4)
 		//{
 		//	if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
-		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == Time_Step)
+		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == 0)
 		//		{
 		//			Pr_ptr2->getItem()->SetState(false);
 		//			TRM_LIST.InsertEnd(Pr_ptr4->getItem()->GetRunProcess());
@@ -270,7 +283,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr5 = Processors.gethead();
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
-		Run_List.DeleteAll();// deleteing all processes in Run List
+		Run_List.DeleteAll();
 		update_TimeStep();
 	}
 }

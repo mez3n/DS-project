@@ -64,3 +64,5 @@ void Processor_SJF::removerunprocess()
 {
 	Runprocess = nullptr;
 }
+
+

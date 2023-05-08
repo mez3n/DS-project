@@ -15,6 +15,7 @@ protected:
 	int n;// time step that processor will be out of work 
 	scheduler* assistant;// we will use it to call function in scheduler
 public:
+
 	Processor(int N,int id,string name,scheduler* p)
 	{
 		state = false;
@@ -45,10 +46,18 @@ public:
 	virtual int GetRdyCount() = 0;  //returns count of ready processes
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
+	virtual int getProcessorId()
+	{
+		return ID;
+	}
 	friend ostream& operator << (ostream& out, Processor* P);
-    virtual void SetState(bool b)
+
+
+	virtual void SetState(bool b)
+
 	{
 		state = b;
 	}
-	
+	virtual Process* getprocessbyidfcfs(int id) = 0;
+
 };
