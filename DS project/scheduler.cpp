@@ -58,17 +58,17 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS",this, MaxW, Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8, i + 1 + FCFS_no, "SJF", Processes_no);
+		Processor_SJF* P = new Processor_SJF(8, i + 1 + FCFS_no, "SJF",this, Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR",this, RTF, T_RR);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list

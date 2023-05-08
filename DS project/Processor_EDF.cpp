@@ -1,5 +1,5 @@
 #include"Processor_EDF.h"
-Processor_EDF::Processor_EDF(int N,int id,string name,int MAX_SIZE):Processor(N,id,name)
+Processor_EDF::Processor_EDF(int N,int id,string name,scheduler* p,int MAX_SIZE):Processor(N,id,name,p)
 {
 	num = 0;
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
@@ -8,7 +8,7 @@ void Processor_EDF::AddToList(Process* p)
 {
 	count++;
 	FinishTime += p->get_CT();
-	RDYlist->enqueue(p,p->get_CT());
+	RDYlist->enqueue(p,p->getLeftCT());
 }
 bool Processor_EDF::RunProcess()
 {
@@ -34,7 +34,7 @@ void Processor_EDF::print()
 {
 	RDYlist->PrintList();
 }
-float Processor_EDF::GetPload()
+float Processor_EDF::GetPload(int TotalTRTProcesses)
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }

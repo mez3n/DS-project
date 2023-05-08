@@ -71,3 +71,13 @@ void Process::kill_children()
 {
 	El_3yal.~BinaryNodeTree(); // needs modifications
 }
+
+int Process::getLeftCT() 
+{
+	return LeftCT;
+}
+
+void Process::decrementCT() 
+{
+	LeftCT--;
+}

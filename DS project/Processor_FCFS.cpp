@@ -1,5 +1,5 @@
 #include"Processor_FCFS.h"
-Processor_FCFS::Processor_FCFS(int N, int id, string name, int maxw, float fork) :Processor(N, id, name)
+Processor_FCFS::Processor_FCFS(int N, int id, string name,scheduler* p, int maxw, float fork) :Processor(N, id, name,p)
 {
 	MaxW = maxw;
 	Fork = fork;
@@ -9,6 +9,7 @@ Processor_FCFS::Processor_FCFS(int N, int id, string name, int maxw, float fork)
 void Processor_FCFS::AddToList(Process* p)
 {
 	count++;
+	state = true;
 	FinishTime += p->get_CT();
 	RDYlist.InsertEnd(p);
 }
@@ -24,7 +25,6 @@ bool Processor_FCFS::RunProcess()
 		count--;
 		RDYlist.DeleteFirst(Runprocess);
 		state = true;
-		//Runprocess->SetRunState(true);
 	}
 	return false;
 }
@@ -36,7 +36,7 @@ void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
 }
-float Processor_FCFS::GetPload()
+float Processor_FCFS::GetPload(int TotalTRTProcesses)
 {
 	return(TotalBusyTime / TotalTRTProcesses);
 }
@@ -65,4 +65,45 @@ int Processor_FCFS::GetRdyCount()
 void Processor_FCFS::removerunprocess()
 {
 	Runprocess = nullptr;
+}
+void Processor_FCFS::ScheduleAlgo() 
+{
+	// first check runprocess
+	if (!Runprocess) 
+	{
+		if (!RDYlist.isEmpty())
+		{
+			RDYlist.DeleteFirst(Runprocess);
+			count--;
+		}
+		else 
+		{
+			state = false;
+			TotalIDLETime++;
+			return;
+		}
+	}
+	// second check Migration
+	/*bool b = p->Migration_FCFS(Runprocess);
+	if (b)
+	{
+	    Runprocess=nullptr;
+		ScheduleAlgo(p);
+		return;
+	}*/
+	// third  check fork
+	/*p->Fork(Runprocess); */
+	// fourth excute
+	Runprocess->decrementCT();
+	TotalBusyTime++;
+	if (Runprocess->getLeftCT() == 0) 
+	{
+		/*p->AddToTRM(Runprocess);*/
+		Runprocess == nullptr;
+	}
+	// fifth check for I_O request
+
+
+
+
 }
