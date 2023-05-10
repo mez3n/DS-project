@@ -167,6 +167,8 @@ scheduler::scheduler()
 // we will complete filling the rdy lists
 void scheduler::simulate_system()
 {
+	Console_out.set_mode(); //to determine the operational mode 
+
 	Ctrl_Processors = Processors.gethead();
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;

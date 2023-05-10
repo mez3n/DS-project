@@ -1,6 +1,7 @@
 #pragma once
 #include"Process.h"
 class scheduler;
+struct sigkill;
 class Processor
 {
 protected:

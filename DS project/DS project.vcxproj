@@ -137,9 +137,6 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryNode.h" />
-    <ClInclude Include="BinaryNodeTree.h" />
-    <ClInclude Include="BinaryTreeInterface.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Linkedqueue.h" />
     <ClInclude Include="ListADT.h" />
