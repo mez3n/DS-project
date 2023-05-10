@@ -54,7 +54,7 @@ scheduler::scheduler()
 
 	//====================================================================================// inputfile is up 
 	Time_Step = 0;
-	Ctrl_Processors = Processors.gethead();
+	//Ctrl_Processors = Processors.gethead();
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
@@ -108,7 +108,6 @@ scheduler::scheduler()
 							IO_R[j] = IO_R[j] * 10 + SIO[i] - '0';
 							i++;
 						}
-
 					}
 					else
 					{
@@ -131,33 +130,57 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 }
-// this function will be used in phase 2
-// 
-// insert a process to the processor with the least CT
-//void scheduler::NewToRdy(Process* p) 
-//{
-//	Node<Processor*>* ptr = Processors.gethead();
-//	int min_CT = ptr->getItem()->ExpectedFinishTime();
-//	ptr = ptr->getNext();
-//	while (ptr)
-//	{
-//		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-//			min_CT = ptr->getItem()->ExpectedFinishTime();
-//		ptr = ptr->getNext();
-//	}
-//	ptr = Processors.gethead();
-//	while (ptr)
-//	{
-//		if (ptr->getItem()->ExpectedFinishTime() == min_CT)
-//		{
-//			ptr->getItem()->AddToList(p);
-//		}
-//	}
-//}
+ /*insert a process to the processor with the least CT*/
+void scheduler::NewToRdy(Process* p) 
+{
+	Node<Processor*>* ptr = Processors.gethead();
+	int min_CT = ptr->getItem()->ExpectedFinishTime();
+	ptr = ptr->getNext();
+	while (ptr) // get min CT
+	{
+		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = ptr->getItem()->ExpectedFinishTime();
+		ptr = ptr->getNext();
+	}
+	ptr = Processors.gethead();
+	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		ptr = ptr->getNext();
+	ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+}
 // we will complete filling the rdy lists
+int scheduler::GenerateNo()
+{
+	return 1 + (rand() % 100);
+}
+void scheduler::load_sigkill(int*& kill_arr)
+{
+	//sigkill Times
+	string kill_id, kill_time;
+	int* kill_time_arr = new int [Processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
+	while (!InputFile->eof())
+	{
+		*InputFile >> kill_time >> kill_id;
+		kill_time_arr[stoi(kill_id)] = stoi(kill_time);
+	}
+	kill_arr = kill_time_arr;
+}
+//void scheduler::AddToRdy(Process* p)
+//{
+//	if (Ctrl_Processors)
+//	{
+//		Ctrl_Processors->getItem()->AddToList(p);
+//		Ctrl_Processors = Ctrl_Processors->getNext();
+//	}
+//	else
+//		Ctrl_Processors = Processors.gethead();
+//}
+void scheduler::update_TimeStep()
+{
+	Time_Step++;
+}
 void scheduler::simulate_system()
 {
-	Ctrl_Processors = Processors.gethead();
+	//Ctrl_Processors = Processors.gethead();
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -245,7 +268,7 @@ void scheduler::simulate_system()
 			if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
 			{
 				p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
-				if(p2)
+				if (p2)
 					TRM_LIST.InsertEnd(p2);
 			}
 			Pr_ptr3 = Pr_ptr3->getNext();
@@ -278,34 +301,4 @@ void scheduler::simulate_system()
 		Run_List.DeleteAll();
 		update_TimeStep();
 	}
-}
-int scheduler::GenerateNo()
-{
-	return 1 + (rand() % 100);
-}
-void scheduler::load_sigkill(int*& kill_arr)
-{
-	//sigkill Times
-	string kill_id, kill_time;
-	int* kill_time_arr = new int [Processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
-	while (!InputFile->eof())
-	{
-		*InputFile >> kill_time >> kill_id;
-		kill_time_arr[stoi(kill_id)] = stoi(kill_time);
-	}
-	kill_arr = kill_time_arr;
-}
-void scheduler::AddToRdy(Process* p)
-{
-	if (Ctrl_Processors)
-	{
-		Ctrl_Processors->getItem()->AddToList(p);
-		Ctrl_Processors = Ctrl_Processors->getNext();
-	}
-	else
-		Ctrl_Processors = Processors.gethead();
-}
-void scheduler::update_TimeStep()
-{
-	Time_Step++;
 }
