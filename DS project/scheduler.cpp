@@ -164,6 +164,7 @@ void scheduler::load_sigkill(int*& kill_arr)
 	}
 	kill_arr = kill_time_arr;
 }
+
 //void scheduler::AddToRdy(Process* p)
 //{
 //	if (Ctrl_Processors)
@@ -174,6 +175,15 @@ void scheduler::load_sigkill(int*& kill_arr)
 //	else
 //		Ctrl_Processors = Processors.gethead();
 //}
+
+
+void scheduler::RUN_to_TRM(Node<Processor*>* Pr_ptr)
+{
+	Pr_ptr->getItem()->SetState(false);
+	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
+	TRM_LIST.InsertEnd(Pr_ptr->getItem()->GetRunProcess());
+}
+
 void scheduler::update_TimeStep()
 {
 	Time_Step++;
@@ -191,6 +201,7 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
+	Node<Process*>* Pr_ptr6 = Processors.gethead();// a pointer to process list
 
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
@@ -202,7 +213,7 @@ void scheduler::simulate_system()
 			while (p->get_AT() == Time_Step && !NEW_LIST.isEmpty())
 			{
 				NEW_LIST.dequeue(p);
-				AddToRdy(p);// add process to rdy lists 1,2,...
+				NewToRdy(p);// add process to rdy lists 1,2,...
 				if (!NEW_LIST.isEmpty())
 					NEW_LIST.peek(p);
 			}
@@ -220,37 +231,46 @@ void scheduler::simulate_system()
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
 		Pr_ptr1 = Processors.gethead();
-		// 3- For each process in RUN state, Generate a random number from 1 to 100.
-		while (Pr_ptr2)
-		{
-			if (!Pr_ptr2->getItem()->IsIdle())// if there is a process in the run state
-			{
-				Run_P = Pr_ptr2->getItem()->GetRunProcess();// get thr run process
-				NO_Generated = GenerateNo();// generate a number for that process
-				if (1 <= NO_Generated && NO_Generated <= 15)
-				{
-					Pr_ptr2->getItem()->SetState(false);
-					Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-					BLK_LIST.enqueue(Run_P);
-				}
-				else
-					if (20 <= NO_Generated && NO_Generated <= 30)
-					{
-						Pr_ptr2->getItem()->SetState(false);
-						Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-						Pr_ptr2->getItem()->AddToList(Run_P);
-					}
-					else
-						if (50 <= NO_Generated && NO_Generated <= 60)
-						{
-							Pr_ptr2->getItem()->SetState(false);
-							Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-							TRM_LIST.InsertEnd(Run_P);
-						}
-			}
-			Pr_ptr2 = Pr_ptr2->getNext();
-		}
-		Pr_ptr2 = Processors.gethead();
+
+
+
+		// not needed in phase 1 but i eill keep it for now
+		//// 3- For each process in RUN state, Generate a random number from 1 to 100.
+		//while (Pr_ptr2)
+		//{
+		//	if (!Pr_ptr2->getItem()->IsIdle())// if there is a process in the run state
+		//	{
+		//		Run_P = Pr_ptr2->getItem()->GetRunProcess();// get thr run process
+		//		NO_Generated = GenerateNo();// generate a number for that process
+		//		if (1 <= NO_Generated && NO_Generated <= 15)
+		//		{
+		//			Pr_ptr2->getItem()->SetState(false);
+		//			Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
+		//			BLK_LIST.enqueue(Run_P);
+		//		}
+		//		else
+		//			if (20 <= NO_Generated && NO_Generated <= 30)
+		//			{
+		//				Pr_ptr2->getItem()->SetState(false);
+		//				Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
+		//				Pr_ptr2->getItem()->AddToList(Run_P);
+		//			}
+		//			else
+		//				if (50 <= NO_Generated && NO_Generated <= 60)
+		//				{
+		//					Pr_ptr2->getItem()->SetState(false);
+		//					Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
+		//					TRM_LIST.InsertEnd(Run_P);
+		//				}
+		//	}
+		//	Pr_ptr2 = Pr_ptr2->getNext();
+		//}
+		//Pr_ptr2 = Processors.gethead();
+		
+
+
+
+
 		// 4- For the process at the top of the BLK list, Generate a random number from 1 to 100. If this number is less than 10, move the process from BLK to RDY
 		if (!BLK_LIST.isEmpty())
 		{
@@ -274,20 +294,16 @@ void scheduler::simulate_system()
 			Pr_ptr3 = Pr_ptr3->getNext();
 		}
 		Pr_ptr3 = Processors.gethead();
-		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		// 5- this part may be used if not then comment it (depending on ct)(phase 2)
 		//------------------------------------------------------------------------------------------------------------------
-		//while (Pr_ptr4)
-		//{
-		//	if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
-		//		if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == 0)
-		//		{
-		//			Pr_ptr2->getItem()->SetState(false);
-		//			TRM_LIST.InsertEnd(Pr_ptr4->getItem()->GetRunProcess());
-		//		}
-		//	Pr_ptr4 = Pr_ptr4->getNext();
-		//}
-		//Pr_ptr4 = Processors.gethead();
+		while (Pr_ptr4)
+		{
+			if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
+				if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == 0)
+					RUN_to_TRM(Pr_ptr4);
+			Pr_ptr4 = Pr_ptr4->getNext();
+		}
+		Pr_ptr4 = Processors.gethead();
 		//------------------------------------------------------------------------------------------------------------------
 		// 6- filling run list with run processes for each processor
 		while (Pr_ptr5)
@@ -297,6 +313,14 @@ void scheduler::simulate_system()
 			Pr_ptr5 = Pr_ptr5->getNext();
 		}
 		Pr_ptr5 = Processors.gethead();
+		// 7- dec CT for ech process in Run by one. (As process in Run state Ct will dec)
+		while (Pr_ptr6)
+		{
+			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
+			Pr_ptr6 = Pr_ptr6->getNext();
+		}
+		Pr_ptr6 = Run_List.gethead();
+		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
 		update_TimeStep();

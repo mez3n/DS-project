@@ -45,6 +45,7 @@ public:
 	bool is_parent();
 	void kill_children();
 	void set_Processor_id(int n);
+	void set_CT(int c);
 	friend ostream& operator << (ostream& out, Process* P);
 };
 
