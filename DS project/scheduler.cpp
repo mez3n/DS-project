@@ -177,7 +177,7 @@ void scheduler::load_sigkill(int*& kill_arr)
 //}
 
 
-void scheduler::RUN_to_TRM(Node<Processor*>* Pr_ptr)
+void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 {
 	Pr_ptr->getItem()->SetState(false);
 	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
