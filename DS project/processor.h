@@ -45,7 +45,7 @@ public:
 	virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not 
 	//virtual bool IsStop()=0;// determine if the processor stop due to overheaten take probability 5%
 	virtual int GetRdyCount() = 0;  //returns count of ready processes
-	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
+	//virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
 	virtual int getProcessorId()
 	{

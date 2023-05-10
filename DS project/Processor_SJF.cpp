@@ -57,10 +57,10 @@ int Processor_SJF::GetRdyCount()
 {
 	return count;
 }
-bool  Processor_SJF::GetProcessById(int id, Process*& p)
-{
-	return true;
-}
+//bool  Processor_SJF::GetProcessById(int id, Process*& p)
+//{
+//	return true;
+//}
 void Processor_SJF::removerunprocess()
 {
 	Runprocess = nullptr;

@@ -57,11 +57,10 @@ int Processor_EDF::GetRdyCount()
 {
 	return count;
 }
-bool  Processor_EDF::GetProcessById(int id, Process*& p) 
-{
-	return true;
-}
-
+//bool  Processor_EDF::GetProcessById(int id, Process*& p) 
+//{
+//	return true;
+//}
 void Processor_EDF::removerunprocess()
 {
 	Runprocess = nullptr;
