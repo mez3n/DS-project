@@ -150,6 +150,17 @@ public:
 		delete ptr;
 		itemcount--;
 	}
+	void DeleteFirst()
+	{
+		if (Head == nullptr)
+			return;
+		LNode<T>* ptr = Head;
+		if (tail == Head)
+			tail = tail->getNext();
+		Head = Head->getNext();
+		delete ptr;
+		itemcount--;
+	}
 	bool isEmpty() { return (itemcount == 0); }
 	void MoveProcess(T value)
 	{
@@ -184,5 +195,9 @@ public:
 	LNode<T>* getbrain()
 	{
 		return Head;
+	}
+	bool Is_brain(LNode<T>* p)
+	{
+		return p == Head;
 	}
 };

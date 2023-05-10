@@ -60,6 +60,10 @@ int Processor_RR::GetRdyCount()
 	return count;
 }
 
+void Processor_RR::set_sigkill(LinkedQueue<sigkill>& kill_queue)
+{
+}
+
 void Processor_RR::removerunprocess()
 {
 	Runprocess = nullptr;

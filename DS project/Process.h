@@ -31,10 +31,11 @@ private:
 	int Processor_id; //id of the processor running the process else it is -1 
 	LinkedQueue<IO> IO_queue; // storage for all IO 
 	Process* left_child, * right_child;  //forking data members it represents a tree with a parent pointer 
-	bool forked;
+	bool forked; // to see if the process is the result of forking
 	void Add_child(Process*& child);
 	void REC_kill_children(Process*& left, Process*& right); // recursive function of kill orph
-	bool To_Trm;
+	bool To_Trm; // to kill the children if there parent died
+	int fork_count; // to ensure that no process forked more than 2 times in its life time
 public:
 	Process();
 	void AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
@@ -53,8 +54,8 @@ public:
 	void kill_children(); //KILL_ORPH name just for fun I don't actually kill children IRL :D 
 	void set_Processor_id(int n);
 	bool is_forked();
-	void fork_process(int& process_no, int time_step);
-
+	Process* fork_process(int& process_no, int time_step); // forks the process returns a pointer to the new forked child to add to the shortest rdy list and if it doesnot fork it returns null ptr
+	bool orphan();
 	friend ostream& operator << (ostream& out, Process* P);
 };
 

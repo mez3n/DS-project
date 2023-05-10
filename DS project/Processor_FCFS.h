@@ -1,7 +1,7 @@
 #pragma once
 #include "processor.h"
 #include"ListADT.h"
-//#include"scheduler.h"
+class scheduler;
 class Processor_FCFS : public Processor
 {
 private:
@@ -9,15 +9,14 @@ private:
 	int MaxW;// if process total waiting time exceed this number it should be moved to RR RDYlist
 	int numMaxW;// number of processes migrated 
 	float Fork;// it is the fork probability
-	int* ArrSigKill;
+	LinkedQueue<sigkill> kill_queue;  //queue of sig kill
 public:
 
 	Processor_FCFS(int N,int id,string name,scheduler* p, int maxw, float fork);
+	void kill_sig(int timestep); //fucntion kills processes by sig kill each loop
 	void ScheduleAlgo();// determine next process to be run
-	void set_sigkill(int * sigkill);
-
-
-	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
+	void set_sigkill(LinkedQueue<sigkill> &kill_queue);
+	bool RunProcess();   // edit cpu time for process and return true if process need I/O ->to do // PS. mazen please change its name 
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
 	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose-> to do
 	void print(); // print process PID. UI class must call it .

@@ -131,11 +131,13 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 
 
-		int* kill_arr = nullptr;
-		load_sigkill(kill_arr);
-		for (int i = 0; i < FCFS_no; i++)
+		LinkedQueue<sigkill> kill_queue;
+		load_sigkill(kill_queue);
+		Node<Processor*>* p_kill=Processors.gethead();
+		for (int i = 0; i < FCFS_no; i++)   // giving all fcfs processors kill queue for sigkill
 		{
-
+			p_kill->getItem()->set_sigkill(kill_queue);
+			p_kill = p_kill->getNext();
 		}
 	}
 }
@@ -291,17 +293,24 @@ int scheduler::GenerateNo()
 {
 	return 1 + (rand() % 100);
 }
-void scheduler::load_sigkill(int*& kill_arr)
+void scheduler::load_sigkill(LinkedQueue<sigkill>& kill_queue)
 {
 	//sigkill Times
+    // queue adt used
 	string kill_id, kill_time;
-	int* kill_time_arr = new int [Processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
 	while (!InputFile->eof())
 	{
 		*InputFile >> kill_time >> kill_id;
-		kill_time_arr[stoi(kill_id)] = stoi(kill_time);
+		sigkill s1;
+		s1.Pid = stoi(kill_id);
+		s1.time = stoi(kill_time);
+		kill_queue.enqueue(s1); 
 	}
-	kill_arr = kill_time_arr;
+	
+}
+void scheduler::move_to_trm(Process* p)
+{
+	TRM_LIST.InsertEnd(p);
 }
 void scheduler::AddToRdy(Process* p)
 {
