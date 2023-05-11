@@ -134,18 +134,23 @@ scheduler::scheduler()
 void scheduler::Add_To_Shortest_RDY(Process* p) 
 {
 	Node<Processor*>* ptr = Processors.gethead();
-	int min_CT = ptr->getItem()->ExpectedFinishTime();
-	ptr = ptr->getNext();
-	while (ptr) // get min CT
+	if(ptr->getItem()->IsRdyEmpty())
+		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+	else
 	{
-		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-			min_CT = ptr->getItem()->ExpectedFinishTime();
+		int min_CT = ptr->getItem()->ExpectedFinishTime();
 		ptr = ptr->getNext();
+		while (ptr) // get min CT
+		{
+			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+				min_CT = ptr->getItem()->ExpectedFinishTime();
+			ptr = ptr->getNext();
+		}
+		ptr = Processors.gethead();
+		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+			ptr = ptr->getNext();
+		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
 	}
-	ptr = Processors.gethead();
-	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-		ptr = ptr->getNext();
-	ptr->getItem()->AddToList(p);// add process to that processor whatever its type
 }
 //int scheduler::GenerateNo()
 //{
@@ -203,12 +208,15 @@ bool scheduler::Migration_RR()
 		for (int i = 0; i < FCFS_no + SJF_no; i++)
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
 		// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-		if (Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+		if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+		{
 			insertIN_MinSJF_CT(Pr_ptr_RR->getItem()->GetRunProcess());
-		// here we will make the RR_processor idle
-		Pr_ptr_RR->getItem()->SetState(false);
-		Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
-		return true;
+			// here we will make the RR_processor idle
+			Pr_ptr_RR->getItem()->SetState(false);
+			Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+			return true;
+		}
+		return false;
 	}
 	return false;
 }
@@ -245,7 +253,7 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
-	Node<Process*>* Pr_ptr6 = Processors.gethead();// a pointer to process list
+	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -256,7 +264,7 @@ void scheduler::simulate_system()
 			while (p->get_AT() == Time_Step && !NEW_LIST.isEmpty())
 			{
 				NEW_LIST.dequeue(p);
-				NewToRdy(p);// add process to rdy lists 1,2,...
+				Add_To_Shortest_RDY(p);// add process to rdy lists 1,2,...
 				if (!NEW_LIST.isEmpty())
 					NEW_LIST.peek(p);
 			}
@@ -352,18 +360,21 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr5 = Processors.gethead();
 		// 5- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
+		Pr_ptr6 = Run_List.gethead();
 		while (Pr_ptr6)
 		{
 			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
-		Pr_ptr6 = Run_List.gethead();
 		// 6- dec IO for the first process entered BLK_List requesing IO by 1
 		BLK_LIST.peek(BLK_P);
-		BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
-		// then check if that process has finished
-		if (BLK_P->get_IO_D() == 0)
-			BLK_to_RDY(BLK_P);
+		if (BLK_P)
+		{
+			BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
+			// then check if that process has finished
+			if (BLK_P->get_IO_D() == 0)
+				BLK_to_RDY(BLK_P);
+		}
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
