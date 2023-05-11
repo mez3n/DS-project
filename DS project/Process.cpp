@@ -13,6 +13,7 @@ void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO
 		po.IO_R = IO_r[i];
 		po.IO_D = IO_d[i];
 		IO_queue.enqueue(po);
+		IO_queue1.enqueue(po);
 	}
 
 	//rest of data members should be calculated later
@@ -23,13 +24,22 @@ void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO
 	//int WT=TRT-ct; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	
 }
-int Process::get_IO_D()
+void Process::remove_first_io()
 {
-	return IO_D;
+	IO p;
+	IO_queue.dequeue(p);
 }
-void Process::set_IO_D(int c)
+int Process::get_IO_D() // please implement it, function get IO_D for a process
 {
-	IO_D = c;
+	IO p;
+	IO_queue.peek(p);
+	return p.IO_D;
+}
+void Process::set_IO_D(int c) // please implement it, function set IO_D for a process
+{
+	IO p;
+	IO_queue.peek(p);
+	p.IO_D = c;
 }
 int Process::get_CT()
 {

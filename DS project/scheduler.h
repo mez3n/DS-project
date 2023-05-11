@@ -29,7 +29,7 @@ public:
 	scheduler();
 	//void AddToRdy(Process* p);
 	void RUN_to_TRM(Node<Processor*>*& Pr_ptr);
-	void BLK_to_RDY(Node<Processor*>*& Pr_ptr);
+	void BLK_to_RDY(Node<Process*>*& Pr_ptr)
 	void simulate_system();// make the program ready to run
 	void Add_To_Shortest_RDY(Process* p);// insert a process to the processor with the least CT (in phase 2)
 	void update_TimeStep();// inc timestep by 1
@@ -37,5 +37,8 @@ public:
 	void LoadProcesses(int pid, int no_IO, int at, int rt, int ct, int*& IO_r, int*& IO_d); // will be called in main, the function behind reading all inputs from txt file 
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
 	void load_sigkill(int*& kill_arr);
+	bool Migration_RR();
+	void insertIN_MinSJF_CT(Process* p);
+
 };
 #endif

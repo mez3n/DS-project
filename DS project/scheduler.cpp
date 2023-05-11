@@ -174,20 +174,59 @@ void scheduler::load_sigkill(int*& kill_arr)
 //	else
 //		Ctrl_Processors = Processors.gethead();
 //}
-
-
+void scheduler::insertIN_MinSJF_CT(Process* p)
+{
+	Node<Processor*>* Pr_ptr_SJF = Processors.gethead();// a pointer to SJF_processors 
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	int min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF) // get min CT
+	{
+		if (Pr_ptr_SJF->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	}
+	Pr_ptr_SJF = Processors.gethead();
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	Pr_ptr_SJF->getItem()->AddToList(p);// add process to that processor whatever its type
+}
+bool scheduler::Migration_RR()
+{
+	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// a pointer to RR_processors 
+	if (Pr_ptr_RR)
+	{
+		// get first RR processor
+		for (int i = 0; i < FCFS_no + SJF_no; i++)
+			Pr_ptr_RR = Pr_ptr_RR->getNext();
+		// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+		if (Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+			insertIN_MinSJF_CT(Pr_ptr_RR->getItem()->GetRunProcess());
+		// here we will make the RR_processor idle
+		Pr_ptr_RR->getItem()->SetState(false);
+		Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+		return true;
+	}
+	return false;
+}
+// transfer process from run list to trm list
 void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 {
 	Pr_ptr->getItem()->SetState(false);
 	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
 	TRM_LIST.InsertEnd(Pr_ptr->getItem()->GetRunProcess());
 }
-
-void scheduler::BLK_to_RDY(Node<Processor*>*& Pr_ptr)
+// transfer process from BLK list to the shortest rdy list
+void scheduler::BLK_to_RDY(Process*& Pr_ptr)
 {
-	BLK_LIST.dequeue(Pr_ptr);
-	Add_To_Shortest_RDY(Pr_ptr);
+	BLK_LIST.dequeue(Pr_ptr);// remove it from blk
+	Pr_ptr->remove_first_io();// remove the io from io queue of the process when it is finished and became zero
+	Add_To_Shortest_RDY(Pr_ptr);// add it to the shortest rdy
 }
+// inc the timestep by 1
 void scheduler::update_TimeStep()
 {
 	Time_Step++;
@@ -227,10 +266,13 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
-				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
-				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
-				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+				if (!Migration_RR())
+				{
+					Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
+					// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+				}
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}

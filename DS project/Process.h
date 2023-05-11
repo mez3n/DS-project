@@ -30,6 +30,7 @@ private:
 	int Deadline;// the expected deadline for process
 	int Processor_id; //id of the processor running the process else it is -1 
 	LinkedQueue<IO> IO_queue; // storage for all IO 
+	LinkedQueue<IO> IO_queue1; // storage for all IO use this queue in ouput file because the other queue values are changed
 	BinaryNodeTree<Process*> El_3yal; // tree for forking for all the children of the process
 public:
 	void AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
@@ -46,8 +47,9 @@ public:
 	void kill_children();
 	void set_Processor_id(int n);
 	void set_CT(int c);
-	int get_IO_D();
-	void set_IO_D(int c);
+	int get_IO_D();// check if its implemented correctly
+	void set_IO_D(int c);// check if its implemented correctly
+	void remove_first_io();// check if its implemented correctly
 	friend ostream& operator << (ostream& out, Process* P);
 };
 
