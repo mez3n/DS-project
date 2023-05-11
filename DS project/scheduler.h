@@ -29,7 +29,7 @@ public:
 	scheduler();
 	//void AddToRdy(Process* p);
 	void RUN_to_TRM(Node<Processor*>*& Pr_ptr);
-	void BLK_to_RDY(Node<Process*>*& Pr_ptr)
+	void BLK_to_RDY(Process*& Pr_ptr);
 	void simulate_system();// make the program ready to run
 	void Add_To_Shortest_RDY(Process* p);// insert a process to the processor with the least CT (in phase 2)
 	void update_TimeStep();// inc timestep by 1

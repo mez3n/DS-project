@@ -32,7 +32,15 @@ public:
 	//virtual void ScheduleAlgo() = 0;// determine next process to be run
 	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list
+	
+	
+	//Note:
 	virtual int ExpectedFinishTime() = 0;// get expected time for processor to finish to help scheduler determine which processor to choose
+	/*Note for Ali:
+	 as a process in run state it not be in ready list anymore, so processor ExpectedFinishTime would be all in the ready list except the one that runs, so check if its added to ExpectedFinishTime or not
+	*/
+	
+	
 	virtual void print() = 0; // print process PID. UI class must call it.
 	//virtual float calcPload() = 0;// calculate Pload for processor
 	virtual float GetPload() = 0;//Get pload for each processor
