@@ -131,7 +131,7 @@ scheduler::scheduler()
 	}
 }
  /*insert a process to the processor with the least CT*/
-void scheduler::NewToRdy(Process* p) 
+void scheduler::Add_To_Shortest_RDY(Process* p) 
 {
 	Node<Processor*>* ptr = Processors.gethead();
 	int min_CT = ptr->getItem()->ExpectedFinishTime();
@@ -147,11 +147,10 @@ void scheduler::NewToRdy(Process* p)
 		ptr = ptr->getNext();
 	ptr->getItem()->AddToList(p);// add process to that processor whatever its type
 }
-// we will complete filling the rdy lists
-int scheduler::GenerateNo()
-{
-	return 1 + (rand() % 100);
-}
+//int scheduler::GenerateNo()
+//{
+//	return 1 + (rand() % 100);
+//}
 void scheduler::load_sigkill(int*& kill_arr)
 {
 	//sigkill Times
@@ -175,15 +174,59 @@ void scheduler::load_sigkill(int*& kill_arr)
 //	else
 //		Ctrl_Processors = Processors.gethead();
 //}
-
-
+void scheduler::insertIN_MinSJF_CT(Process* p)
+{
+	Node<Processor*>* Pr_ptr_SJF = Processors.gethead();// a pointer to SJF_processors 
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	int min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF) // get min CT
+	{
+		if (Pr_ptr_SJF->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	}
+	Pr_ptr_SJF = Processors.gethead();
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	Pr_ptr_SJF->getItem()->AddToList(p);// add process to that processor whatever its type
+}
+bool scheduler::Migration_RR()
+{
+	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// a pointer to RR_processors 
+	if (Pr_ptr_RR)
+	{
+		// get first RR processor
+		for (int i = 0; i < FCFS_no + SJF_no; i++)
+			Pr_ptr_RR = Pr_ptr_RR->getNext();
+		// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+		if (Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+			insertIN_MinSJF_CT(Pr_ptr_RR->getItem()->GetRunProcess());
+		// here we will make the RR_processor idle
+		Pr_ptr_RR->getItem()->SetState(false);
+		Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+		return true;
+	}
+	return false;
+}
+// transfer process from run list to trm list
 void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 {
 	Pr_ptr->getItem()->SetState(false);
 	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
 	TRM_LIST.InsertEnd(Pr_ptr->getItem()->GetRunProcess());
 }
-
+// transfer process from BLK list to the shortest rdy list
+void scheduler::BLK_to_RDY(Process*& Pr_ptr)
+{
+	BLK_LIST.dequeue(Pr_ptr);// remove it from blk
+	Pr_ptr->remove_first_io();// remove the io from io queue of the process when it is finished and became zero
+	Add_To_Shortest_RDY(Pr_ptr);// add it to the shortest rdy
+}
+// inc the timestep by 1
 void scheduler::update_TimeStep()
 {
 	Time_Step++;
@@ -196,13 +239,13 @@ void scheduler::simulate_system()
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
 	Process* p2 = nullptr;// temporary pointer to a process from rdy list
 	Process* Run_P = nullptr;// pointer to get the run process in a processor
+	Process* BLK_P = nullptr;// pointer to get the the first process entered BLK requesting IO
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
 	Node<Process*>* Pr_ptr6 = Processors.gethead();// a pointer to process list
-
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -223,17 +266,17 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
-				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
-				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
-				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+				if (!Migration_RR())
+				{
+					Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
+					// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+				}
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
 		}
 		Pr_ptr1 = Processors.gethead();
-
-
-
 		// not needed in phase 1 but i eill keep it for now
 		//// 3- For each process in RUN state, Generate a random number from 1 to 100.
 		//while (Pr_ptr2)
@@ -266,13 +309,8 @@ void scheduler::simulate_system()
 		//	Pr_ptr2 = Pr_ptr2->getNext();
 		//}
 		//Pr_ptr2 = Processors.gethead();
-		
-
-
-
-
 		// 4- For the process at the top of the BLK list, Generate a random number from 1 to 100. If this number is less than 10, move the process from BLK to RDY
-		if (!BLK_LIST.isEmpty())
+		/*if (!BLK_LIST.isEmpty())
 		{
 			NO_Generated = GenerateNo();
 			if (NO_Generated < 10)
@@ -280,21 +318,21 @@ void scheduler::simulate_system()
 				BLK_LIST.dequeue(p1);
 				AddToRdy(p1);
 			}
-		}
+		}*/
 		// 5- For the processes in the FFS RDY list, randomly pick any process in the list and terminate it. This can be done by generating a random ID and checking if this ID is in any RDY list then kill it.
-		NO_Generated = 1 + (rand() % Processes_no);
-		for (int i = 0; i < FCFS_no; i++)
-		{
-			if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
-			{
-				p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
-				if (p2)
-					TRM_LIST.InsertEnd(p2);
-			}
-			Pr_ptr3 = Pr_ptr3->getNext();
-		}
-		Pr_ptr3 = Processors.gethead();
-		// 5- this part may be used if not then comment it (depending on ct)(phase 2)
+		//NO_Generated = 1 + (rand() % Processes_no);
+		//for (int i = 0; i < FCFS_no; i++)
+		//{
+		//	if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
+		//	{
+		//		p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
+		//		if (p2)
+		//			TRM_LIST.InsertEnd(p2);
+		//	}
+		//	Pr_ptr3 = Pr_ptr3->getNext();
+		//}
+		//Pr_ptr3 = Processors.gethead();
+		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
 		while (Pr_ptr4)
 		{
@@ -305,7 +343,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr4 = Processors.gethead();
 		//------------------------------------------------------------------------------------------------------------------
-		// 6- filling run list with run processes for each processor
+		// 4- filling run list with run processes for each processor
 		while (Pr_ptr5)
 		{
 			if (!(Pr_ptr5->getItem()->IsIdle()))// if its busy then there is a process in run state
@@ -313,13 +351,19 @@ void scheduler::simulate_system()
 			Pr_ptr5 = Pr_ptr5->getNext();
 		}
 		Pr_ptr5 = Processors.gethead();
-		// 7- dec CT for ech process in Run by one. (As process in Run state Ct will dec)
+		// 5- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
 		while (Pr_ptr6)
 		{
 			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
 		Pr_ptr6 = Run_List.gethead();
+		// 6- dec IO for the first process entered BLK_List requesing IO by 1
+		BLK_LIST.peek(BLK_P);
+		BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
+		// then check if that process has finished
+		if (BLK_P->get_IO_D() == 0)
+			BLK_to_RDY(BLK_P);
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
