@@ -66,5 +66,5 @@ public:
 		state = b;
 	}
 	virtual Process* getprocessbyidfcfs(int id) = 0;
-
+	virtual Process* get_chosen_process() = 0;// function returns the process chosen to run
 };

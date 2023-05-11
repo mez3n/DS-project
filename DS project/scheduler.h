@@ -37,8 +37,10 @@ public:
 	void LoadProcesses(int pid, int no_IO, int at, int rt, int ct, int*& IO_r, int*& IO_d); // will be called in main, the function behind reading all inputs from txt file 
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
 	void load_sigkill(int*& kill_arr);
-	bool Migration_RR();
+	void Migration_RR(Process* p);
 	void insertIN_MinSJF_CT(Process* p);
+	void Migration_FCFS(Process* p);
+	void insertIN_MinRR_CT(Process* p);
 
 };
 #endif
