@@ -23,6 +23,14 @@ void Process::AddProcess(int pid, int at,int ct,int io_count, int* IO_r, int* IO
 	//int WT=TRT-ct; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	
 }
+int Process::get_IO_D()
+{
+	return IO_D;
+}
+void Process::set_IO_D(int c)
+{
+	IO_D = c;
+}
 int Process::get_CT()
 {
 	return CT;

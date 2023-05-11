@@ -46,6 +46,8 @@ public:
 	void kill_children();
 	void set_Processor_id(int n);
 	void set_CT(int c);
+	int get_IO_D();
+	void set_IO_D(int c);
 	friend ostream& operator << (ostream& out, Process* P);
 };
 
