@@ -34,5 +34,9 @@ public:
 	~Processor_RR() {};
 	void removerunprocess();
 	int GetRdyCount() ;
+	
+	
+	//implement it
+	Process* get_chosen_process();// function returns the process chosen to run
 
 };

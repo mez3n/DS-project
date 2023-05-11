@@ -179,6 +179,26 @@ void scheduler::load_sigkill(int*& kill_arr)
 //	else
 //		Ctrl_Processors = Processors.gethead();
 //}
+void scheduler::insertIN_MinRR_CT(Process* p)
+{
+	Node<Processor*>* Pr_RR = Processors.gethead();// a pointer to RR_processors 
+	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
+		Pr_RR = Pr_RR->getNext();
+	int min_CT = Pr_RR->getItem()->ExpectedFinishTime();
+	Pr_RR = Pr_RR->getNext();
+	while (Pr_RR) // get min CT
+	{
+		if (Pr_RR->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = Pr_RR->getItem()->ExpectedFinishTime();
+		Pr_RR = Pr_RR->getNext();
+	}
+	Pr_RR = Processors.gethead(); 
+	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
+		Pr_RR = Pr_RR->getNext();
+	while (Pr_RR->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		Pr_RR = Pr_RR->getNext();
+	Pr_RR->getItem()->AddToList(p);// add process to that processor whatever its type
+}
 void scheduler::insertIN_MinSJF_CT(Process* p)
 {
 	Node<Processor*>* Pr_ptr_SJF = Processors.gethead();// a pointer to SJF_processors 
@@ -199,26 +219,14 @@ void scheduler::insertIN_MinSJF_CT(Process* p)
 		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
 	Pr_ptr_SJF->getItem()->AddToList(p);// add process to that processor whatever its type
 }
-bool scheduler::Migration_RR()
+// migrate a run process from RR to SJF
+void scheduler::Migration_RR(Process* p)
 {
-	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// a pointer to RR_processors 
-	if (Pr_ptr_RR)
-	{
-		// get first RR processor
-		for (int i = 0; i < FCFS_no + SJF_no; i++)
-			Pr_ptr_RR = Pr_ptr_RR->getNext();
-		// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-		if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
-		{
-			insertIN_MinSJF_CT(Pr_ptr_RR->getItem()->GetRunProcess());
-			// here we will make the RR_processor idle
-			Pr_ptr_RR->getItem()->SetState(false);
-			Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
-			return true;
-		}
-		return false;
-	}
-	return false;
+	insertIN_MinSJF_CT(p);
+}
+void scheduler::Migration_FCFS(Process* p)
+{
+	insertIN_MinRR_CT(p);
 }
 // transfer process from run list to trm list
 void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
@@ -253,6 +261,9 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
+	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// pointer to RR processors
+	Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
+
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
@@ -274,12 +285,23 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				if (!Migration_RR())
+				if (Pr_ptr1->getItem()->get_chosen_process()->get_CT() < RTF)// check RR migration
 				{
-					Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
+					Migration_RR(Pr_ptr1->getItem()->get_chosen_process());
+				}
+				else
+				{
+					if (Pr_ptr1->getItem()->get_chosen_process()->get_CT() > MaxW)// check FCFS migration
+					{
+						Migration_FCFS(Pr_ptr1->getItem()->get_chosen_process());
+					}
+					else
+					{
+						Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 					// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
-					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
-					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+					}
 				}
 			}
 			Pr_ptr1 = Pr_ptr1->getNext();
@@ -375,6 +397,35 @@ void scheduler::simulate_system()
 			if (BLK_P->get_IO_D() == 0)
 				BLK_to_RDY(BLK_P);
 		}
+		// 7- check if there is a process in RR processors want to migrate to SJF
+		// get first RR processor
+		for (int i = 0; i < FCFS_no + SJF_no; i++)
+			Pr_ptr_RR = Pr_ptr_RR->getNext();
+		while (Pr_ptr_RR)
+		{
+			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+			if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+			{
+				Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
+				Pr_ptr_RR->getItem()->SetState(false);
+				Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+			}
+			Pr_ptr_RR = Pr_ptr_RR->getNext();
+		}
+		Pr_ptr_RR = Processors.gethead();
+		// 8- check if there is a process in FCFS processors want to migrate to RR
+		for (int i = 0; i < FCFS_no; i++)
+		{
+			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+			if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW)
+			{
+				Migration_FCFS(Pr_ptr_FCFS->getItem()->GetRunProcess());
+				Pr_ptr_FCFS->getItem()->SetState(false);
+				Pr_ptr_FCFS->getItem()->GetRunProcess()->SetRunState(false);
+			}
+			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		}
+		Pr_ptr_FCFS = Processors.gethead();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();

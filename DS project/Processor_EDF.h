@@ -28,4 +28,9 @@ public:
 	~Processor_EDF();
 	int GetRdyCount();
 	void removerunprocess();
+	
+	
+	//implement it
+	Process* get_chosen_process();// function returns the process chosen to run
+
 };
