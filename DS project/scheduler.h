@@ -16,7 +16,7 @@ class scheduler
 	LinkedQueue<Process*> NEW_LIST; // queue is used as it can maintain the processes that have been created but not yet arrived.
 	LinkedQueue<Process*> BLK_LIST; // The blocked list can be implemented using a queue The processes that are waiting for I/O resources can be added to the end of the queue and when the resources become available they can be moved to the ready queue
 	LinkedList<Process*> TRM_LIST; // The terminated list can be implemented using linkedlist The processes that have completed their execution can be added to the end of the linkedlist
-	Node<Processor*>* Ctrl_Processors; // pointer to control Processors list
+	//Node<Processor*>* Ctrl_Processors; // pointer to control Processors list
 	ifstream* InputFile;
 	ofstream* OutputFile;
 	UI Console_out ;  //object of UI class needed to pass the console window information
@@ -28,6 +28,7 @@ class scheduler
 public:
 	scheduler();
 	void AddToRdy(Process* p);
+	void RUN_to_TRM(Node<Processor*>*& Pr_ptr);
 	void simulate_system();// make the program ready to run
 	//void NewToRdy(Process* p);// insert a process to the processor with the least CT (in phase 2)
 	void update_TimeStep();// inc timestep by 1

@@ -27,6 +27,10 @@ int Process::get_CT()
 {
 	return CT;
 }
+void Process::set_CT(int c)
+{
+	CT = c;
+}
 int Process::get_RT()
 {
 	return RT;

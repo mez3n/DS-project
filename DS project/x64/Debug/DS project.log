@@ -1,5 +1,4 @@
 ﻿  Mazen_main.cpp
-  Process.cpp
   Processor_EDF.cpp
 C:\Users\ma273\source\repos\DS-project\DS project\Processor_EDF.cpp(39,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   Processor_FCFS.cpp
@@ -8,13 +7,13 @@ C:\Users\ma273\source\repos\DS-project\DS project\Processor_FCFS.cpp(41,23): war
 C:\Users\ma273\source\repos\DS-project\DS project\Processor_RR.cpp(41,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   Processor_SJF.cpp
 C:\Users\ma273\source\repos\DS-project\DS project\Processor_SJF.cpp(38,23): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+  UI.cpp
   scheduler.cpp
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(61,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(99,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(78,19): warning C4101: 'IO_d': unreferenced local variable
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(78,8): warning C4101: 'IO_r': unreferenced local variable
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(77,23): warning C4101: 'rt': unreferenced local variable
-  UI.cpp
   Generating Code...
 C:\Users\ma273\source\repos\DS-project\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
   DS project.vcxproj -> C:\Users\ma273\Source\Repos\DS-project\x64\Debug\DS project.exe
