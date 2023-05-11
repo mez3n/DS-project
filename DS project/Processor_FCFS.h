@@ -37,6 +37,6 @@ public:
 	
 	
 	//implement it
-	Process* get_chosen_process();// function returns the process chosen to run
+	Process* get_chosen_process(){};// function returns the process chosen to run
 
 };
