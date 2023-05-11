@@ -1,6 +1,8 @@
 #pragma once
 #include "processor.h"
 #include"PeriorityQueue.h"
+struct sigkill;
+
 class Processor_EDF :public Processor
 {
 private:
@@ -23,6 +25,7 @@ public:
 	bool IsIdle();// return true if idle and return false if busy->to do
 	Process* GetRunProcess();// function to get the process that runs in a processor->to do
 	bool IsRdyEmpty();//returns if the ready list is empty or not ->
+	void set_sigkill(LinkedQueue<sigkill>& kill_queue) ;
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	bool checkdeadline(int currenttimestep);// the scheduler must pass current time step for scheduleAlgo which will call this function to determine if process finish before its deadline
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)

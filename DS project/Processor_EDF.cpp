@@ -49,6 +49,9 @@ Process* Processor_EDF::GetRunProcess()
 	return Runprocess;
 }
 bool Processor_EDF::IsRdyEmpty() { return (RDYlist->isEmpty()); }
+void Processor_EDF::set_sigkill(LinkedQueue<sigkill>& kill_queue)
+{
+}
 Processor_EDF::~Processor_EDF()
 {
 	delete RDYlist;

@@ -1,14 +1,92 @@
 #include"Processor_FCFS.h"
-Processor_FCFS::Processor_FCFS(int N, int id, string name,scheduler* p, int maxw, float fork) :Processor(N, id, name,p)
+#include"scheduler.h"
+Processor_FCFS::Processor_FCFS(int N, int id, string name, scheduler* p, int maxw, float fork) :Processor(N, id, name, p)
 {
 	MaxW = maxw;
 	Fork = fork;
 	numMaxW = 0;
-	ArrSigKill =nullptr;
 }
-void Processor_FCFS::set_sigkill(int* sigkill)
+void Processor_FCFS::kill_sig(int timestep)
 {
-	ArrSigKill = sigkill;
+
+	sigkill s1;
+	kill_queue.peek(s1);
+	while (s1.time == timestep)
+	{
+		kill_queue.dequeue(s1);
+		if (Runprocess)
+		{
+			if (s1.Pid == Runprocess->getPID())
+			{
+				assistant->move_to_trm(Runprocess);
+				Runprocess = nullptr;
+			}
+		}
+		LNode<Process*>* p1 = RDYlist.getbrain();
+		if (!p1) // rdylist empty
+		{
+			return;
+		}
+		LNode<Process*>* p2 = RDYlist.getbrain()->getNext();
+
+
+		
+		while (!RDYlist.Is_brain(p2)) // transversing the ready list to see if any process has a sig kill
+		{	
+			if (s1.Pid == p2->getItem()->getPID())
+			{
+				assistant->move_to_trm(p2->getItem());
+				p1->setNext(p2->getNext());
+				p2 = p2->getNext();
+			}
+			else
+			{
+				p1 = p1->getNext();
+				p2 = p2->getNext();
+			}
+
+		}
+		if (s1.Pid == p2->getItem()->getPID())
+		{
+			assistant->move_to_trm(p2->getItem());
+			p1->setNext(p2->getNext());
+			p2 = p2->getNext();
+		}
+		kill_queue.peek(s1);	
+	}
+	// to see if there is any children that needs to be killed
+	LNode<Process*>* p1 = RDYlist.getbrain();
+	if (!p1) // rdylist empty
+	{
+		return;
+	}
+	LNode<Process*>* p2 = RDYlist.getbrain()->getNext();
+	while (!RDYlist.Is_brain(p2)) // transversing the ready list to see if any process has been marked by oprh
+	{
+		if (p2->getItem()->orphan())
+		{
+			assistant->move_to_trm(p2->getItem());
+			p1->setNext(p2->getNext());
+			p2 = p2->getNext();
+		}
+		else
+		{
+			p1 = p1->getNext();
+			p2 = p2->getNext();
+		}
+
+	}
+	if (p2->getItem()->orphan())
+	{
+		assistant->move_to_trm(p2->getItem());
+		p1->setNext(p2->getNext());
+		p2 = p2->getNext();
+	}
+
+}
+void Processor_FCFS::set_sigkill(LinkedQueue<sigkill>& kill_queue_out)
+{
+	kill_queue = kill_queue_out;
 }
 void Processor_FCFS::AddToList(Process* p)
 {
@@ -81,17 +159,17 @@ void Processor_FCFS::removerunprocess()
 	Runprocess = nullptr;
 }
 
-void Processor_FCFS::ScheduleAlgo() 
+void Processor_FCFS::ScheduleAlgo()
 {
 	// first check runprocess
-	if (!Runprocess) 
+	if (!Runprocess)
 	{
 		if (!RDYlist.isEmpty())
 		{
 			RDYlist.DeleteFirst(Runprocess);
 			count--;
 		}
-		else 
+		else
 		{
 			state = false;
 			TotalIDLETime++;
@@ -102,7 +180,7 @@ void Processor_FCFS::ScheduleAlgo()
 	/*bool b = p->Migration_FCFS(Runprocess);
 	if (b)
 	{
-	    Runprocess=nullptr;
+		Runprocess=nullptr;
 		ScheduleAlgo(p);
 		return;
 	}*/
@@ -111,12 +189,13 @@ void Processor_FCFS::ScheduleAlgo()
 	// fourth excute
 	Runprocess->decrementCT();
 	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0) 
+	if (Runprocess->getLeftCT() == 0)
 	{
 		/*p->AddToTRM(Runprocess);*/
 		Runprocess == nullptr;
 	}
 	// fifth check for I_O request
+}
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
 {
 	LNode<Process*>* ptr = RDYlist.getbrain();

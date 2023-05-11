@@ -1,13 +1,14 @@
 #pragma once
 #include"Process.h"
 class scheduler;
+struct sigkill;
 class Processor
 {
 protected:
 	bool state;// describe the state of processor if BUSY true if IDLE false
 	int ID;// each processor has ID
 	string Name;// each processor has name 
-	int count;// the number of processors in RDY list
+	int count;// the number of processes in RDY list
 	float TotalBusyTime; // for calculate total busy time along the program
 	int FinishTime;// in every time process is added or removed it must be edited
 	float TotalIDLETime;// for calculate total idle time along the program
@@ -46,6 +47,7 @@ public:
 	virtual int GetRdyCount() = 0;  //returns count of ready processes
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
+	virtual void set_sigkill(LinkedQueue<sigkill>& kill_queue)=0;
 	virtual int getProcessorId()
 	{
 		return ID;

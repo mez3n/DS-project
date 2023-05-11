@@ -1,0 +1,35 @@
+﻿  main.cpp
+  Process.cpp
+  Processor_EDF.cpp
+  Processor_FCFS.cpp
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\Processor_FCFS.cpp(195,14): warning C4553: '==': result of expression not used; did you intend '='?
+  Processor_RR.cpp
+  Processor_SJF.cpp
+  scheduler.cpp
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(61,71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(99,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(78,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(78,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(77,23): warning C4101: 'rt': unreferenced local variable
+  UI.cpp
+  Generating Code...
+Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_EDF::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_EDF@@UEAAXXZ)
+Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl Processor_EDF::calcPutil(void)" (?calcPutil@Processor_EDF@@UEAAMXZ)
+Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::removefromlist(class Process * &)" (?removefromlist@Processor_EDF@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_EDF@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::IsStop(void)" (?IsStop@Processor_EDF@@UEAA_NXZ)
+Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl Processor_FCFS::calcPutil(void)" (?calcPutil@Processor_FCFS@@UEAAMXZ)
+Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::removefromlist(class Process * &)" (?removefromlist@Processor_FCFS@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_FCFS@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::IsStop(void)" (?IsStop@Processor_FCFS@@UEAA_NXZ)
+Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_RR::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_RR@@UEAAXXZ)
+Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl Processor_RR::calcPutil(void)" (?calcPutil@Processor_RR@@UEAAMXZ)
+Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::removefromlist(class Process * &)" (?removefromlist@Processor_RR@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_RR@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::IsStop(void)" (?IsStop@Processor_RR@@UEAA_NXZ)
+Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual void __cdecl Processor_SJF::ScheduleAlgo(void)" (?ScheduleAlgo@Processor_SJF@@UEAAXXZ)
+Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual float __cdecl Processor_SJF::calcPutil(void)" (?calcPutil@Processor_SJF@@UEAAMXZ)
+Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::removefromlist(class Process * &)" (?removefromlist@Processor_SJF@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_SJF@@UEAA_NAEAPEAVProcess@@@Z)
+Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::IsStop(void)" (?IsStop@Processor_SJF@@UEAA_NXZ)
+C:\Users\moham\source\repos\DS-project_phase2_1.0\x64\Debug\DS project.exe : fatal error LNK1120: 19 unresolved externals

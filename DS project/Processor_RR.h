@@ -2,6 +2,7 @@
 #include "Processor.h"
 #include"Linkedqueue.h"
 #include"scheduler.h"
+struct sigkill;
 class Processor_RR :public Processor
 {
 private:
@@ -31,6 +32,7 @@ Process* getprocessbyidfcfs(int id) { return NULL; }
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	bool GetProcessById(int id, Process*& p);// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)->to do
 	~Processor_RR() {};
+	void set_sigkill(LinkedQueue<sigkill>& kill_queue);
 	void removerunprocess();
 	int GetRdyCount() ;
 

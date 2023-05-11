@@ -52,6 +52,9 @@ Processor_SJF::~Processor_SJF()
 {
 	delete RDYlist;
 }
+void Processor_SJF::set_sigkill(LinkedQueue<sigkill>& kill_queue)
+{
+}
 int Processor_SJF::GetRdyCount()
 {
 	return count;

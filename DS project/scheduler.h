@@ -34,6 +34,14 @@ public:
 	int GenerateNo();// generates a number between 1:100 for a process in run list
 	void LoadProcesses(int pid, int no_IO, int at, int rt, int ct, int*& IO_r, int*& IO_d); // will be called in main, the function behind reading all inputs from txt file 
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
-	void load_sigkill(int*& kill_arr);
+	void load_sigkill(LinkedQueue<sigkill>& kill_queue);
+	void move_to_trm(Process* p);
+	
+};
+
+struct sigkill
+{
+	int Pid;
+	int time;
 };
 #endif

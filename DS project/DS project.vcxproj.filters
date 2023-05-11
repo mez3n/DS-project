@@ -74,15 +74,6 @@
     <ClInclude Include="LinkedList.h">
       <Filter>Used DS</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryTreeInterface.h">
-      <Filter>Used DS</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryNode.h">
-      <Filter>Used DS</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryNodeTree.h">
-      <Filter>Used DS</Filter>
-    </ClInclude>
     <ClInclude Include="PeriorityQueue.h">
       <Filter>Used DS</Filter>
     </ClInclude>
