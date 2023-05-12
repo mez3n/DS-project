@@ -47,3 +47,9 @@ public:
 
 };
 #endif
+
+struct sigkill
+{
+	int Pid;
+	int time;
+};
