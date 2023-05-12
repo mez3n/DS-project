@@ -263,7 +263,6 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// pointer to RR processors
 	Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
-
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
