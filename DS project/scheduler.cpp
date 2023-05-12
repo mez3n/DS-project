@@ -285,19 +285,23 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				if (Pr_ptr1->getItem()->get_chosen_process()->get_CT() < RTF)// check RR migration
+				Pr_ptr1->getItem()->RunProcess();
+				if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)// check RR migration
 				{
-					Migration_RR(Pr_ptr1->getItem()->get_chosen_process());
+					Pr_ptr1->getItem()->SetState(false);
+					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+					Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
 				}
 				else
 				{
-					if (Pr_ptr1->getItem()->get_chosen_process()->get_CT() > MaxW)// check FCFS migration
+					if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)// check FCFS migration
 					{
-						Migration_FCFS(Pr_ptr1->getItem()->get_chosen_process());
+						Pr_ptr1->getItem()->SetState(false);
+						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+						Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
 					}
 					else
 					{
-						Pr_ptr1->getItem()->RunProcess();// dont forget to make the process run state to be true
 					// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
 						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
@@ -397,7 +401,7 @@ void scheduler::simulate_system()
 			if (BLK_P->get_IO_D() == 0)
 				BLK_to_RDY(BLK_P);
 		}
-		// 7- check if there is a process in RR processors want to migrate to SJF
+		// 7- check if there is a Run process in RR processors want to migrate to SJF
 		// get first RR processor
 		for (int i = 0; i < FCFS_no + SJF_no; i++)
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
@@ -413,7 +417,7 @@ void scheduler::simulate_system()
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
 		}
 		Pr_ptr_RR = Processors.gethead();
-		// 8- check if there is a process in FCFS processors want to migrate to RR
+		// 8- check if there is a Run process in FCFS processors want to migrate to RR
 		for (int i = 0; i < FCFS_no; i++)
 		{
 			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
