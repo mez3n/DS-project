@@ -28,7 +28,4 @@ public:
 	~Processor_SJF();
 	int GetRdyCount() ;
 
-	//implement it
-	Process* get_chosen_process(){};// function returns the process chosen to run
-
 };

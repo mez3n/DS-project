@@ -22,7 +22,7 @@ bool Processor_FCFS::RunProcess()
 	else
 	{
 		count--;
-		RDYlist.DeleteFirst(Runprocess);
+		RDYlist.DeleteFirst(Runprocess);// here this function would change as there an algo choose which process to run
 		state = true;
 		//Runprocess->SetRunState(true);
 	}

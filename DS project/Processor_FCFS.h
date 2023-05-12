@@ -34,9 +34,5 @@ public:
 	void removerunprocess();
 	int GetRdyCount();
 	Process* getprocessbyidfcfs(int id);
-	
-	
-	//implement it
-	Process* get_chosen_process(){};// function returns the process chosen to run
 
 };

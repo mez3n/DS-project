@@ -17,8 +17,7 @@ C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(77,23): warning 
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(253,6): warning C4101: 'NO_Generated': unreferenced local variable
   Generating Code...
 C:\Users\ma273\source\repos\DS-project\DS project\BinaryNodeTree.h(331): warning C4715: 'BinaryNodeTree<Process *>::getParent': not all control paths return a value
-Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_EDF::get_chosen_process(void)" (?get_chosen_process@Processor_EDF@@UEAAPEAVProcess@@XZ)
-Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_FCFS::get_chosen_process(void)" (?get_chosen_process@Processor_FCFS@@UEAAPEAVProcess@@XZ)
-Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_RR::get_chosen_process(void)" (?get_chosen_process@Processor_RR@@UEAAPEAVProcess@@XZ)
-Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual class Process * __cdecl Processor_SJF::get_chosen_process(void)" (?get_chosen_process@Processor_SJF@@UEAAPEAVProcess@@XZ)
-C:\Users\ma273\source\repos\DS-project\x64\Debug\DS project.exe : fatal error LNK1120: 4 unresolved externals
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_SJF.h(32): error C4716: 'Processor_SJF::get_chosen_process': must return a value
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_RR.h(40): error C4716: 'Processor_RR::get_chosen_process': must return a value
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_FCFS.h(40): error C4716: 'Processor_FCFS::get_chosen_process': must return a value
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_EDF.h(34): error C4716: 'Processor_EDF::get_chosen_process': must return a value
