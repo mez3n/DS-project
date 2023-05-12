@@ -24,7 +24,7 @@ class scheduler
 	int RTF, MaxW, STL, Fork_prob;
 	int T_RR; //time slice for RR processor
 	LinkedList<Process*> Run_List;
-	
+	LinkedQueue<Process*> Orphan_List;// if only one fcfs processor exist and it has been overheaten the orphan would stay here untill it work again
 public:
 	scheduler();
 	void AddToRdy(Process* p);
@@ -36,7 +36,13 @@ public:
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
 	void load_sigkill(LinkedQueue<sigkill>& kill_queue);
 	void move_to_trm(Process* p);
-	
+	void BLK_to_RDY(Process*& Pr_ptr);
+	void Add_To_Shortest_RDY(Process* p);// insert a process to the processor with the least CT (in phase 2)
+	void Migration_RR(Process* p);
+	void insertIN_MinSJF_CT(Process* p);
+	void Migration_FCFS(Process* p);
+	void insertIN_MinRR_CT(Process* p);
+	void RUNtoBLK(Process*);
 };
 
 struct sigkill

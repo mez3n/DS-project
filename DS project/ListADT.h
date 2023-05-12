@@ -42,7 +42,7 @@ public:
 template <typename T>
 class ListADT
 {
-private:
+protected:
 	LNode<T>* Head;	//Pointer to the head of the list
 	LNode<T>* tail;// pointer to the tail of the list
 	int itemcount;// number of nodes
@@ -199,5 +199,12 @@ public:
 	bool Is_brain(LNode<T>* p)
 	{
 		return p == Head;
+	}
+	bool peekfirst(T& item) 
+	{
+		if (!Head)
+			return false;
+		item = Head->getItem();
+		return true;
 	}
 };

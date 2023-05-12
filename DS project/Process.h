@@ -36,6 +36,7 @@ private:
 	void REC_kill_children(Process*& left, Process*& right); // recursive function of kill orph
 	bool To_Trm; // to kill the children if there parent died
 	int fork_count; // to ensure that no process forked more than 2 times in its life time
+	LinkedQueue<IO> IO_queue1; // storage for all IO use this queue in ouput file because the other queue values are changed
 public:
 	Process();
 	void AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
@@ -57,6 +58,12 @@ public:
 	Process* fork_process(int& process_no, int time_step); // forks the process returns a pointer to the new forked child to add to the shortest rdy list and if it doesnot fork it returns null ptr
 	bool orphan();
 	friend ostream& operator << (ostream& out, Process* P);
+	void set_CT(int c);
+	int get_IO_D();// check if its implemented correctly
+	void set_IO_D(int c);// check if its implemented correctly
+	void remove_first_io();// check if its implemented correctly
+	int getdeadline();
+	int get_IO_R();
 };
 
 

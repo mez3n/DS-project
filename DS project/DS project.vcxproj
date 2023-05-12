@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="processor.cpp" />
     <ClCompile Include="Processor_EDF.cpp" />
     <ClCompile Include="Processor_FCFS.cpp" />
     <ClCompile Include="Processor_RR.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="ListADT.h" />
     <ClInclude Include="PeriorityQueue.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessList.h" />
     <ClInclude Include="processor.h" />
     <ClInclude Include="Processor_EDF.h" />
     <ClInclude Include="Processor_FCFS.h" />

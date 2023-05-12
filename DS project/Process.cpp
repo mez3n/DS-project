@@ -21,6 +21,7 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 		po.IO_R = IO_r[i];
 		po.IO_D = IO_d[i];
 		IO_queue.enqueue(po);
+		IO_queue1.enqueue(po);
 	}
 
 	//rest of data members should be calculated later
@@ -175,4 +176,37 @@ int Process::getLeftCT()
 void Process::decrementCT() 
 {
 	LeftCT--;
+}
+ 
+void Process::remove_first_io()
+{
+	IO p;
+	IO_queue.dequeue(p);
+}
+int Process::get_IO_D() // please implement it, function get IO_D for a process
+{
+	IO p;
+	IO_queue.peek(p);
+	return p.IO_D;
+}
+void Process::set_IO_D(int c) // please implement it, function set IO_D for a process
+{
+	IO p;
+	IO_queue.peek(p);
+	p.IO_D = c;
+}
+void Process::set_CT(int c)
+{
+	CT = c;
+}
+
+int Process::getdeadline()
+{
+	return Deadline;
+}
+int Process::get_IO_R() // please implement it, function get IO_D for a process
+{
+	IO p;
+	IO_queue.peek(p);
+	return p.IO_R;
 }

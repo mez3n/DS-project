@@ -92,7 +92,7 @@ void Processor_FCFS::AddToList(Process* p)
 {
 	count++;
 	state = true;
-	FinishTime += p->get_CT();
+	FinishTime += p->getLeftCT();
 	RDYlist.InsertEnd(p);
 }
 bool Processor_FCFS::RunProcess()
@@ -117,16 +117,6 @@ int Processor_FCFS::ExpectedFinishTime()
 void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
-}
-float Processor_FCFS::GetPload(int TotalTRTProcesses)
-{
-	return(TotalBusyTime / TotalTRTProcesses);
-}
-bool Processor_FCFS::IsIdle()
-{
-	if (Runprocess == nullptr)
-		state = false;
-	return!state;
 }
 Process* Processor_FCFS::GetRunProcess()
 {
@@ -167,6 +157,7 @@ void Processor_FCFS::ScheduleAlgo()
 		if (!RDYlist.isEmpty())
 		{
 			RDYlist.DeleteFirst(Runprocess);
+			FinishTime -= Runprocess->getLeftCT();
 			count--;
 		}
 		else
@@ -177,24 +168,31 @@ void Processor_FCFS::ScheduleAlgo()
 		}
 	}
 	// second check Migration
-	/*bool b = p->Migration_FCFS(Runprocess);
-	if (b)
-	{
-		Runprocess=nullptr;
-		ScheduleAlgo(p);
-		return;
-	}*/
+	///*bool b = assistant->Migration_FCFS(Runprocess);
+	//if (b)
+	//{
+	//	Runprocess=nullptr;
+	//	ScheduleAlgo(assistant);
+	//	return;
+	//}*/
 	// third  check fork
-	/*p->Fork(Runprocess); */
+	/*assistant->(Runprocess); */
 	// fourth excute
 	Runprocess->decrementCT();
 	TotalBusyTime++;
 	if (Runprocess->getLeftCT() == 0)
 	{
-		/*p->AddToTRM(Runprocess);*/
+		assistant->move_to_trm(Runprocess);
 		Runprocess == nullptr;
 	}
 	// fifth check for I_O request
+	int ct = Runprocess->get_CT();
+	int lct = Runprocess->getLeftCT();
+	int ior = Runprocess->get_IO_R();
+	if (ct - lct == ior)
+	{
+		assistant->RUNtoBLK(Runprocess);
+	}
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
 {
@@ -213,4 +211,22 @@ Process* Processor_FCFS::getprocessbyidfcfs(int id)
 	}
 	return p;
 
+}
+
+Process* Processor_FCFS::get_chosen_process()
+{
+	if (!Runprocess)
+	{
+		if (!RDYlist.isEmpty())
+		{
+			Process* choosen;
+			RDYlist.peekfirst(choosen);
+			return choosen;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+	return Runprocess;
 }

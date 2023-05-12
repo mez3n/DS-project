@@ -141,29 +141,28 @@ scheduler::scheduler()
 		}
 	}
 }
-// this function will be used in phase 2
-// 
-// insert a process to the processor with the least CT
-//void scheduler::NewToRdy(Process* p) 
-//{
-//	Node<Processor*>* ptr = Processors.gethead();
-//	int min_CT = ptr->getItem()->ExpectedFinishTime();
-//	ptr = ptr->getNext();
-//	while (ptr)
-//	{
-//		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-//			min_CT = ptr->getItem()->ExpectedFinishTime();
-//		ptr = ptr->getNext();
-//	}
-//	ptr = Processors.gethead();
-//	while (ptr)
-//	{
-//		if (ptr->getItem()->ExpectedFinishTime() == min_CT)
-//		{
-//			ptr->getItem()->AddToList(p);
-//		}
-//	}
-//}
+/*insert a process to the processor with the least CT*/
+void scheduler::Add_To_Shortest_RDY(Process* p)
+{
+	Node<Processor*>* ptr = Processors.gethead();
+	if (ptr->getItem()->IsRdyEmpty())
+		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+	else
+	{
+		int min_CT = ptr->getItem()->ExpectedFinishTime();
+		ptr = ptr->getNext();
+		while (ptr) // get min CT
+		{
+			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+				min_CT = ptr->getItem()->ExpectedFinishTime();
+			ptr = ptr->getNext();
+		}
+		ptr = Processors.gethead();
+		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+			ptr = ptr->getNext();
+		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+	}
+}
 // we will complete filling the rdy lists
 void scheduler::simulate_system()
 {
@@ -175,12 +174,15 @@ void scheduler::simulate_system()
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
 	Process* p2 = nullptr;// temporary pointer to a process from rdy list
 	Process* Run_P = nullptr;// pointer to get the run process in a processor
+	Process* BLK_P = nullptr;// pointer to get the the first process entered BLK requesting IO
 	Node<Processor*>* Pr_ptr1 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr2 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr3 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
-
+	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// pointer to RR processors
+	Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
+	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
 	{
@@ -191,7 +193,7 @@ void scheduler::simulate_system()
 			while (p->get_AT() == Time_Step && !NEW_LIST.isEmpty())
 			{
 				NEW_LIST.dequeue(p);
-				AddToRdy(p);// add process to rdy lists 1,2,...
+				Add_To_Shortest_RDY(p);// add process to rdy lists 1,2,...
 				if (!NEW_LIST.isEmpty())
 					NEW_LIST.peek(p);
 			}
@@ -327,4 +329,66 @@ void scheduler::AddToRdy(Process* p)
 void scheduler::update_TimeStep()
 {
 	Time_Step++;
+}
+
+// transfer process from BLK list to the shortest rdy list
+void scheduler::BLK_to_RDY(Process*& Pr_ptr)
+{
+	BLK_LIST.dequeue(Pr_ptr);// remove it from blk
+	Pr_ptr->remove_first_io();// remove the io from io queue of the process when it is finished and became zero
+	Add_To_Shortest_RDY(Pr_ptr);// add it to the shortest rdy
+}
+void scheduler::insertIN_MinRR_CT(Process* p)
+{
+	Node<Processor*>* Pr_RR = Processors.gethead();// a pointer to RR_processors 
+	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
+		Pr_RR = Pr_RR->getNext();
+	int min_CT = Pr_RR->getItem()->ExpectedFinishTime();
+	Pr_RR = Pr_RR->getNext();
+	while (Pr_RR) // get min CT
+	{
+		if (Pr_RR->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = Pr_RR->getItem()->ExpectedFinishTime();
+		Pr_RR = Pr_RR->getNext();
+	}
+	Pr_RR = Processors.gethead();
+	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
+		Pr_RR = Pr_RR->getNext();
+	while (Pr_RR->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		Pr_RR = Pr_RR->getNext();
+	Pr_RR->getItem()->AddToList(p);// add process to that processor whatever its type
+}
+void scheduler::insertIN_MinSJF_CT(Process* p)
+{
+	Node<Processor*>* Pr_ptr_SJF = Processors.gethead();// a pointer to SJF_processors 
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	int min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF) // get min CT
+	{
+		if (Pr_ptr_SJF->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	}
+	Pr_ptr_SJF = Processors.gethead();
+	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	while (Pr_ptr_SJF->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	Pr_ptr_SJF->getItem()->AddToList(p);// add process to that processor whatever its type
+}
+// migrate a run process from RR to SJF
+void scheduler::Migration_RR(Process* p)
+{
+	insertIN_MinSJF_CT(p);
+}
+void scheduler::Migration_FCFS(Process* p)
+{
+	insertIN_MinRR_CT(p);
+}
+
+void scheduler::RUNtoBLK(Process* p)
+{
+	BLK_LIST.enqueue(p);
 }

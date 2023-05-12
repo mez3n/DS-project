@@ -45,6 +45,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>Cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="processor.cpp">
+      <Filter>Cpp Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Process.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessList.h">
+      <Filter>Used DS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
