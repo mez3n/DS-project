@@ -1,4 +1,5 @@
 #include"Processor_RR.h"
+#include"scheduler.h"
 Processor_RR::Processor_RR(int N, int id, string name, scheduler* p, int rtf, int rrslice) :Processor(N, id, name, p), RRslice(rrslice)
 {
 	RTF = rtf;
@@ -91,7 +92,7 @@ void Processor_RR::ScheduleAlgo()
 	if (Runprocess->getLeftCT() == 0)
 	{
 		assistant->move_to_trm(Runprocess);
-		Runprocess == nullptr;
+		Runprocess = nullptr;
 	}
 	else
 	{

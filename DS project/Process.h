@@ -2,12 +2,6 @@
 #ifndef PROCESS_
 #define PROCESS_
 #include"Linkedqueue.h"
-
-
-
-
-
-
 struct IO
 {
 	int IO_R; // Request time

@@ -1,4 +1,6 @@
 #include"scheduler.h"
+#include"Processor_SJF.h"
+class processor;
 class UI;
 #ifndef NODE_
 #define NODE_

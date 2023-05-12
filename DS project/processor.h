@@ -1,6 +1,5 @@
 #pragma once
 #include"Process.h"
-#include"scheduler.h"
 class scheduler;
 struct sigkill;
 class Processor

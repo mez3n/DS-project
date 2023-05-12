@@ -1,7 +1,6 @@
 #pragma once
 #include "Processor.h"
 #include"Linkedqueue.h"
-#include"scheduler.h"
 struct sigkill;
 class Processor_RR :public Processor
 {
@@ -31,5 +30,5 @@ public:
 	void removerunprocess();
 	int GetRdyCount();
 	//implement it
-	Process* get_chosen_process() {};// function returns the process chosen to run
+	Process* get_chosen_process() ;// function returns the process chosen to run
 };

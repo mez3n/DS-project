@@ -26,5 +26,5 @@ public:
 	void set_sigkill(LinkedQueue<sigkill>& kill_queue);
 	int GetRdyCount();
 	//implement it
-	Process* get_chosen_process() {};// function returns the process chosen to run
+	Process* get_chosen_process() ;// function returns the process chosen to run
 };

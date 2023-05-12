@@ -1,4 +1,5 @@
 #include"Processor_EDF.h"
+#include"scheduler.h"
 Processor_EDF::Processor_EDF(int N, int id, string name, scheduler* p, int MAX_SIZE) :Processor(N, id, name, p)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
@@ -94,7 +95,7 @@ void Processor_EDF::ScheduleAlgo()
 	{
 		RDYlist->dequeue(Runprocess);
 		assistant->move_to_trm(Runprocess);
-		Runprocess == nullptr;
+		Runprocess = nullptr;
 	}
 	// third check for I_O request
 	int ct = Runprocess->get_CT();

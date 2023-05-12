@@ -1,7 +1,6 @@
 #pragma once
 #include"Processor_FCFS.h"
 #include"Processor_RR.h"
-#include"Processor_SJF.h"
 #include"Process.h"
 #include"LinkedList.h"
 #include<fstream>

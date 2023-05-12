@@ -2,7 +2,6 @@
 #include "processor.h"
 #include"PeriorityQueue.h"
 struct sigkill;
-
 class Processor_EDF :public Processor
 {
 private:
@@ -27,5 +26,5 @@ public:
 	int GetRdyCount();
 	void removerunprocess();
 	//implement it
-	Process* get_chosen_process() {};// function returns the process chosen to run
+	Process* get_chosen_process() ;// function returns the process chosen to run
 };

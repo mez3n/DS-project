@@ -6,6 +6,7 @@ Processor_FCFS::Processor_FCFS(int N, int id, string name, scheduler* p, int max
 	MaxW = maxw;
 	Fork = fork;
 	numMaxW = 0;
+	assistant = p;
 }
 void Processor_FCFS::kill_sig(int timestep)
 {
@@ -184,7 +185,7 @@ void Processor_FCFS::ScheduleAlgo()
 	if (Runprocess->getLeftCT() == 0)
 	{
 		assistant->move_to_trm(Runprocess);
-		Runprocess == nullptr;
+		Runprocess = nullptr;
 	}
 	// fifth check for I_O request
 	int ct = Runprocess->get_CT();

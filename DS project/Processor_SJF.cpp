@@ -1,4 +1,5 @@
 #include"Processor_SJF.h"
+#include"scheduler.h"
 Processor_SJF::Processor_SJF(int N, int id, string name, scheduler* p, int MAX_SIZE) :Processor(N, id, name, p)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
@@ -81,7 +82,7 @@ void Processor_SJF::ScheduleAlgo()
 	if (Runprocess->getLeftCT() == 0)
 	{
 		assistant->move_to_trm(Runprocess);
-		Runprocess == nullptr;
+		Runprocess = nullptr;
 	}
 	// fifth check for I_O request
 	int ct = Runprocess->get_CT();

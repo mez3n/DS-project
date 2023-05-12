@@ -2,7 +2,7 @@
 #include "processor.h"
 #include"ListADT.h"
 //#include"ProcessList.h"
-class scheduler;
+struct sigkill;
 class Processor_FCFS : public Processor
 {
 private:
@@ -32,6 +32,6 @@ public:
 	int GetRdyCount();
 	Process* getprocessbyidfcfs(int id);
 	//implement it
-	Process* get_chosen_process() {};// function returns the process chosen to run
+	Process* get_chosen_process() ;// function returns the process chosen to run
 
 };
