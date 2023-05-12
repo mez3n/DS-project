@@ -86,6 +86,17 @@ public:
 			p = p->getNext();
 		}
 	}
+	bool peekfirst(T& item)
+	{
+		if (!Head)
+			return false;
+		item = Head->getItem();
+		return true;
+	}
+	bool Is_brain(LNode<T>* p)
+	{
+		return p == Head;
+	}
 	////////////////////////////////////////////////////////////////////////
 	/*
 	* Function: InsertBeg.

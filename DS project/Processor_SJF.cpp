@@ -1,13 +1,13 @@
 #include"Processor_SJF.h"
-Processor_SJF::Processor_SJF(int N, int id, string name, int MAX_SIZE) :Processor(N, id, name)
+Processor_SJF::Processor_SJF(int N, int id, string name, scheduler* p, int MAX_SIZE) :Processor(N, id, name, p)
 {
 	RDYlist = new PeriorityQueue<Process*>(MAX_SIZE);
 }
 void Processor_SJF::AddToList(Process* p)
 {
 	count++;
-	FinishTime += p->get_CT();
-	RDYlist->enqueue(p, p->get_CT());
+	FinishTime += p->getLeftCT();
+	RDYlist->enqueue(p, p->getLeftCT());
 }
 bool Processor_SJF::RunProcess()
 {
@@ -21,7 +21,6 @@ bool Processor_SJF::RunProcess()
 		count--;
 		RDYlist->dequeue(Runprocess);
 		state = true;
-		//Runprocess->SetRunState(true);
 	}
 	return false;
 }
@@ -33,17 +32,6 @@ void Processor_SJF::print()
 {
 	RDYlist->PrintList();
 }
-float Processor_SJF::GetPload()
-{
-	return(TotalBusyTime / TotalTRTProcesses);
-}
-bool Processor_SJF::IsIdle()
-{
-	if (Runprocess == nullptr)
-		state = false;
-	return!state;
-}
-
 Process* Processor_SJF::GetRunProcess()
 {
 	return Runprocess;
@@ -53,17 +41,76 @@ Processor_SJF::~Processor_SJF()
 {
 	delete RDYlist;
 }
+void Processor_SJF::set_sigkill(LinkedQueue<sigkill>& kill_queue)
+{
+}
 int Processor_SJF::GetRdyCount()
 {
 	return count;
 }
-//bool  Processor_SJF::GetProcessById(int id, Process*& p)
-//{
-//	return true;
-//}
+bool  Processor_SJF::GetProcessById(int id, Process*& p)
+{
+	return true;
+}
 void Processor_SJF::removerunprocess()
 {
 	Runprocess = nullptr;
 }
 
+void Processor_SJF::ScheduleAlgo()
+{
+	// first check runprocess
+	if (!Runprocess)
+	{
+		if (!RDYlist->isEmpty())
+		{
+			RDYlist->dequeue(Runprocess);
+			FinishTime -= Runprocess->getLeftCT();
+			count--;
+		}
+		else
+		{
+			state = false;
+			TotalIDLETime++;
+			return;
+		}
+	}
+	// second excute
+	Runprocess->decrementCT();
+	TotalBusyTime++;
+	if (Runprocess->getLeftCT() == 0)
+	{
+		assistant->move_to_trm(Runprocess);
+		Runprocess == nullptr;
+	}
+	// fifth check for I_O request
+	int ct = Runprocess->get_CT();
+	int lct = Runprocess->getLeftCT();
+	int ior = Runprocess->get_IO_R();
+	if (ct - lct == ior)
+	{
+		assistant->RUNtoBLK(Runprocess);
+	}
 
+
+
+
+}
+
+Process* Processor_SJF::get_chosen_process()
+{
+	if (!Runprocess)
+	{
+		if (!RDYlist->isEmpty())
+		{
+			Process* choosen;
+			RDYlist->peek(choosen);
+			return choosen;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+	return Runprocess;
+}

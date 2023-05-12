@@ -41,6 +41,9 @@ public:
 	void insertIN_MinSJF_CT(Process* p);
 	void Migration_FCFS(Process* p);
 	void insertIN_MinRR_CT(Process* p);
+	void RUNtoBLK(Process* p);
+	void move_to_trm(Process* p);
+
 
 };
 #endif

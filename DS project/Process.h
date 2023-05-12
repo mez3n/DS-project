@@ -2,7 +2,7 @@
 #ifndef PROCESS_
 #define PROCESS_
 #include"Linkedqueue.h"
-#include"BinaryNodeTree.h"
+
 
 
 
@@ -30,32 +30,44 @@ private:
 	int Deadline;// the expected deadline for process
 	int Processor_id; //id of the processor running the process else it is -1 
 	LinkedQueue<IO> IO_queue; // storage for all IO 
+	Process* left_child, * right_child;  //forking data members it represents a tree with a parent pointer 
+	bool forked; // to see if the process is the result of forking
+	void Add_child(Process*& child);
+	void REC_kill_children(Process*& left, Process*& right); // recursive function of kill orph
+	bool To_Trm; // to kill the children if there parent died
+	int fork_count; // to ensure that no process forked more than 2 times in its life time
 	LinkedQueue<IO> IO_queue1; // storage for all IO use this queue in ouput file because the other queue values are changed
-	BinaryNodeTree<Process*> El_3yal; // tree for forking for all the children of the process
 public:
+	Process();
 	void AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process
+	bool can_fork();
 	int get_CT();
 	int get_RT();
 	int get_AT();
 	int getPID();
+	int getLeftCT();
+	void decrementCT();
 	void set_start_RUN(int start);   // when the process eun for the first time set this function with the time step
 	void SetRunState(bool b);
 	//bool GetRunState();
 	void set_termination_times(int tt); //calculated after termination and calculates TRT and WT by default
-	void Add_child(Process*& child);
 	bool is_parent();
-	void kill_children();
+	void kill_children(); //KILL_ORPH name just for fun I don't actually kill children IRL :D 
 	void set_Processor_id(int n);
+	bool is_forked();
+	Process* fork_process(int& process_no, int time_step); // forks the process returns a pointer to the new forked child to add to the shortest rdy list and if it doesnot fork it returns null ptr
+	bool orphan();
+	friend ostream& operator << (ostream& out, Process* P);
 	void set_CT(int c);
 	int get_IO_D();// check if its implemented correctly
 	void set_IO_D(int c);// check if its implemented correctly
 	void remove_first_io();// check if its implemented correctly
-	friend ostream& operator << (ostream& out, Process* P);
+	int getdeadline();
+	int get_IO_R();
 };
 
 
 #endif
-
 
 
 
