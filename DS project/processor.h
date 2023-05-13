@@ -22,7 +22,7 @@ public:
 	virtual void ScheduleAlgo() = 0;// determine next process to be run
 	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list
-	virtual int ExpectedFinishTime() = 0;// get expected time for processor to finish to help scheduler determine which processor to choose
+	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose
 	virtual void print() = 0; // print process PID. UI class must call it.
 	float GetPload(int TotalTRTProcesses);//Get pload for each processor
 	float calcPutil();// calculate Putil for processor
@@ -51,4 +51,5 @@ public:
 	}
 	virtual Process* getprocessbyidfcfs(int id) = 0;
 	virtual Process* get_chosen_process() = 0;// function returns the process chosen to run
+	void checkIO_request();
 };

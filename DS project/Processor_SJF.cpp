@@ -25,10 +25,6 @@ bool Processor_SJF::RunProcess()
 	}
 	return false;
 }
-int Processor_SJF::ExpectedFinishTime()
-{
-	return FinishTime;
-}
 void Processor_SJF::print()
 {
 	RDYlist->PrintList();
@@ -60,7 +56,6 @@ void Processor_SJF::removerunprocess()
 
 void Processor_SJF::ScheduleAlgo()
 {
-	// first check runprocess
 	if (!Runprocess)
 	{
 		if (!RDYlist->isEmpty())
@@ -68,34 +63,20 @@ void Processor_SJF::ScheduleAlgo()
 			RDYlist->dequeue(Runprocess);
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
+			TotalBusyTime++;
+			state = true;
 		}
 		else
 		{
 			state = false;
 			TotalIDLETime++;
-			return;
 		}
 	}
-	// second excute
-	Runprocess->decrementCT();
-	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0)
+	else
 	{
-		assistant->move_to_trm(Runprocess);
-		Runprocess = nullptr;
+		state = true;
+		TotalBusyTime++;
 	}
-	// fifth check for I_O request
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
-	{
-		assistant->RUNtoBLK(Runprocess);
-	}
-
-
-
-
 }
 
 Process* Processor_SJF::get_chosen_process()

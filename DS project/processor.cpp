@@ -1,4 +1,5 @@
 #include"processor.h"
+#include"scheduler.h"
 Processor::Processor(int N, int id, string name, scheduler* p) :n(N)
 {
 	state = false;
@@ -22,4 +23,22 @@ float Processor::calcPutil()
 bool Processor::IsIdle()
 {
 	return !state;
+}
+void Processor::checkIO_request() 
+{
+	if (Runprocess->is_forked())
+		return;
+	int ct = Runprocess->get_CT();
+	int lct = Runprocess->getLeftCT();
+	int ior = Runprocess->get_IO_R();
+	if (ct - lct == ior)
+	{
+		assistant->RUNtoBLK(Runprocess);
+		Runprocess = nullptr;
+		state = false;
+	}
+}
+int Processor::ExpectedFinishTime()
+{
+	return FinishTime;
 }

@@ -13,7 +13,6 @@ public:
 	Process* getprocessbyidfcfs(int id) { return NULL; }
 	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
-	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose-> to do
 	void print(); // print process PID. UI class must call it .
 	bool removefromlist(Process*& p);// remove process from ready list 
 	bool peeknextprocess(Process*& p);// return the the next process but not remove it from list

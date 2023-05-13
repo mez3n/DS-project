@@ -23,7 +23,7 @@ class scheduler
 	int RTF, MaxW, STL, Fork_prob;
 	int T_RR; //time slice for RR processor
 	LinkedList<Process*> Run_List;
-	
+	LinkedQueue<Process*> waitingList;// in case all processor of kind FCFS are overheated and there is forked process
 public:
 	scheduler();
 	//void AddToRdy(Process* p);

@@ -26,10 +26,6 @@ bool Processor_EDF::RunProcess()
 	}
 	return false;
 }
-int Processor_EDF::ExpectedFinishTime()
-{
-	return FinishTime;
-}
 void Processor_EDF::print()
 {
 	RDYlist->PrintList();
@@ -62,12 +58,13 @@ void Processor_EDF::removerunprocess()
 
 void Processor_EDF::ScheduleAlgo()
 {
-	// first check runprocess
 	if (!Runprocess)
 	{
 		if (!RDYlist->isEmpty())
 		{
 			RDYlist->dequeue(Runprocess);
+			state = true;
+			TotalBusyTime++;
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
 		}
@@ -84,26 +81,13 @@ void Processor_EDF::ScheduleAlgo()
 		RDYlist->peek(tmp);
 		if (tmp->getdeadline() < Runprocess->getdeadline())
 		{
+			FinishTime += Runprocess->getLeftCT();
 			RDYlist->enqueue(Runprocess, Runprocess->getdeadline());
 			RDYlist->dequeue(Runprocess);
+			state = true;
+			TotalBusyTime++;
+			FinishTime -= Runprocess->getLeftCT();
 		}
-	}
-	// second excute
-	Runprocess->decrementCT();
-	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0)
-	{
-		RDYlist->dequeue(Runprocess);
-		assistant->move_to_trm(Runprocess);
-		Runprocess = nullptr;
-	}
-	// third check for I_O request
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
-	{
-		assistant->RUNtoBLK(Runprocess);
 	}
 }
 
