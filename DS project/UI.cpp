@@ -1,5 +1,5 @@
 #include"UI.h"
-
+#include<Windows.h>
 UI::UI()
 {
 }
@@ -7,29 +7,56 @@ UI::UI()
 void UI::PrintOutput(LinkedList<Process*>& RUN_List,LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK_LIST, LinkedList<Process*>& TRM_LIST, LinkedList<Processor*>& Processors,
 	int timestep, int Processes_no, int Term_no)
 {
-	cout << "Current Timestep:" << timestep<<endl;
-	cout << "---------------" << "	RDY processes	" << "---------------"<<endl;
-	cout << " ";
-	Processors.PrintList();
-	cout << "---------------" << "	BLK processes	" << "---------------" << endl;
-	cout << BLK_LIST.Get_Count() << " BLK: ";
-	BLK_LIST.PrintList();
-	cout << endl;
-	cout << "---------------" << "	RUN processes	" << "---------------" << endl;
-	cout << RUN_List.getcount() << " RUN: ";
-	RUN_List.PrintList();
-	cout << "---------------" << "	TRM processes	" << "---------------" << endl;
-	cout << TRM_LIST.getcount() << " TRM: ";
-	TRM_LIST.PrintList();
-	cout << "PRESS ANY KEY TO MOVE TO THE NEXT STEP !";
-	cout << endl;
-	cout << "==================================================================";
-	char x;
-	cin >> x;
+	if (Mode != 2) // not silent mode
+	{
+		cout << "Current Timestep:" << timestep << endl;
+		cout << "---------------" << "	RDY processes	" << "---------------" << endl;
+		cout << " ";
+		Processors.PrintList();
+		cout << "---------------" << "	BLK processes	" << "---------------" << endl;
+		cout << BLK_LIST.Get_Count() << " BLK: ";
+		BLK_LIST.PrintList();
+		cout << endl;
+		cout << "---------------" << "	RUN processes	" << "---------------" << endl;
+		cout << RUN_List.getcount() << " RUN: ";
+		RUN_List.PrintList();
+		cout << "---------------" << "	TRM processes	" << "---------------" << endl;
+		cout << TRM_LIST.getcount() << " TRM: ";
+		TRM_LIST.PrintList();
+		cout << "PRESS ANY KEY TO MOVE TO THE NEXT STEP !";
+		cout << endl;
+		cout << "==================================================================";
+
+		if (Mode == 0) // interactive mode
+		{
+			char x;
+			cin >> x;
+		}
+		else // step by step mode
+		{
+			Sleep(1000);
+		}
+	}
 }
 
 UI::~UI()
 {
+	if (Mode == 2)
+	{
+		cout << "Simulation ends, Output file created";
+	}
+}
+void UI::setmode(int x)
+{
+	cout << "please enter the mode of the interface:\n ";
+	cout << "0:interactive mode\n";
+	cout << "1:step by step mode\n";
+	cout << "2:silent mode\n";
+	Mode = x;
+	if (Mode == 2)
+	{
+		cout << "Silent Mode........... Simulation Starts...\n";
+	}
 }
 ostream& operator << (ostream& out, Process* P)
 {

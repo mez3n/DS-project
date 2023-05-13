@@ -177,7 +177,7 @@ void Processor_FCFS::ScheduleAlgo()
 	//	ScheduleAlgo(assistant);
 	//	return;
 	//}*/
-	// third  check fork
+	// third  check fork // increment no forked n scheduler ps fork process function returns pointer to child if successful else it returns nullptr
 	/*assistant->(Runprocess); */
 	// fourth excute
 	Runprocess->decrementCT();

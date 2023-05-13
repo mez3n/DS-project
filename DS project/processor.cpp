@@ -23,3 +23,8 @@ bool Processor::IsIdle()
 {
 	return !state;
 }
+
+string Processor::Get_Processor_Name()
+{
+	return Name;
+}

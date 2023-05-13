@@ -1,4 +1,16 @@
-﻿  Processor_RR.cpp
+﻿  Mazen_main.cpp
+  processor.cpp
+  Processor_EDF.cpp
+  Processor_FCFS.cpp
+  Processor_RR.cpp
+  Processor_SJF.cpp
+  scheduler.cpp
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(67,71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(110,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(89,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(89,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(88,23): warning C4101: 'rt': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(344,6): warning C4101: 'NO_Generated': unreferenced local variable
   UI.cpp
   Generating Code...
 Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::removefromlist(class Process * &)" (?removefromlist@Processor_EDF@@UEAA_NAEAPEAVProcess@@@Z)

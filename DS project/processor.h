@@ -1,5 +1,6 @@
 #pragma once
 #include"Process.h"
+#include"PeriorityQueue.h"
 class scheduler;
 struct sigkill;
 class Processor
@@ -37,6 +38,7 @@ public:
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
 	virtual void set_sigkill(LinkedQueue<sigkill>& kill_queue) = 0;
+	virtual string Get_Processor_Name();
 	virtual int getProcessorId()
 	{
 		return ID;

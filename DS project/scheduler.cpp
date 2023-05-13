@@ -1,5 +1,6 @@
 #include"scheduler.h"
 #include"Processor_SJF.h"
+#include"Processor_EDF.h"
 class processor;
 class UI;
 #ifndef NODE_
@@ -38,13 +39,14 @@ scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
 	InputFile = new ifstream("InputFile.txt", ios::in);
-	string no_rr, no_fcfs, no_sjf;
+	string no_rr, no_fcfs, no_sjf,no_edf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
 	string S_T_RR;
-	*InputFile >> no_fcfs >> no_sjf >> no_rr >> S_T_RR >> S_RTF >> S_MaxW >> S_STL >> S_Fork_Prob;
+	*InputFile >> no_fcfs >> no_sjf >> no_rr >>no_edf>> S_T_RR >> S_RTF >> S_MaxW >> S_STL >> S_Fork_Prob;
 	FCFS_no = stoi(no_fcfs);
 	SJF_no = stoi(no_sjf);
 	RR_no = stoi(no_rr);
+	EDF_no = stoi(no_edf);
 	RTF = stoi(S_RTF);
 	MaxW = stoi(S_MaxW);
 	STL = stoi(S_STL);
@@ -56,6 +58,8 @@ scheduler::scheduler()
 
 	//====================================================================================// inputfile is up 
 	Time_Step = 0;
+	no_forked = 0;
+	no_sigkill = 0;
 	//Ctrl_Processors = Processors.gethead();
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
@@ -71,6 +75,11 @@ scheduler::scheduler()
 	for (int i = 0; i < RR_no; i++)
 	{
 		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR",this, RTF, T_RR);
+		Processors.InsertEnd(P);
+	}
+	for (int i = 0; i < EDF_no; i++)
+	{
+		Processor_EDF * P = new Processor_EDF(8, i + 1 + FCFS_no + SJF_no+RR_no, "EDF", this, Processes_no);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -131,6 +140,13 @@ scheduler::scheduler()
 		p->AddProcess(pid, at, ct, no_IO, IO_R, IO_D);
 		NEW_LIST.enqueue(p);
 	}
+	load_sigkill();
+	Node<Processor*> * fcfs_temp = Processors.gethead();
+	for (int i = 0; i < FCFS_no; i++)  // initializing kill queue in all fcfs processors
+	{
+		fcfs_temp->getItem()->set_sigkill(kill_queue);
+		fcfs_temp=fcfs_temp->getNext();
+	}
 }
  /*insert a process to the processor with the least CT*/
 void scheduler::Add_To_Shortest_RDY(Process* p) 
@@ -158,17 +174,21 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 //{
 //	return 1 + (rand() % 100);
 //}
-void scheduler::load_sigkill(int*& kill_arr)
+void scheduler::load_sigkill()
 {
 	//sigkill Times
 	string kill_id, kill_time;
-	int* kill_time_arr = new int [Processes_no] {-1};  // each index in the array is a proccesor id if it is not -1 then the process should be killed at the time specified
+	sigkill s1;
 	while (!InputFile->eof())
 	{
 		*InputFile >> kill_time >> kill_id;
-		kill_time_arr[stoi(kill_id)] = stoi(kill_time);
+		s1.Pid = stoi(kill_id);
+		s1.time = stoi(kill_time);
+		kill_queue.enqueue(s1);
+		no_sigkill++;
 	}
-	kill_arr = kill_time_arr;
+	
+	
 }
 
 //void scheduler::AddToRdy(Process* p)
@@ -236,6 +256,70 @@ void scheduler::move_to_trm(Process* p)
 	p->SetRunState(false);
 	TRM_LIST.InsertEnd(p);
 }
+int scheduler::get_timestep()
+{
+	return Time_Step;
+}
+
+
+void scheduler::Print_output_file()
+{
+	OutputFile = new ofstream("Output File", ios::out);
+	Node<Process*>* process_ptr = TRM_LIST.gethead();
+	int avg_WT=0, avg_RT=0, avg_TRT=0;
+	while (process_ptr)
+	{
+		Process* cur_process = process_ptr->getItem();
+		*OutputFile << "TT\t"<<"PID\t"<<"AT\t"<<"CT\t"<<"IO_D\t"<<"WT\t"<<"RT\t"<<"TRT\t";
+		*OutputFile << cur_process->get_TT()<<"\t" << cur_process->getPID() << "\t" << cur_process->get_CT() << "\t" <<
+			cur_process->get_total_IO_D() << "\t" << cur_process->get_WT() << "\t" << cur_process->get_RT() << "\t" << cur_process->get_TRT() << "\n";
+		avg_WT += cur_process->get_WT();
+		avg_RT += cur_process->get_RT();
+		avg_TRT += cur_process->get_TRT();
+		process_ptr = process_ptr->getNext();
+	}
+	avg_WT /= Processes_no;
+	avg_RT /= Processes_no;
+	avg_TRT /= Processes_no;
+	*OutputFile << Processes_no << "\n";
+	*OutputFile << "Avg WT = " << avg_WT << "\t";
+	*OutputFile << "Avg RT = " << avg_RT << "\t";
+	*OutputFile << "Avg TRT = " << avg_TRT << "\n";
+
+
+
+	// work steal migration rtf maxw
+	int killed_process = no_sigkill *100 / Processes_no ;
+	*OutputFile << "killed process = " << killed_process << "\n \n";
+
+	Node<Processor*>* processors_out = Processors.gethead();
+	*OutputFile << "Processors: "<< FCFS_no+SJF_no+RR_no+EDF_no << "[ " << FCFS_no<< "FCFS, " <<SJF_no<<"SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
+	cout << "\n";
+
+
+	// load and utilization
+
+	/*for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
+	{
+		*OutputFile << "p" << i + 1 << "="; pload
+	}*/
+
+		
+	
+	
+
+
+
+
+
+
+
+
+
+}
+
+
+
 void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 {
 	Pr_ptr->getItem()->SetState(false);

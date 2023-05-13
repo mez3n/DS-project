@@ -7,6 +7,8 @@ Process::Process()
 	To_Trm = false;
 	forked = false;
 	fork_count = 0;
+	RT = -1;
+	total_IO_D = 0;
 }
 void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d)
 {
@@ -21,7 +23,7 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 		po.IO_R = IO_r[i];
 		po.IO_D = IO_d[i];
 		IO_queue.enqueue(po);
-		IO_queue1.enqueue(po);
+		total_IO_D += po.IO_D;
 	}
 
 	//rest of data members should be calculated later
@@ -32,9 +34,12 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 	//int WT=TRT-ct; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 
 }
+
+
+
 bool Process::can_fork()
 {
-	return (!left_child || !right_child);
+	return fork_count<=2;
 }
 int Process::get_CT()
 {
@@ -44,6 +49,28 @@ int Process::get_RT()
 {
 	return RT;
 }
+int Process::get_TT()
+{
+	return TT;
+}
+
+int Process::get_TRT()
+{
+	return TRT;
+}
+
+int Process::get_WT()
+{
+	return WT;
+}
+
+int Process::get_total_IO_D()
+{
+	return total_IO_D;
+}
+
+
+
 int Process::get_AT()
 {
 	return AT;
@@ -189,7 +216,7 @@ int Process::get_IO_D() // please implement it, function get IO_D for a process
 	IO_queue.peek(p);
 	return p.IO_D;
 }
-void Process::set_IO_D(int c) // please implement it, function set IO_D for a process
+void Process::set_IO_D(int c) // please implement it, function set IO_D for a process 
 {
 	IO p;
 	IO_queue.peek(p);
@@ -204,9 +231,16 @@ int Process::getdeadline()
 {
 	return Deadline;
 }
-int Process::get_IO_R() // please implement it, function get IO_D for a process
+int Process::get_IO_R() // please implement it, function get IO_R for a process
 {
 	IO p;
 	IO_queue.peek(p);
 	return p.IO_R;
 }
+
+void Process::set_RT(int current_time)
+{
+	RT = current_time;
+}
+
+

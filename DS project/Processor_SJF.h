@@ -1,6 +1,5 @@
 #pragma once
 #include "processor.h"
-#include"PeriorityQueue.h"
 struct sigkill;
 class Processor_SJF :public Processor
 {

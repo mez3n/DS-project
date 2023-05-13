@@ -19,10 +19,13 @@ class scheduler
 	ifstream* InputFile;
 	ofstream* OutputFile;
 	UI Console_out ;  //object of UI class needed to pass the console window information
-	int FCFS_no, SJF_no, RR_no, Processes_no, Time_Step,Term_no;
+	int FCFS_no, SJF_no, RR_no,EDF_no, Processes_no, Time_Step,Term_no;
 	int RTF, MaxW, STL, Fork_prob;
 	int T_RR; //time slice for RR processor
 	LinkedList<Process*> Run_List;
+	int no_forked;
+	int no_sigkill;
+	LinkedQueue<sigkill> kill_queue;
 	
 public:
 	scheduler();
@@ -35,13 +38,15 @@ public:
 	//int GenerateNo();// generates a number between 1:100 for a process in run list
 	void LoadProcesses(int pid, int no_IO, int at, int rt, int ct, int*& IO_r, int*& IO_d); // will be called in main, the function behind reading all inputs from txt file 
 	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
-	void load_sigkill(int*& kill_arr);
+	void load_sigkill();
 	void Migration_RR(Process* p);
 	void insertIN_MinSJF_CT(Process* p);
 	void Migration_FCFS(Process* p);
 	void insertIN_MinRR_CT(Process* p);
 	void RUNtoBLK(Process* p);
 	void move_to_trm(Process* p);
+	int get_timestep(); // not sure if i will need this
+	void Print_output_file();
 
 
 };
