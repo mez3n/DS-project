@@ -1,5 +1,7 @@
 #include"Processor_RR.h"
 #include"scheduler.h"
+#include<cstdlib>
+#include"time.h"
 Processor_RR::Processor_RR(int N, int id, string name, scheduler* p, int rtf, int rrslice) :Processor(N, id, name, p), RRslice(rrslice)
 {
 	RTF = rtf;
@@ -106,4 +108,34 @@ Process* Processor_RR::get_chosen_process()
 		}
 	}
 	return Runprocess;
+}
+void Processor_RR::overheat_check() 
+{
+	if (leftn > 0)
+	{
+		leftn--;
+		TotalIDLETime++;
+		state = false;
+	}
+	else 
+	{
+		srand(time(0));
+		int  r = 1+(rand()%100);
+		if (r <= 5 && r > 0 )
+		{
+			leftn = n;
+			if (Runprocess)
+			{
+				assistant->Add_To_Shortest_RDY(Runprocess);
+				Runprocess = nullptr;
+				state = false;
+			}
+			Process* p;
+			while (RDYlist.isEmpty()) 
+			{
+				RDYlist.dequeue(p);
+				assistant->Add_To_Shortest_RDY(Runprocess);
+			}
+		}
+	}
 }

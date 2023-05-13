@@ -32,7 +32,7 @@ public:
 	virtual void removerunprocess() = 0;// set runprocess null
 	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
 	virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not 
-	virtual bool IsStop() = 0;// determine if the processor stop due to overheaten take probability 5%
+	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	virtual int GetRdyCount() = 0;  //returns count of ready processes
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
@@ -52,4 +52,5 @@ public:
 	virtual Process* getprocessbyidfcfs(int id) = 0;
 	virtual Process* get_chosen_process() = 0;// function returns the process chosen to run
 	void checkIO_request();
+	virtual void overheat_check() = 0;// check overheat if there is overheat move all process to another rdylist and count when processor work again
 };

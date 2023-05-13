@@ -11,6 +11,7 @@ Processor::Processor(int N, int id, string name, scheduler* p) :n(N)
 	ID = id;
 	Name = name;
 	assistant = p;
+	leftn = 0;
 }
 float Processor::GetPload(int TotalTRTProcesses)
 {
@@ -41,4 +42,8 @@ void Processor::checkIO_request()
 int Processor::ExpectedFinishTime()
 {
 	return FinishTime;
+}
+bool Processor::IsStop() 
+{
+	return (leftn > 0);
 }
