@@ -83,9 +83,11 @@ void Processor_RR::ScheduleAlgo()
 			RDYlist.enqueue(Runprocess);
 			RDYlist.dequeue(Runprocess);
 			FinishTime += Runprocess->getLeftCT();
-			
+			LeftRRslice = RRslice;
 		}
 	}
+	if(LeftRRslice > 0)
+	    LeftRRslice--;
 }
 Process* Processor_RR::get_chosen_process()
 {
