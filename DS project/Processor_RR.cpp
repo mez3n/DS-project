@@ -27,10 +27,6 @@ bool Processor_RR::RunProcess()
 	}
 	return false;
 }
-int Processor_RR::ExpectedFinishTime()
-{
-	return FinishTime;
-}
 void Processor_RR::print()
 {
 	RDYlist.PrintList();
@@ -60,7 +56,6 @@ void Processor_RR::removerunprocess()
 }
 void Processor_RR::ScheduleAlgo()
 {
-	// first check runprocess
 	if (!Runprocess)
 	{
 		if (!RDYlist.isEmpty())
@@ -69,48 +64,30 @@ void Processor_RR::ScheduleAlgo()
 			LeftRRslice = RRslice;
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
+			TotalBusyTime++;
+			state = true;
 		}
 		else
 		{
 			state = false;
 			TotalIDLETime++;
-			return;
 		}
 	}
-	// second check Migration
-	/*bool b = assistant->Migration_FCFS(Runprocess);
-	if (b)
+	else 
 	{
-		Runprocess=nullptr;
-		ScheduleAlgo(assistant);
-		return;
-	}*/
-	// third excute
-	Runprocess->decrementCT();
-	LeftRRslice--;
-	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0)
-	{
-		assistant->move_to_trm(Runprocess);
-		Runprocess = nullptr;
-	}
-	else
-	{
+		TotalBusyTime++;
+		state = true;
 		if (LeftRRslice == 0)
 		{
+			FinishTime += Runprocess->getLeftCT();
 			RDYlist.enqueue(Runprocess);
-			count++;
-			Runprocess = nullptr;
+			RDYlist.dequeue(Runprocess);
+			FinishTime += Runprocess->getLeftCT();
+			LeftRRslice = RRslice;
 		}
 	}
-	// fourth check for I_O request
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
-	{
-		assistant->RUNtoBLK(Runprocess);
-	}
+	if(LeftRRslice > 0)
+	    LeftRRslice--;
 }
 Process* Processor_RR::get_chosen_process()
 {

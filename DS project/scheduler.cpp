@@ -355,8 +355,9 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// pointer to RR processors
 	Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
+	Node<Processor*>* Pr_ptr7 = Processors.gethead();// a pointer to processors list
 	NEW_LIST.peek(p);
-	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list
+	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list // i think that it may need modification due to forked process 
 	{
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
@@ -520,14 +521,13 @@ void scheduler::simulate_system()
 			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
 		}
 		Pr_ptr_FCFS = Processors.gethead();
-		//9-
-
-
-
-
-
-
-
+		//9-check for io request
+		Pr_ptr7 = Processors.gethead();
+		while (Pr_ptr6)
+		{
+			Pr_ptr7->getItem()->checkIO_request();
+			Pr_ptr7 = Pr_ptr7->getNext();
+		}
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();

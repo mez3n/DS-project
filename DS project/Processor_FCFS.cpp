@@ -112,10 +112,6 @@ bool Processor_FCFS::RunProcess()
 	}
 	return false;
 }
-int Processor_FCFS::ExpectedFinishTime()
-{
-	return FinishTime;
-}
 void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
@@ -153,7 +149,6 @@ void Processor_FCFS::removerunprocess()
 
 void Processor_FCFS::ScheduleAlgo()
 {
-	// first check runprocess
 	if (!Runprocess)
 	{
 		if (!RDYlist.isEmpty())
@@ -161,13 +156,19 @@ void Processor_FCFS::ScheduleAlgo()
 			RDYlist.DeleteFirst(Runprocess);
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
+			state = true;
+			TotalBusyTime++;
 		}
 		else
 		{
 			state = false;
 			TotalIDLETime++;
-			return;
 		}
+	}
+	else
+	{
+		state = true;
+		TotalBusyTime++;
 	}
 	// second check Migration
 	///*bool b = assistant->Migration_FCFS(Runprocess);
@@ -177,7 +178,7 @@ void Processor_FCFS::ScheduleAlgo()
 	//	ScheduleAlgo(assistant);
 	//	return;
 	//}*/
-	// third  check fork // increment no forked n scheduler ps fork process function returns pointer to child if successful else it returns nullptr
+	// third  check fork
 	/*assistant->(Runprocess); */
 	// fourth excute
 	Runprocess->decrementCT();

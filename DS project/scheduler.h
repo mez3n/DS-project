@@ -26,7 +26,7 @@ class scheduler
 	int no_forked;
 	int no_sigkill;
 	LinkedQueue<sigkill> kill_queue;
-	
+	LinkedQueue<Process*> waitingList;// in case all processor of kind FCFS are overheated and there is forked process
 public:
 	scheduler();
 	//void AddToRdy(Process* p);
