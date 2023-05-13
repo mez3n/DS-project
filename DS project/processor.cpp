@@ -11,6 +11,7 @@ Processor::Processor(int N, int id, string name, scheduler* p) :n(N)
 	ID = id;
 	Name = name;
 	assistant = p;
+	leftn = 0;
 }
 float Processor::GetPload(int TotalTRTProcesses)
 {
@@ -24,25 +25,25 @@ bool Processor::IsIdle()
 {
 	return !state;
 }
-
-
-
-	void Processor::checkIO_request()
+void Processor::checkIO_request() 
+{
+	if (Runprocess->is_forked())
+		return;
+	int ct = Runprocess->get_CT();
+	int lct = Runprocess->getLeftCT();
+	int ior = Runprocess->get_IO_R();
+	if (ct - lct == ior)
 	{
-		if (Runprocess->is_forked())
-			return;
-		int ct = Runprocess->get_CT();
-		int lct = Runprocess->getLeftCT();
-		int ior = Runprocess->get_IO_R();
-		if (ct - lct == ior)
-		{
-			assistant->RUNtoBLK(Runprocess);
-			Runprocess = nullptr;
-			state = false;
-		}
+		assistant->RUNtoBLK(Runprocess);
+		Runprocess = nullptr;
+		state = false;
 	}
-	int Processor::ExpectedFinishTime()
-	{
-		return FinishTime;
-	}
+}
+int Processor::ExpectedFinishTime()
+{
+	return FinishTime;
+}
+bool Processor::IsStop()
+{
+	return (leftn > 0);
 }

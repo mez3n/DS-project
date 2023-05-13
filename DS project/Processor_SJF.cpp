@@ -96,3 +96,34 @@ Process* Processor_SJF::get_chosen_process()
 	}
 	return Runprocess;
 }
+
+void Processor_SJF::overheat_check()
+{
+	if (leftn > 0)
+	{
+		leftn--;
+		TotalIDLETime++;
+		state = false;
+	}
+	else
+	{
+		srand(time(0));
+		int  r = 1 + (rand() % 100);
+		if (r <= 5 && r > 0)
+		{
+			leftn = n;
+			if (Runprocess)
+			{
+				assistant->Add_To_Shortest_RDY(Runprocess);
+				Runprocess = nullptr;
+				state = false;
+			}
+			Process* p;
+			while (RDYlist->isEmpty())
+			{
+				RDYlist->dequeue(p);
+				assistant->Add_To_Shortest_RDY(Runprocess);
+			}
+		}
+	}
+}
