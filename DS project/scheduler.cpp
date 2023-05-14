@@ -320,10 +320,9 @@ void scheduler::Print_output_file()
 	*OutputFile << "\n\n";
 
 
-
 	// utilization
 	*OutputFile << "Processors Utiliz\n";
-	Node<Processor*>* processor_out = Processors.gethead();
+	processor_out = Processors.gethead();
 	float avg_util=0;
 	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
 	{
