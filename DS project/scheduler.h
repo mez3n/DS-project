@@ -47,6 +47,7 @@ public:
 	void move_to_trm(Process* p);
 	int get_timestep(); // not sure if i will need this
 	void Print_output_file();
+	bool worksteal();
 
 
 };

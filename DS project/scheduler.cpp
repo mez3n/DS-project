@@ -304,18 +304,6 @@ void scheduler::Print_output_file()
 		*OutputFile << "p" << i + 1 << "="; pload
 	}*/
 
-		
-	
-	
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -376,7 +364,7 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				Pr_ptr1->getItem()->RunProcess();
+				Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specfic algorithm (don't forget to remove that process from rdy list)
 				if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)// check RR migration
 				{
 					Pr_ptr1->getItem()->SetState(false);
@@ -468,22 +456,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr4 = Processors.gethead();
 		//------------------------------------------------------------------------------------------------------------------
-		// 4- filling run list with run processes for each processor
-		while (Pr_ptr5)
-		{
-			if (!(Pr_ptr5->getItem()->IsIdle()))// if its busy then there is a process in run state
-				Run_List.InsertEnd(Pr_ptr5->getItem()->GetRunProcess());
-			Pr_ptr5 = Pr_ptr5->getNext();
-		}
-		Pr_ptr5 = Processors.gethead();
-		// 5- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
-		Pr_ptr6 = Run_List.gethead();
-		while (Pr_ptr6)
-		{
-			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
-			Pr_ptr6 = Pr_ptr6->getNext();
-		}
-		// 6- dec IO for the first process entered BLK_List requesing IO by 1
+		// 4- dec IO for the first process entered BLK_List requesing IO by 1
 		BLK_LIST.peek(BLK_P);
 		if (BLK_P)
 		{
@@ -492,7 +465,7 @@ void scheduler::simulate_system()
 			if (BLK_P->get_IO_D() == 0)
 				BLK_to_RDY(BLK_P);
 		}
-		// 7- check if there is a Run process in RR processors want to migrate to SJF
+		// 5- check if there is a Run process in RR processors want to migrate to SJF
 		// get first RR processor
 		for (int i = 0; i < FCFS_no + SJF_no; i++)
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
@@ -508,7 +481,7 @@ void scheduler::simulate_system()
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
 		}
 		Pr_ptr_RR = Processors.gethead();
-		// 8- check if there is a Run process in FCFS processors want to migrate to RR
+		// 6- check if there is a Run process in FCFS processors want to migrate to RR
 		for (int i = 0; i < FCFS_no; i++)
 		{
 			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
@@ -521,18 +494,74 @@ void scheduler::simulate_system()
 			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
 		}
 		Pr_ptr_FCFS = Processors.gethead();
-		//9-check for io request
+		// 7-check for io request //made by ali
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr6)
 		{
 			Pr_ptr7->getItem()->checkIO_request();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
+		// 8- filling run list with run processes for each processor
+		while (Pr_ptr5)
+		{
+			if (!(Pr_ptr5->getItem()->IsIdle()))// if its busy then there is a process in run state
+				Run_List.InsertEnd(Pr_ptr5->getItem()->GetRunProcess());
+			Pr_ptr5 = Pr_ptr5->getNext();
+		}
+		Pr_ptr5 = Processors.gethead();
+		// 9- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
+		Pr_ptr6 = Run_List.gethead();
+		while (Pr_ptr6)
+		{
+			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
+			Pr_ptr6 = Pr_ptr6->getNext();
+		}
+		// 10- work stealing part
+		if (get_timestep() % STL == 0)
+			while (worksteal());
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
 		update_TimeStep();
 	}
+}
+bool scheduler::worksteal()
+{
+	Node<Processor*>* ptr = Processors.gethead();// pointer to processors
+	Processor* ptr_short;
+	Processor* ptr_long;
+	float min_CT = 0, max_CT = 0;
+	min_CT = ptr->getItem()->ExpectedFinishTime();
+	ptr = ptr->getNext();
+	while (ptr) // get min CT
+	{
+		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+			min_CT = ptr->getItem()->ExpectedFinishTime();
+		ptr = ptr->getNext();
+	}
+	ptr = Processors.gethead();
+	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+		ptr = ptr->getNext();
+	ptr_short = ptr->getItem();
+	ptr = Processors.gethead();
+	max_CT = ptr->getItem()->ExpectedFinishTime();
+	ptr = ptr->getNext();
+	while (ptr) // get max CT
+	{
+		if (ptr->getItem()->ExpectedFinishTime() > min_CT)
+			max_CT = ptr->getItem()->ExpectedFinishTime();
+		ptr = ptr->getNext();
+	}
+	ptr = Processors.gethead();
+	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has max CT
+		ptr = ptr->getNext();
+	ptr_long = ptr->getItem();
+	if ((max_CT - min_CT) / max_CT > 0.4)
+	{
+		ptr_long->switch_processes(ptr_short);
+		return true;
+	}
+	return false;
 }
 void scheduler::RUNtoBLK(Process* p)
 {
