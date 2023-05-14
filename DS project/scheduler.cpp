@@ -291,22 +291,37 @@ void scheduler::Print_output_file()
 
 
 
-	// work steal migration rtf maxw
+	// work steal migration rtf maxw forked_per
+	int MaxW = mig_fcfs_to_RR_cnt * 100 / Processes_no;
+	int RTF = mig_RR_to_sjf_cnt * 100 / Processes_no;
+	int work_per = work_steal_count *100 / Processes_no;
+	int forked_per = no_forked * 100 / Processes_no;
 	int killed_process = no_sigkill *100 / Processes_no ;
-	*OutputFile << "killed process = " << killed_process << "\n \n";
 
-	Node<Processor*>* processors_out = Processors.gethead();
+	*OutputFile << "Migration %: \t " << "RTF= "<<RTF<<"%,\t" << "MaxW= " <<MaxW<< "%"<< "\n";
+	*OutputFile << "Work Steal %: " << work_per<<"%" << "\n";
+	*OutputFile << "Forked Process %: " << forked_per << "%" << "\n";
+	*OutputFile << "killed process %:" << killed_process << "%" << "\n \n";
+
+	
 	*OutputFile << "Processors: "<< FCFS_no+SJF_no+RR_no+EDF_no << "[ " << FCFS_no<< "FCFS, " <<SJF_no<<"SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
 	cout << "\n";
+	// load
 
 
-	// load and utilization
 
-	/*for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
+
+	// utilization
+	Node<Processor*>* processor_out = Processors.gethead();
+	float avg_util=0;
+	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
 	{
-		*OutputFile << "p" << i + 1 << "="; pload
-	}*/
-
+		int util_per = (processor_out->getItem()->calcPutil())*100;
+		avg_util += util_per;
+		*OutputFile << "p" << i + 1 << "="<<util_per<<"%,\t";
+	}
+	avg_util /= FCFS_no + SJF_no + RR_no + EDF_no;
+	*OutputFile << "\n Avg utilization = " <<  avg_util <<"%,\n";
 }
 
 
