@@ -28,6 +28,7 @@ private:
 	bool forked; // to see if the process is the result of forking
 	void Add_child(Process*& child);
 	void REC_kill_children(Process*& left, Process*& right); // recursive function of kill orph
+	void REC_kill_children(Process*& parent); // recursive function of kill orph
 	bool To_Trm; // to kill the children if there parent died
 	int fork_count; // to ensure that no process forked more than 2 times in its life time
 	int total_IO_D;

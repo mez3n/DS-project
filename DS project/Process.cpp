@@ -39,7 +39,7 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 
 bool Process::can_fork()
 {
-	return fork_count<=2;
+	return fork_count<2;
 }
 int Process::get_CT()
 {
@@ -130,40 +130,30 @@ void Process::Add_child(Process*& child)
 	return;
 }
 
-void Process::REC_kill_children(Process*& left, Process*& right)
+
+
+void Process::REC_kill_children(Process*& parent)
 {
-	if (!left_child && !right_child)
+	if (!parent)
 	{
 		return;
 	}
-	else if (right_child && !left_child)
-	{
-		right_child->To_Trm = true;
-		REC_kill_children(right->left_child, right->right_child);
-		right_child = nullptr;
-	}
-	else if (left_child && !right_child)
-	{
-		left_child->To_Trm = true;
-		REC_kill_children(left->left_child, left->right_child);
-		left_child = nullptr;
-
-	}
-	else
-	{
-		left_child->To_Trm = true;
-		right_child->To_Trm = true;
-		REC_kill_children(left->left_child, left->right_child);
-		REC_kill_children(right->left_child, right->right_child);
-		left_child = nullptr;
-		right_child = nullptr;
-	}
+	parent->To_Trm = true;
+	REC_kill_children(parent->left_child);
+	REC_kill_children(parent->right_child);
+	parent->left_child = nullptr;
+	parent->right_child = nullptr;
 }
+
+
 
 
 void Process::kill_children()
 {
-	REC_kill_children(left_child, right_child);
+	REC_kill_children(left_child);
+	REC_kill_children(right_child);
+	left_child = nullptr;
+	right_child = nullptr;
 }
 
 void Process::set_Processor_id(int n)
@@ -178,7 +168,7 @@ bool Process::is_forked()
 
 Process* Process::fork_process(int& process_no, int time_step)
 {
-	if (fork_count <= 2)
+	if (fork_count < 2)
 	{
 		process_no++;
 		Process* child = new Process;
