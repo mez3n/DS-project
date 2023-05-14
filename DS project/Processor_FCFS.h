@@ -33,5 +33,11 @@ public:
 	//implement it
 	Process* get_chosen_process() ;// function returns the process chosen to run
 	void overheat_check();
-
+	void switch_processes(Processor*& p)
+	{
+		// check implement please (a function that take take the first process in (this) and give it to p)
+		Process* px;
+		RDYlist.DeleteFirst(px);
+		p->AddToList(px);
+	}
 };
