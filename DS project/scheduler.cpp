@@ -269,7 +269,7 @@ void scheduler::Print_output_file()
 {
 	OutputFile = new ofstream("Output File", ios::out);
 	Node<Process*>* process_ptr = TRM_LIST.gethead();
-	int avg_WT=0, avg_RT=0, avg_TRT=0;
+	int avg_WT=0, avg_RT=0, avg_TRT=0,total_TRT=0;
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
@@ -281,6 +281,7 @@ void scheduler::Print_output_file()
 		avg_TRT += cur_process->get_TRT();
 		process_ptr = process_ptr->getNext();
 	}
+	total_TRT = avg_TRT;
 	avg_WT /= Processes_no;
 	avg_RT /= Processes_no;
 	avg_TRT /= Processes_no;
@@ -305,13 +306,23 @@ void scheduler::Print_output_file()
 
 	
 	*OutputFile << "Processors: "<< FCFS_no+SJF_no+RR_no+EDF_no << "[ " << FCFS_no<< "FCFS, " <<SJF_no<<"SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
-	cout << "\n";
-	// load
+	*OutputFile<< "\n";
 
+
+	// load
+	*OutputFile << "Processors Load\n";
+	Node<Processor*>* processor_out = Processors.gethead();
+	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
+	{
+		int load_per = (processor_out->getItem()->GetPload(total_TRT)) * 100;
+		*OutputFile << "p" << i + 1 << "=" << load_per << "%,\t";
+	}
+	*OutputFile << "\n\n";
 
 
 
 	// utilization
+	*OutputFile << "Processors Utiliz\n";
 	Node<Processor*>* processor_out = Processors.gethead();
 	float avg_util=0;
 	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
