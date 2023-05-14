@@ -27,8 +27,8 @@ public:
 	virtual void print() = 0; // print process PID. UI class must call it.
 	float GetPload(int TotalTRTProcesses);//Get pload for each processor
 	float calcPutil();// calculate Putil for processor
-	virtual bool removefromlist(Process*& p) = 0;// remove process from ready list 
-	virtual bool peeknextprocess(Process*& p) = 0;// return the the next process but not remove it from list
+	//virtual bool removefromlist(Process*& p) = 0;    // remove process from ready list 
+	// virtual bool peeknextprocess(Process*& p) = 0;   // return the the next process but not remove it from list
 	bool IsIdle();// return true if idle and return false if busy
 	virtual void removerunprocess() = 0;// set runprocess null
 	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
@@ -38,7 +38,6 @@ public:
 	virtual bool GetProcessById(int id, Process*& p) = 0;// it takes id and : returns true if found and the process by reference / returns false and sent process sent by ref as NULL (don't forget to remove it from rdy list)
 	virtual ~Processor() {};
 	virtual void set_sigkill(LinkedQueue<sigkill>& kill_queue) = 0;
-	virtual string Get_Processor_Name();
 	virtual int getProcessorId()
 	{
 		return ID;

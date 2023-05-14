@@ -1,28 +1,14 @@
-﻿  Mazen_main.cpp
-  processor.cpp
-  Processor_EDF.cpp
-  Processor_FCFS.cpp
-  Processor_RR.cpp
-  Processor_SJF.cpp
-  scheduler.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(67,71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(110,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(89,19): warning C4101: 'IO_d': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(89,8): warning C4101: 'IO_r': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(88,23): warning C4101: 'rt': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.0\DS project\scheduler.cpp(344,6): warning C4101: 'NO_Generated': unreferenced local variable
-  UI.cpp
-  Generating Code...
-Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::removefromlist(class Process * &)" (?removefromlist@Processor_EDF@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_EDF@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_EDF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_EDF::IsStop(void)" (?IsStop@Processor_EDF@@UEAA_NXZ)
-Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::removefromlist(class Process * &)" (?removefromlist@Processor_FCFS@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_FCFS@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_FCFS.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_FCFS::IsStop(void)" (?IsStop@Processor_FCFS@@UEAA_NXZ)
-Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::removefromlist(class Process * &)" (?removefromlist@Processor_RR@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_RR@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_RR.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_RR::IsStop(void)" (?IsStop@Processor_RR@@UEAA_NXZ)
-Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::removefromlist(class Process * &)" (?removefromlist@Processor_SJF@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::peeknextprocess(class Process * &)" (?peeknextprocess@Processor_SJF@@UEAA_NAEAPEAVProcess@@@Z)
-Processor_SJF.obj : error LNK2001: unresolved external symbol "public: virtual bool __cdecl Processor_SJF::IsStop(void)" (?IsStop@Processor_SJF@@UEAA_NXZ)
-C:\Users\moham\source\repos\DS-project_phase2_1.0\x64\Debug\DS project.exe : fatal error LNK1120: 12 unresolved externals
+﻿  scheduler.cpp
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(70,71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(113,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(92,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(92,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(91,23): warning C4101: 'rt': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(317,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(329,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(360,6): warning C4101: 'NO_Generated': unreferenced local variable
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(565,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(570,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(578,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(583,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe

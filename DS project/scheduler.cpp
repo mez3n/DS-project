@@ -269,7 +269,7 @@ void scheduler::Print_output_file()
 {
 	OutputFile = new ofstream("Output File", ios::out);
 	Node<Process*>* process_ptr = TRM_LIST.gethead();
-	int avg_WT=0, avg_RT=0, avg_TRT=0;
+	int avg_WT=0, avg_RT=0, avg_TRT=0,total_TRT=0;
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
@@ -281,6 +281,7 @@ void scheduler::Print_output_file()
 		avg_TRT += cur_process->get_TRT();
 		process_ptr = process_ptr->getNext();
 	}
+	total_TRT = avg_TRT;
 	avg_WT /= Processes_no;
 	avg_RT /= Processes_no;
 	avg_TRT /= Processes_no;
@@ -291,22 +292,46 @@ void scheduler::Print_output_file()
 
 
 
-	// work steal migration rtf maxw
+	// work steal migration rtf maxw forked_per
+	int MaxW = mig_fcfs_to_RR_cnt * 100 / Processes_no;
+	int RTF = mig_RR_to_sjf_cnt * 100 / Processes_no;
+	int work_per = work_steal_count *100 / Processes_no;
+	int forked_per = no_forked * 100 / Processes_no;
 	int killed_process = no_sigkill *100 / Processes_no ;
-	*OutputFile << "killed process = " << killed_process << "\n \n";
 
-	Node<Processor*>* processors_out = Processors.gethead();
+	*OutputFile << "Migration %: \t " << "RTF= "<<RTF<<"%,\t" << "MaxW= " <<MaxW<< "%"<< "\n";
+	*OutputFile << "Work Steal %: " << work_per<<"%" << "\n";
+	*OutputFile << "Forked Process %: " << forked_per << "%" << "\n";
+	*OutputFile << "killed process %:" << killed_process << "%" << "\n \n";
+
+	
 	*OutputFile << "Processors: "<< FCFS_no+SJF_no+RR_no+EDF_no << "[ " << FCFS_no<< "FCFS, " <<SJF_no<<"SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
-	cout << "\n";
+	*OutputFile<< "\n";
 
 
-	// load and utilization
-
-	/*for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
+	// load
+	*OutputFile << "Processors Load\n";
+	Node<Processor*>* processor_out = Processors.gethead();
+	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
 	{
-		*OutputFile << "p" << i + 1 << "="; pload
-	}*/
+		int load_per = (processor_out->getItem()->GetPload(total_TRT)) * 100;
+		*OutputFile << "p" << i + 1 << "=" << load_per << "%,\t";
+	}
+	*OutputFile << "\n\n";
 
+
+	// utilization
+	*OutputFile << "Processors Utiliz\n";
+	processor_out = Processors.gethead();
+	float avg_util=0;
+	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
+	{
+		int util_per = (processor_out->getItem()->calcPutil())*100;
+		avg_util += util_per;
+		*OutputFile << "p" << i + 1 << "="<<util_per<<"%,\t";
+	}
+	avg_util /= FCFS_no + SJF_no + RR_no + EDF_no;
+	*OutputFile << "\n Avg utilization = " <<  avg_util <<"%,\n";
 }
 
 
