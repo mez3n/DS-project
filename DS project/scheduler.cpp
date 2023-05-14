@@ -38,6 +38,9 @@ public:
 scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
+	mig_fcfs_to_RR_cnt = 0;
+	mig_RR_to_sjf_cnt = 0;
+	work_steal_count = 0;
 	InputFile = new ifstream("InputFile.txt", ios::in);
 	string no_rr, no_fcfs, no_sjf,no_edf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
@@ -474,6 +477,7 @@ void scheduler::simulate_system()
 			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
 			if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
 			{
+				mig_RR_to_sjf_cnt++;
 				Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
 				Pr_ptr_RR->getItem()->SetState(false);
 				Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
@@ -488,6 +492,7 @@ void scheduler::simulate_system()
 			if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW)
 			{
 				Migration_FCFS(Pr_ptr_FCFS->getItem()->GetRunProcess());
+				mig_fcfs_to_RR_cnt++;
 				Pr_ptr_FCFS->getItem()->SetState(false);
 				Pr_ptr_FCFS->getItem()->GetRunProcess()->SetRunState(false);
 			}
@@ -518,7 +523,8 @@ void scheduler::simulate_system()
 		}
 		// 10- work stealing part
 		if (get_timestep() % STL == 0)
-			while (worksteal());
+			while (worksteal())
+				work_steal_count++;
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
@@ -566,4 +572,16 @@ bool scheduler::worksteal()
 void scheduler::RUNtoBLK(Process* p)
 {
 	BLK_LIST.enqueue(p);
+}
+int scheduler::get_mig_fcfs_to_RR_cnt()
+{
+	return mig_fcfs_to_RR_cnt;
+}
+int scheduler::get_mig_RR_to_sjf_cnt()
+{
+	return mig_RR_to_sjf_cnt;
+}
+int scheduler::get_work_steal_count()
+{
+	return work_steal_count;
 }

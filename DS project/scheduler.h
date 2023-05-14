@@ -25,6 +25,9 @@ class scheduler
 	LinkedList<Process*> Run_List;
 	int no_forked;
 	int no_sigkill;
+	int mig_fcfs_to_RR_cnt;
+	int mig_RR_to_sjf_cnt;
+	int work_steal_count;
 	LinkedQueue<sigkill> kill_queue;
 	LinkedQueue<Process*> waitingList;// in case all processor of kind FCFS are overheated and there is forked process
 public:
@@ -48,8 +51,9 @@ public:
 	int get_timestep(); // not sure if i will need this
 	void Print_output_file();
 	bool worksteal();
-
-
+	int get_mig_fcfs_to_RR_cnt();
+	int get_mig_RR_to_sjf_cnt();
+	int get_work_steal_count();
 };
 #endif
 
