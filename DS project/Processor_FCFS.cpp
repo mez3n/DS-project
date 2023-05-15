@@ -241,5 +241,7 @@ void Processor_FCFS::switch_processes(Processor*& p)
 	// check implement please (a function that take take the first process in (this) and give it to p)
 	Process* px;
 	RDYlist.DeleteFirst(px);
+	count--;
+	FinishTime -= px->getLeftCT();
 	p->AddToList(px);
 }
