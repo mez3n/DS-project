@@ -678,13 +678,13 @@ void scheduler::checkWaitingList()
 }
 void scheduler::ckeckForking(Process* p) 
 {
-	Process* k;
+	Process* k = nullptr;
 	srand((unsigned)time(NULL));
 	float  r = (float)rand() / RAND_MAX;
 	if (r < Fork_prob)
 	{
 		if (p)
-			k=p->fork_process(Processes_no,Time_Step);
+			k = p->fork_process(Processes_no,Time_Step);
 		if (k)
 			AddToShortestFCFS(k);
 	}

@@ -1,3 +1,1 @@
-﻿  Mazen_main.cpp
-D:\DS_project\DS-project\DS project\Mazen_main.cpp(18,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  DS project.vcxproj -> D:\DS_project\DS-project\x64\Debug\DS project.exe
+﻿  DS project.vcxproj -> D:\DS_project\DS-project\x64\Debug\DS project.exe
