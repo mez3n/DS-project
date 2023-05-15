@@ -150,28 +150,30 @@ scheduler::scheduler()
 		fcfs_temp = fcfs_temp->getNext();
 	}
 }
+//////////////////////////////////////////////////////////////////////////// DO NOT DELETE IT 
 /*insert a process to the processor with the least CT*/
-void scheduler::Add_To_Shortest_RDY(Process* p)
-{
-	Node<Processor*>* ptr = Processors.gethead();
-	if (ptr->getItem()->IsRdyEmpty())
-		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
-	else
-	{
-		int min_CT = ptr->getItem()->ExpectedFinishTime();
-		ptr = ptr->getNext();
-		while (ptr) // get min CT
-		{
-			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-				min_CT = ptr->getItem()->ExpectedFinishTime();
-			ptr = ptr->getNext();
-		}
-		ptr = Processors.gethead();
-		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-			ptr = ptr->getNext();
-		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
-	}
-}
+//void scheduler::Add_To_Shortest_RDY(Process* p)
+//{
+//	Node<Processor*>* ptr = Processors.gethead();
+//	if (ptr->getItem()->IsRdyEmpty())
+//		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+//	else
+//	{
+//		int min_CT = ptr->getItem()->ExpectedFinishTime();
+//		ptr = ptr->getNext();
+//		while (ptr) // get min CT
+//		{
+//			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+//				min_CT = ptr->getItem()->ExpectedFinishTime();
+//			ptr = ptr->getNext();
+//		}
+//		ptr = Processors.gethead();
+//		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+//			ptr = ptr->getNext();
+//		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+//	}
+//}
+/////////////////////////////////////////////////////////////////////// DO NOT DELETE IT
 //int scheduler::GenerateNo()
 //{
 //	return 1 + (rand() % 100);
@@ -372,7 +374,7 @@ void scheduler::simulate_system()
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	Node<Processor*>* Pr_ptr7 = Processors.gethead();// a pointer to processors list
 	NEW_LIST.peek(p);
-	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list // i think that it may need modification due to forked process 
+	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
@@ -556,6 +558,8 @@ void scheduler::simulate_system()
 			Pr_ptr7->getItem()->overheat_check();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
+		// free waiting list if possible
+		checkWaitingList();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
@@ -615,4 +619,149 @@ int scheduler::get_mig_RR_to_sjf_cnt()
 int scheduler::get_work_steal_count()
 {
 	return work_steal_count;
+}
+bool scheduler::IsAllProcessorStop() 
+{
+	bool b = true;
+	Node<Processor*>* p = Processors.gethead();
+	while (p) 
+	{
+		if (!p->getItem()->IsStop())
+			b = false;
+		p = p->getNext();
+	}
+	return b;
+}
+bool scheduler::IsAllFCFSstop()
+{
+	bool b = true;
+	Node<Processor*>* p = Processors.gethead();
+	for(int i=1;i<=FCFS_no;i++)
+	{
+		if (!p->getItem()->IsStop())
+			b = false;
+		p = p->getNext();
+	}
+	return b;
+}
+void scheduler::checkWaitingList() 
+{
+	Process* p;// we will take one process in each time step
+	if (waitingList.isEmpty())
+		return;
+	waitingList.peek(p);
+	if (p->is_forked()) 
+	{
+		if (!IsAllFCFSstop())
+		{
+
+			waitingList.dequeue(p);
+			AddToShortestFCFS(p);
+		}
+		else // to make the next process take its turn 
+		{
+			waitingList.dequeue(p);
+			waitingList.enqueue(p);
+		}
+	}
+	else 
+	{
+		if (!IsAllProcessorStop())
+		{
+
+			waitingList.dequeue(p);
+			Add_To_Shortest_RDY(p);
+		}
+	}
+	
+
+}
+void scheduler::ckeckForking(Process* p) 
+{
+	Process* k;
+	srand((unsigned)time(NULL));
+	float  r = (float)rand() / RAND_MAX;
+	if (r < Fork_prob)
+	{
+		if (p)
+			k=p->fork_process(Processes_no,Time_Step);
+		if (k)
+			AddToShortestFCFS(k);
+	}
+}
+void scheduler::AddToShortestFCFS(Process* p)
+{
+	if (IsAllFCFSstop())
+	{
+		waitingList.enqueue(p);
+		return;
+	}
+	Node<Processor*>* ptr = Processors.gethead();
+	Node<Processor*>* shortest = nullptr;
+	int j = 1;
+	while (ptr&& j<=FCFS_no) // to get first non_stoped processor
+	{
+		if (ptr->getItem()->IsStop()) 
+		{
+			ptr = ptr->getNext();
+			j++;
+		}
+		else 
+		{
+			shortest = ptr;
+			break;
+		}
+	}
+	for (int i = j+1; i <= FCFS_no; i++)
+	{
+		if (ptr->getItem()->IsStop())
+			ptr = ptr->getNext();
+		else 
+		{
+			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime()) 
+			{
+				shortest = ptr;
+				ptr = ptr->getNext();
+			}
+		}
+	}
+	shortest->getItem()->AddToList(p);
+}
+void scheduler::Add_To_Shortest_RDY(Process* p)
+{
+	if (IsAllProcessorStop())
+	{
+		waitingList.enqueue(p);
+		return;
+	}
+	Node<Processor*>* ptr = Processors.gethead();
+	Node<Processor*>* shortest = nullptr;
+	int j = 1;
+	while (ptr) // to get first non_stoped processor
+	{
+		if (ptr->getItem()->IsStop())
+		{
+			ptr = ptr->getNext();
+		}
+		else
+		{
+			shortest = ptr;
+			break;
+		}
+	}
+	ptr = ptr->getNext();
+	while(ptr)
+	{
+		if (ptr->getItem()->IsStop())
+			ptr = ptr->getNext();
+		else
+		{
+			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime())
+			{
+				shortest = ptr;
+				ptr = ptr->getNext();
+			}
+		}
+	}
+	shortest->getItem()->AddToList(p);
 }

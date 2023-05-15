@@ -20,8 +20,7 @@ protected:
 public:
 
 	Processor(int N, int id, string name, scheduler* p);
-	virtual void ScheduleAlgo() = 0;// determine next process to be run
-	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 
+	virtual void ScheduleAlgo() = 0;// determine next process to be run 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list
 	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose
 	virtual void print() = 0; // print process PID. UI class must call it.

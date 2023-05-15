@@ -14,21 +14,6 @@ void Processor_RR::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist.enqueue(p);
 }
-bool Processor_RR::RunProcess()
-{
-	if (RDYlist.isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist.dequeue(Runprocess);
-		state = true;
-	}
-	return false;
-}
 void Processor_RR::print()
 {
 	RDYlist.PrintList();
@@ -137,7 +122,7 @@ void Processor_RR::overheat_check()
 			while (RDYlist.isEmpty()) 
 			{
 				RDYlist.dequeue(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				assistant->Add_To_Shortest_RDY(p);
 			}
 		}
 	}

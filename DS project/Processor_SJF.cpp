@@ -10,21 +10,6 @@ void Processor_SJF::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist->enqueue(p, p->getLeftCT());
 }
-bool Processor_SJF::RunProcess()
-{
-	if (RDYlist->isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist->dequeue(Runprocess);
-		state = true;
-	}
-	return false;
-}
 void Processor_SJF::print()
 {
 	RDYlist->PrintList();
@@ -122,7 +107,7 @@ void Processor_SJF::overheat_check()
 			while (RDYlist->isEmpty())
 			{
 				RDYlist->dequeue(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				assistant->Add_To_Shortest_RDY(p);
 			}
 		}
 	}

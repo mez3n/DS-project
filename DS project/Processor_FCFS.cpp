@@ -97,21 +97,6 @@ void Processor_FCFS::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist.InsertEnd(p);
 }
-bool Processor_FCFS::RunProcess()
-{
-	if (RDYlist.isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist.DeleteFirst(Runprocess);
-		state = true;
-	}
-	return false;
-}
 void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
@@ -162,6 +147,7 @@ void Processor_FCFS::ScheduleAlgo()
 			{
 				Runprocess->set_RT(assistant->get_timestep());
 			}
+			assistant->ckeckForking(Runprocess);
 		}
 		else
 		{
@@ -173,6 +159,7 @@ void Processor_FCFS::ScheduleAlgo()
 	{
 		state = true;
 		TotalBusyTime++;
+		assistant->ckeckForking(Runprocess);
 	}
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
@@ -222,7 +209,14 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 			leftn = n;
 			if (Runprocess)
 			{
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				if (Runprocess->is_forked()) 
+				{
+					assistant->AddToShortestFCFS(Runprocess);
+				}
+				else 
+				{
+					assistant->Add_To_Shortest_RDY(Runprocess);
+				}
 				Runprocess = nullptr;
 				state = false;
 			}
@@ -230,7 +224,14 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 			while (RDYlist.isEmpty())
 			{
 				RDYlist.DeleteFirst(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				if (Runprocess->is_forked())
+				{
+					assistant->AddToShortestFCFS(p);
+				}
+				else
+				{
+					assistant->Add_To_Shortest_RDY(p);
+				}
 			}
 		}
 	}

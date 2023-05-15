@@ -54,6 +54,11 @@ public:
 	int get_mig_fcfs_to_RR_cnt();
 	int get_mig_RR_to_sjf_cnt();
 	int get_work_steal_count();
+	bool IsAllProcessorStop();// check if all Processors are stoped
+	void checkWaitingList();// move process from waiting list to shortest RDY list one in each time step
+	bool IsAllFCFSstop();// check if all FCFS are stoped
+	void ckeckForking(Process* p);// to be called by FCFS in scheduleAlgo
+	void AddToShortestFCFS(Process*);// add forcked process to shortest FCFS
 };
 #endif
 

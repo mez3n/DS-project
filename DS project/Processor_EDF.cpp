@@ -10,22 +10,6 @@ void Processor_EDF::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist->enqueue(p, p->getdeadline());
 }
-bool Processor_EDF::RunProcess()
-{
-	if (RDYlist->isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist->dequeue(Runprocess);
-		state = true;
-		//Runprocess->SetRunState(true);
-	}
-	return false;
-}
 void Processor_EDF::print()
 {
 	RDYlist->PrintList();
@@ -137,7 +121,7 @@ void Processor_EDF::overheat_check()
 			while (RDYlist->isEmpty())
 			{
 				RDYlist->dequeue(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				assistant->Add_To_Shortest_RDY(p);
 			}
 		}
 	}

@@ -16,12 +16,9 @@ public:
 	Processor_FCFS(int N, int id, string name, scheduler* p, int maxw, float fork);
 	void kill_sig(int timestep); //fucntion kills processes by sig kill each loop
 	void ScheduleAlgo();// determine next process to be run
-	void set_sigkill(LinkedQueue<sigkill>& kill_queue);
-	bool RunProcess();   // edit cpu time for process and return true if process need I/O ->to do // PS. mazen please change its name 
+	void set_sigkill(LinkedQueue<sigkill>& kill_queue); 
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
 	void print(); // print process PID. UI class must call it .
-	bool removefromlist(Process*& p);// remove process from ready list 
-	bool peeknextprocess(Process*& p);// return the the next process but not remove it from list
 	Process* GetRunProcess();// function to get the process that runs in a processor->to do
 	bool IsRdyEmpty();//returns if the ready list is empty or not ->
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%

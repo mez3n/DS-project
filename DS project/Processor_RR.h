@@ -15,7 +15,6 @@ public:
 	Processor_RR(int N, int id, string name, scheduler* p, int rtf, int rrslice);
 	void ScheduleAlgo();// determine next process to be run
 	Process* getprocessbyidfcfs(int id) { return NULL; }
-	bool RunProcess();// edit cpu time for process and return true if process need I/O ->to do
 	void AddToList(Process* p);//  Add new process to RDY list-> to do
 	void print(); // print process PID. UI class must call it .
 	Process* GetRunProcess();// function to get the process that runs in a processor->to do
