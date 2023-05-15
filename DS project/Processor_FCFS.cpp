@@ -97,21 +97,6 @@ void Processor_FCFS::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist.InsertEnd(p);
 }
-bool Processor_FCFS::RunProcess()
-{
-	if (RDYlist.isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist.DeleteFirst(Runprocess);
-		state = true;
-	}
-	return false;
-}
 void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
@@ -158,6 +143,11 @@ void Processor_FCFS::ScheduleAlgo()
 			count--;
 			state = true;
 			TotalBusyTime++;
+			if (Runprocess->get_RT() == -1)
+			{
+				Runprocess->set_RT(assistant->get_timestep());
+			}
+			assistant->ckeckForking(Runprocess);
 		}
 		else
 		{
@@ -169,32 +159,7 @@ void Processor_FCFS::ScheduleAlgo()
 	{
 		state = true;
 		TotalBusyTime++;
-	}
-	// second check Migration
-	///*bool b = assistant->Migration_FCFS(Runprocess);
-	//if (b)
-	//{
-	//	Runprocess=nullptr;
-	//	ScheduleAlgo(assistant);
-	//	return;
-	//}*/
-	// third  check fork
-	/*assistant->(Runprocess); */
-	// fourth excute
-	Runprocess->decrementCT();
-	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0)
-	{
-		assistant->move_to_trm(Runprocess);
-		Runprocess = nullptr;
-	}
-	// fifth check for I_O request
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
-	{
-		assistant->RUNtoBLK(Runprocess);
+		assistant->ckeckForking(Runprocess);
 	}
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
@@ -215,30 +180,24 @@ Process* Processor_FCFS::getprocessbyidfcfs(int id)
 	return p;
 
 }
-Process* Processor_FCFS::get_chosen_process()
+Process* Processor_FCFS::get_first_process()
 {
-	if (!Runprocess)
+	if (!RDYlist.isEmpty())
 	{
-		if (!RDYlist.isEmpty())
-		{
-			Process* choosen;
-			RDYlist.peekfirst(choosen);
-			return choosen;
-		}
-		else
-		{
-			return nullptr;
-		}
+		Process* choosen;
+		RDYlist.peekfirst(choosen);
+		return choosen;
 	}
-	return Runprocess;
+	else
+	{
+		return nullptr;
+	}
 }
 void Processor_FCFS::overheat_check()// need modification to handel if process is forked and this is the only FCFS
 {
 	if (leftn > 0)
 	{
 		leftn--;
-		TotalIDLETime++;
-		state = false;
 	}
 	else
 	{
@@ -246,10 +205,18 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 		int  r = 1 + (rand() % 100);
 		if (r <= 5 && r > 0)
 		{
+			FinishTime = 0;
 			leftn = n;
 			if (Runprocess)
 			{
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				if (Runprocess->is_forked()) 
+				{
+					assistant->AddToShortestFCFS(Runprocess);
+				}
+				else 
+				{
+					assistant->Add_To_Shortest_RDY(Runprocess);
+				}
 				Runprocess = nullptr;
 				state = false;
 			}
@@ -257,8 +224,22 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 			while (RDYlist.isEmpty())
 			{
 				RDYlist.DeleteFirst(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				if (Runprocess->is_forked())
+				{
+					assistant->AddToShortestFCFS(p);
+				}
+				else
+				{
+					assistant->Add_To_Shortest_RDY(p);
+				}
 			}
 		}
 	}
+}
+void Processor_FCFS::switch_processes(Processor*& p)
+{
+	// check implement please (a function that take take the first process in (this) and give it to p)
+	Process* px;
+	RDYlist.DeleteFirst(px);
+	p->AddToList(px);
 }

@@ -34,7 +34,6 @@ public:
 	}
 };
 #endif
-
 scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
@@ -42,10 +41,10 @@ scheduler::scheduler()
 	mig_RR_to_sjf_cnt = 0;
 	work_steal_count = 0;
 	InputFile = new ifstream("InputFile.txt", ios::in);
-	string no_rr, no_fcfs, no_sjf,no_edf;
+	string no_rr, no_fcfs, no_sjf, no_edf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
 	string S_T_RR;
-	*InputFile >> no_fcfs >> no_sjf >> no_rr >>no_edf>> S_T_RR >> S_RTF >> S_MaxW >> S_STL >> S_Fork_Prob;
+	*InputFile >> no_fcfs >> no_sjf >> no_rr >> no_edf >> S_T_RR >> S_RTF >> S_MaxW >> S_STL >> S_Fork_Prob;
 	FCFS_no = stoi(no_fcfs);
 	SJF_no = stoi(no_sjf);
 	RR_no = stoi(no_rr);
@@ -67,22 +66,22 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS",this, MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", this, MaxW, Fork_prob);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
 	{
-		Processor_SJF* P = new Processor_SJF(8, i + 1 + FCFS_no, "SJF",this, Processes_no);
+		Processor_SJF* P = new Processor_SJF(8, i + 1 + FCFS_no, "SJF", this, Processes_no);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR",this, RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", this, RTF, T_RR);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < EDF_no; i++)
 	{
-		Processor_EDF * P = new Processor_EDF(8, i + 1 + FCFS_no + SJF_no+RR_no, "EDF", this, Processes_no);
+		Processor_EDF* P = new Processor_EDF(8, i + 1 + FCFS_no + SJF_no + RR_no, "EDF", this, Processes_no);
 		Processors.InsertEnd(P);
 	}
 	// fill the processes list
@@ -144,35 +143,37 @@ scheduler::scheduler()
 		NEW_LIST.enqueue(p);
 	}
 	load_sigkill();
-	Node<Processor*> * fcfs_temp = Processors.gethead();
+	Node<Processor*>* fcfs_temp = Processors.gethead();
 	for (int i = 0; i < FCFS_no; i++)  // initializing kill queue in all fcfs processors
 	{
 		fcfs_temp->getItem()->set_sigkill(kill_queue);
-		fcfs_temp=fcfs_temp->getNext();
+		fcfs_temp = fcfs_temp->getNext();
 	}
 }
- /*insert a process to the processor with the least CT*/
-void scheduler::Add_To_Shortest_RDY(Process* p) 
-{
-	Node<Processor*>* ptr = Processors.gethead();
-	if(ptr->getItem()->IsRdyEmpty())
-		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
-	else
-	{
-		int min_CT = ptr->getItem()->ExpectedFinishTime();
-		ptr = ptr->getNext();
-		while (ptr) // get min CT
-		{
-			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-				min_CT = ptr->getItem()->ExpectedFinishTime();
-			ptr = ptr->getNext();
-		}
-		ptr = Processors.gethead();
-		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-			ptr = ptr->getNext();
-		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
-	}
-}
+//////////////////////////////////////////////////////////////////////////// DO NOT DELETE IT 
+/*insert a process to the processor with the least CT*/
+//void scheduler::Add_To_Shortest_RDY(Process* p)
+//{
+//	Node<Processor*>* ptr = Processors.gethead();
+//	if (ptr->getItem()->IsRdyEmpty())
+//		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+//	else
+//	{
+//		int min_CT = ptr->getItem()->ExpectedFinishTime();
+//		ptr = ptr->getNext();
+//		while (ptr) // get min CT
+//		{
+//			if (ptr->getItem()->ExpectedFinishTime() < min_CT)
+//				min_CT = ptr->getItem()->ExpectedFinishTime();
+//			ptr = ptr->getNext();
+//		}
+//		ptr = Processors.gethead();
+//		while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+//			ptr = ptr->getNext();
+//		ptr->getItem()->AddToList(p);// add process to that processor whatever its type
+//	}
+//}
+/////////////////////////////////////////////////////////////////////// DO NOT DELETE IT
 //int scheduler::GenerateNo()
 //{
 //	return 1 + (rand() % 100);
@@ -190,8 +191,8 @@ void scheduler::load_sigkill()
 		kill_queue.enqueue(s1);
 		no_sigkill++;
 	}
-	
-	
+
+
 }
 
 //void scheduler::AddToRdy(Process* p)
@@ -217,7 +218,7 @@ void scheduler::insertIN_MinRR_CT(Process* p)
 			min_CT = Pr_RR->getItem()->ExpectedFinishTime();
 		Pr_RR = Pr_RR->getNext();
 	}
-	Pr_RR = Processors.gethead(); 
+	Pr_RR = Processors.gethead();
 	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
 		Pr_RR = Pr_RR->getNext();
 	while (Pr_RR->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
@@ -269,12 +270,12 @@ void scheduler::Print_output_file()
 {
 	OutputFile = new ofstream("Output File", ios::out);
 	Node<Process*>* process_ptr = TRM_LIST.gethead();
-	int avg_WT=0, avg_RT=0, avg_TRT=0,total_TRT=0;
+	int avg_WT = 0, avg_RT = 0, avg_TRT = 0, total_TRT = 0;
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
-		*OutputFile << "TT\t"<<"PID\t"<<"AT\t"<<"CT\t"<<"IO_D\t"<<"WT\t"<<"RT\t"<<"TRT\t";
-		*OutputFile << cur_process->get_TT()<<"\t" << cur_process->getPID() << "\t" << cur_process->get_CT() << "\t" <<
+		*OutputFile << "TT\t" << "PID\t" << "AT\t" << "CT\t" << "IO_D\t" << "WT\t" << "RT\t" << "TRT\t";
+		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_CT() << "\t" <<
 			cur_process->get_total_IO_D() << "\t" << cur_process->get_WT() << "\t" << cur_process->get_RT() << "\t" << cur_process->get_TRT() << "\n";
 		avg_WT += cur_process->get_WT();
 		avg_RT += cur_process->get_RT();
@@ -295,18 +296,18 @@ void scheduler::Print_output_file()
 	// work steal migration rtf maxw forked_per
 	int MaxW = mig_fcfs_to_RR_cnt * 100 / Processes_no;
 	int RTF = mig_RR_to_sjf_cnt * 100 / Processes_no;
-	int work_per = work_steal_count *100 / Processes_no;
+	int work_per = work_steal_count * 100 / Processes_no;
 	int forked_per = no_forked * 100 / Processes_no;
-	int killed_process = no_sigkill *100 / Processes_no ;
+	int killed_process = no_sigkill * 100 / Processes_no;
 
-	*OutputFile << "Migration %: \t " << "RTF= "<<RTF<<"%,\t" << "MaxW= " <<MaxW<< "%"<< "\n";
-	*OutputFile << "Work Steal %: " << work_per<<"%" << "\n";
+	*OutputFile << "Migration %: \t " << "RTF= " << RTF << "%,\t" << "MaxW= " << MaxW << "%" << "\n";
+	*OutputFile << "Work Steal %: " << work_per << "%" << "\n";
 	*OutputFile << "Forked Process %: " << forked_per << "%" << "\n";
 	*OutputFile << "killed process %:" << killed_process << "%" << "\n \n";
 
-	
-	*OutputFile << "Processors: "<< FCFS_no+SJF_no+RR_no+EDF_no << "[ " << FCFS_no<< "FCFS, " <<SJF_no<<"SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
-	*OutputFile<< "\n";
+
+	*OutputFile << "Processors: " << FCFS_no + SJF_no + RR_no + EDF_no << "[ " << FCFS_no << "FCFS, " << SJF_no << "SJF, " << RR_no << "RR, " << EDF_no << "EDF]";
+	*OutputFile << "\n";
 
 
 	// load
@@ -323,15 +324,15 @@ void scheduler::Print_output_file()
 	// utilization
 	*OutputFile << "Processors Utiliz\n";
 	processor_out = Processors.gethead();
-	float avg_util=0;
+	float avg_util = 0;
 	for (int i = 0; i < FCFS_no + SJF_no + RR_no + EDF_no; i++)
 	{
-		int util_per = (processor_out->getItem()->calcPutil())*100;
+		int util_per = (processor_out->getItem()->calcPutil()) * 100;
 		avg_util += util_per;
-		*OutputFile << "p" << i + 1 << "="<<util_per<<"%,\t";
+		*OutputFile << "p" << i + 1 << "=" << util_per << "%,\t";
 	}
 	avg_util /= FCFS_no + SJF_no + RR_no + EDF_no;
-	*OutputFile << "\n Avg utilization = " <<  avg_util <<"%,\n";
+	*OutputFile << "\n Avg utilization = " << avg_util << "%,\n";
 }
 
 
@@ -357,6 +358,7 @@ void scheduler::update_TimeStep()
 void scheduler::simulate_system()
 {
 	//Ctrl_Processors = Processors.gethead();
+	Console_out.setmode();
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -373,7 +375,7 @@ void scheduler::simulate_system()
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	Node<Processor*>* Pr_ptr7 = Processors.gethead();// a pointer to processors list
 	NEW_LIST.peek(p);
-	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list // i think that it may need modification due to forked process 
+	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
@@ -392,8 +394,8 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
-				Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specfic algorithm (don't forget to remove that process from rdy list)
-				if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)// check RR migration
+				Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specific algorithm (don't forget to remove that process from rdy list)
+				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)// check RR migration
 				{
 					Pr_ptr1->getItem()->SetState(false);
 					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
@@ -401,7 +403,7 @@ void scheduler::simulate_system()
 				}
 				else
 				{
-					if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)// check FCFS migration
+					if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)// check FCFS migration
 					{
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
@@ -409,7 +411,7 @@ void scheduler::simulate_system()
 					}
 					else
 					{
-					// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+						// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
 						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
 					}
@@ -500,7 +502,7 @@ void scheduler::simulate_system()
 		while (Pr_ptr_RR)
 		{
 			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-			if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF)
+			if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
 			{
 				mig_RR_to_sjf_cnt++;
 				Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
@@ -514,7 +516,7 @@ void scheduler::simulate_system()
 		for (int i = 0; i < FCFS_no; i++)
 		{
 			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-			if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW)
+			if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
 			{
 				Migration_FCFS(Pr_ptr_FCFS->getItem()->GetRunProcess());
 				mig_fcfs_to_RR_cnt++;
@@ -526,7 +528,7 @@ void scheduler::simulate_system()
 		Pr_ptr_FCFS = Processors.gethead();
 		// 7-check for io request //made by ali
 		Pr_ptr7 = Processors.gethead();
-		while (Pr_ptr6)
+		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->checkIO_request();
 			Pr_ptr7 = Pr_ptr7->getNext();
@@ -547,9 +549,18 @@ void scheduler::simulate_system()
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
 		// 10- work stealing part
-		if (get_timestep() % STL == 0)
+		/*if (get_timestep() % STL == 0)
 			while (worksteal())
-				work_steal_count++;
+				work_steal_count++;*/
+		// 11- check overheating 
+		Pr_ptr7 = Processors.gethead();
+		while (Pr_ptr7)
+		{
+			Pr_ptr7->getItem()->overheat_check();
+			Pr_ptr7 = Pr_ptr7->getNext();
+		}
+		// free waiting list if possible
+		checkWaitingList();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
@@ -587,7 +598,7 @@ bool scheduler::worksteal()
 	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has max CT
 		ptr = ptr->getNext();
 	ptr_long = ptr->getItem();
-	if ((max_CT - min_CT) / max_CT > 0.4)
+	if (!ptr_long->get_first_process()->is_forked() && (max_CT - min_CT) / max_CT > 0.4)
 	{
 		ptr_long->switch_processes(ptr_short);
 		return true;
@@ -609,4 +620,149 @@ int scheduler::get_mig_RR_to_sjf_cnt()
 int scheduler::get_work_steal_count()
 {
 	return work_steal_count;
+}
+bool scheduler::IsAllProcessorStop() 
+{
+	bool b = true;
+	Node<Processor*>* p = Processors.gethead();
+	while (p) 
+	{
+		if (!p->getItem()->IsStop())
+			b = false;
+		p = p->getNext();
+	}
+	return b;
+}
+bool scheduler::IsAllFCFSstop()
+{
+	bool b = true;
+	Node<Processor*>* p = Processors.gethead();
+	for(int i=1;i<=FCFS_no;i++)
+	{
+		if (!p->getItem()->IsStop())
+			b = false;
+		p = p->getNext();
+	}
+	return b;
+}
+void scheduler::checkWaitingList() 
+{
+	Process* p;// we will take one process in each time step
+	if (waitingList.isEmpty())
+		return;
+	waitingList.peek(p);
+	if (p->is_forked()) 
+	{
+		if (!IsAllFCFSstop())
+		{
+
+			waitingList.dequeue(p);
+			AddToShortestFCFS(p);
+		}
+		else // to make the next process take its turn 
+		{
+			waitingList.dequeue(p);
+			waitingList.enqueue(p);
+		}
+	}
+	else 
+	{
+		if (!IsAllProcessorStop())
+		{
+
+			waitingList.dequeue(p);
+			Add_To_Shortest_RDY(p);
+		}
+	}
+	
+
+}
+void scheduler::ckeckForking(Process* p) 
+{
+	Process* k = nullptr;
+	srand((unsigned)time(NULL));
+	float  r = (float)rand() / RAND_MAX;
+	if (r < Fork_prob)
+	{
+		if (p)
+			k = p->fork_process(Processes_no,Time_Step);
+		if (k)
+			AddToShortestFCFS(k);
+	}
+}
+void scheduler::AddToShortestFCFS(Process* p)
+{
+	if (IsAllFCFSstop())
+	{
+		waitingList.enqueue(p);
+		return;
+	}
+	Node<Processor*>* ptr = Processors.gethead();
+	Node<Processor*>* shortest = nullptr;
+	int j = 1;
+	while (ptr&& j<=FCFS_no) // to get first non_stoped processor
+	{
+		if (ptr->getItem()->IsStop()) 
+		{
+			ptr = ptr->getNext();
+			j++;
+		}
+		else 
+		{
+			shortest = ptr;
+			break;
+		}
+	}
+	for (int i = j+1; i <= FCFS_no; i++)
+	{
+		if (ptr->getItem()->IsStop())
+			ptr = ptr->getNext();
+		else 
+		{
+			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime()) 
+			{
+				shortest = ptr;
+				ptr = ptr->getNext();
+			}
+		}
+	}
+	shortest->getItem()->AddToList(p);
+}
+void scheduler::Add_To_Shortest_RDY(Process* p)
+{
+	if (IsAllProcessorStop())
+	{
+		waitingList.enqueue(p);
+		return;
+	}
+	Node<Processor*>* ptr = Processors.gethead();
+	Node<Processor*>* shortest = nullptr;
+	int j = 1;
+	while (ptr) // to get first non_stoped processor
+	{
+		if (ptr->getItem()->IsStop())
+		{
+			ptr = ptr->getNext();
+		}
+		else
+		{
+			shortest = ptr;
+			break;
+		}
+	}
+	ptr = ptr->getNext();
+	while(ptr)
+	{
+		if (ptr->getItem()->IsStop())
+			ptr = ptr->getNext();
+		else
+		{
+			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime())
+			{
+				shortest = ptr;
+				ptr = ptr->getNext();
+			}
+		}
+	}
+	shortest->getItem()->AddToList(p);
 }

@@ -1,5 +1,5 @@
 #pragma once 
-#include "Process.h"
+#include"Process.h"
 Process::Process()
 {
 	left_child = nullptr;
@@ -172,7 +172,7 @@ Process* Process::fork_process(int& process_no, int time_step)
 	{
 		process_no++;
 		Process* child = new Process;
-		child->AddProcess(process_no, time_step, CT, 0, nullptr, nullptr);
+		child->AddProcess(process_no, time_step, CT, 0, nullptr, nullptr);// I think it should be Left CT 
 		Add_child(child);
 		fork_count++;
 		return child;

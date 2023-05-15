@@ -10,21 +10,6 @@ void Processor_SJF::AddToList(Process* p)
 	FinishTime += p->getLeftCT();
 	RDYlist->enqueue(p, p->getLeftCT());
 }
-bool Processor_SJF::RunProcess()
-{
-	if (RDYlist->isEmpty())
-	{
-		state = false;
-		Runprocess = nullptr;
-	}
-	else
-	{
-		count--;
-		RDYlist->dequeue(Runprocess);
-		state = true;
-	}
-	return false;
-}
 void Processor_SJF::print()
 {
 	RDYlist->PrintList();
@@ -65,6 +50,10 @@ void Processor_SJF::ScheduleAlgo()
 			count--;
 			TotalBusyTime++;
 			state = true;
+			if (Runprocess->get_RT() == -1)
+			{
+				Runprocess->set_RT(assistant->get_timestep());
+			}
 		}
 		else
 		{
@@ -79,22 +68,19 @@ void Processor_SJF::ScheduleAlgo()
 	}
 }
 
-Process* Processor_SJF::get_chosen_process()
+Process* Processor_SJF::get_first_process()
 {
-	if (!Runprocess)
+
+	if (!RDYlist->isEmpty())
 	{
-		if (!RDYlist->isEmpty())
-		{
-			Process* choosen;
-			RDYlist->peek(choosen);
-			return choosen;
-		}
-		else
-		{
-			return nullptr;
-		}
+		Process* choosen;
+		RDYlist->peek(choosen);
+		return choosen;
 	}
-	return Runprocess;
+	else
+	{
+		return nullptr;
+	}
 }
 
 void Processor_SJF::overheat_check()
@@ -102,8 +88,6 @@ void Processor_SJF::overheat_check()
 	if (leftn > 0)
 	{
 		leftn--;
-		TotalIDLETime++;
-		state = false;
 	}
 	else
 	{
@@ -111,6 +95,7 @@ void Processor_SJF::overheat_check()
 		int  r = 1 + (rand() % 100);
 		if (r <= 5 && r > 0)
 		{
+			FinishTime = 0;
 			leftn = n;
 			if (Runprocess)
 			{
@@ -122,8 +107,15 @@ void Processor_SJF::overheat_check()
 			while (RDYlist->isEmpty())
 			{
 				RDYlist->dequeue(p);
-				assistant->Add_To_Shortest_RDY(Runprocess);
+				assistant->Add_To_Shortest_RDY(p);
 			}
 		}
 	}
+}
+void Processor_SJF::switch_processes(Processor*& p)
+{
+	// check implement please (a function that take take the first process in (this) and give it to p)
+	Process* px;
+	RDYlist->dequeue(px);
+	p->AddToList(px);
 }

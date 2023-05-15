@@ -20,15 +20,12 @@ protected:
 public:
 
 	Processor(int N, int id, string name, scheduler* p);
-	virtual void ScheduleAlgo() = 0;// determine next process to be run
-	virtual bool RunProcess() = 0;// edit cpu time for process and return true if process need I/O 
+	virtual void ScheduleAlgo() = 0;// determine next process to be run 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list
 	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose
 	virtual void print() = 0; // print process PID. UI class must call it.
 	float GetPload(int TotalTRTProcesses);//Get pload for each processor
 	float calcPutil();// calculate Putil for processor
-	//virtual bool removefromlist(Process*& p) = 0;    // remove process from ready list 
-	// virtual bool peeknextprocess(Process*& p) = 0;   // return the the next process but not remove it from list
 	bool IsIdle();// return true if idle and return false if busy
 	virtual void removerunprocess() = 0;// set runprocess null
 	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
@@ -51,7 +48,7 @@ public:
 		state = b;
 	}
 	virtual Process* getprocessbyidfcfs(int id) = 0;
-	virtual Process* get_chosen_process() = 0;// function returns the process chosen to run
+	virtual Process* get_first_process() = 0;// function returns the process chosen to run
 	void checkIO_request();
 	virtual void switch_processes(Processor*& p) = 0;
 	virtual void overheat_check() = 0;// check overheat if there is overheat move all process to another rdylist and count when processor work again

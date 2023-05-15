@@ -48,12 +48,17 @@ public:
 	void insertIN_MinRR_CT(Process* p);
 	void RUNtoBLK(Process* p);
 	void move_to_trm(Process* p);
-	int get_timestep(); // not sure if i will need this
+	int get_timestep(); // not sure if i will need this -- keep it I wil need it
 	void Print_output_file();
 	bool worksteal();
 	int get_mig_fcfs_to_RR_cnt();
 	int get_mig_RR_to_sjf_cnt();
 	int get_work_steal_count();
+	bool IsAllProcessorStop();// check if all Processors are stoped
+	void checkWaitingList();// move process from waiting list to shortest RDY list one in each time step
+	bool IsAllFCFSstop();// check if all FCFS are stoped
+	void ckeckForking(Process* p);// to be called by FCFS in scheduleAlgo
+	void AddToShortestFCFS(Process*);// add forcked process to shortest FCFS
 };
 #endif
 
