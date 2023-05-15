@@ -67,6 +67,10 @@ void Processor_EDF::ScheduleAlgo()
 			TotalBusyTime++;
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
+			if (Runprocess->get_RT() == -1)
+			{
+				Runprocess->set_RT(assistant->get_timestep());
+			}
 		}
 		else
 		{
@@ -87,13 +91,17 @@ void Processor_EDF::ScheduleAlgo()
 			state = true;
 			TotalBusyTime++;
 			FinishTime -= Runprocess->getLeftCT();
+			if (Runprocess->get_RT() == -1)
+			{
+				Runprocess->set_RT(assistant->get_timestep());
+			}
 		}
 	}
 }
 
 Process* Processor_EDF::get_first_process()
 {
-	if (!RDYlist.isEmpty())
+	if (!RDYlist->isEmpty())
 	{
 		Process* choosen;
 		RDYlist->peek(choosen);
@@ -110,8 +118,6 @@ void Processor_EDF::overheat_check()
 	if (leftn > 0)
 	{
 		leftn--;
-		TotalIDLETime++;
-		state = false;
 	}
 	else
 	{
@@ -119,6 +125,7 @@ void Processor_EDF::overheat_check()
 		int  r = 1 + (rand() % 100);
 		if (r <= 5 && r > 0)
 		{
+			FinishTime = 0;
 			leftn = n;
 			if (Runprocess)
 			{
@@ -134,4 +141,11 @@ void Processor_EDF::overheat_check()
 			}
 		}
 	}
+}
+void Processor_EDF::switch_processes(Processor*& p)
+{
+	// check implement please (a function that take take the first process in (this) and give it to p)
+	Process* px;
+	RDYlist->dequeue(px);
+	p->AddToList(px);
 }

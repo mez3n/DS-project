@@ -27,16 +27,19 @@ bool Processor::IsIdle()
 }
 void Processor::checkIO_request() 
 {
-	if (Runprocess->is_forked())
-		return;
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
+	if (Runprocess)
 	{
-		assistant->RUNtoBLK(Runprocess);
-		Runprocess = nullptr;
-		state = false;
+		if (Runprocess->is_forked())
+			return;
+		int ct = Runprocess->get_CT();
+		int lct = Runprocess->getLeftCT();
+		int ior = Runprocess->get_IO_R();
+		if (ct - lct == ior)
+		{
+			assistant->RUNtoBLK(Runprocess);
+			Runprocess = nullptr;
+			state = false;
+		}
 	}
 }
 int Processor::ExpectedFinishTime()

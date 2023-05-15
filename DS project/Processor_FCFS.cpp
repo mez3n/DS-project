@@ -158,6 +158,10 @@ void Processor_FCFS::ScheduleAlgo()
 			count--;
 			state = true;
 			TotalBusyTime++;
+			if (Runprocess->get_RT() == -1)
+			{
+				Runprocess->set_RT(assistant->get_timestep());
+			}
 		}
 		else
 		{
@@ -169,32 +173,6 @@ void Processor_FCFS::ScheduleAlgo()
 	{
 		state = true;
 		TotalBusyTime++;
-	}
-	// second check Migration
-	///*bool b = assistant->Migration_FCFS(Runprocess);
-	//if (b)
-	//{
-	//	Runprocess=nullptr;
-	//	ScheduleAlgo(assistant);
-	//	return;
-	//}*/
-	// third  check fork
-	/*assistant->(Runprocess); */
-	// fourth excute
-	Runprocess->decrementCT();
-	TotalBusyTime++;
-	if (Runprocess->getLeftCT() == 0)
-	{
-		assistant->move_to_trm(Runprocess);
-		Runprocess = nullptr;
-	}
-	// fifth check for I_O request
-	int ct = Runprocess->get_CT();
-	int lct = Runprocess->getLeftCT();
-	int ior = Runprocess->get_IO_R();
-	if (ct - lct == ior)
-	{
-		assistant->RUNtoBLK(Runprocess);
 	}
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
@@ -233,8 +211,6 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 	if (leftn > 0)
 	{
 		leftn--;
-		TotalIDLETime++;
-		state = false;
 	}
 	else
 	{
@@ -242,6 +218,7 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 		int  r = 1 + (rand() % 100);
 		if (r <= 5 && r > 0)
 		{
+			FinishTime = 0;
 			leftn = n;
 			if (Runprocess)
 			{
@@ -257,4 +234,11 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 			}
 		}
 	}
+}
+void Processor_FCFS::switch_processes(Processor*& p)
+{
+	// check implement please (a function that take take the first process in (this) and give it to p)
+	Process* px;
+	RDYlist.DeleteFirst(px);
+	p->AddToList(px);
 }

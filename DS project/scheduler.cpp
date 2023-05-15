@@ -34,7 +34,6 @@ public:
 	}
 };
 #endif
-
 scheduler::scheduler()
 {
 	// anything with S before its name is a data member in string
@@ -526,7 +525,7 @@ void scheduler::simulate_system()
 		Pr_ptr_FCFS = Processors.gethead();
 		// 7-check for io request //made by ali
 		Pr_ptr7 = Processors.gethead();
-		while (Pr_ptr6)
+		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->checkIO_request();
 			Pr_ptr7 = Pr_ptr7->getNext();
@@ -550,6 +549,13 @@ void scheduler::simulate_system()
 		if (get_timestep() % STL == 0)
 			while (worksteal())
 				work_steal_count++;
+		// 11- check overheating 
+		Pr_ptr7 = Processors.gethead();
+		while (Pr_ptr7)
+		{
+			Pr_ptr7->getItem()->overheat_check();
+			Pr_ptr7 = Pr_ptr7->getNext();
+		}
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
