@@ -1,14 +1,1 @@
-﻿  scheduler.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(70,71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(113,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(92,19): warning C4101: 'IO_d': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(92,8): warning C4101: 'IO_r': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(91,23): warning C4101: 'rt': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(317,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(329,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(360,6): warning C4101: 'NO_Generated': unreferenced local variable
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(565,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(570,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(578,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(583,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe
+﻿  DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe
