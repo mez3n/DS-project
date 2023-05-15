@@ -91,28 +91,18 @@ void Processor_EDF::ScheduleAlgo()
 	}
 }
 
-Process* Processor_EDF::get_chosen_process()
+Process* Processor_EDF::get_first_process()
 {
-	Process* choosen = nullptr;
-	if (!Runprocess)
+	if (!RDYlist.isEmpty())
 	{
-		if (!RDYlist->isEmpty())
-		{
-			RDYlist->peek(choosen);
-		}
+		Process* choosen;
+		RDYlist->peek(choosen);
+		return choosen;
 	}
 	else
 	{
-		Process* tmp;
-		RDYlist->peek(tmp);
-		if (tmp->getdeadline() < Runprocess->getdeadline())
-		{
-			choosen = tmp;
-		}
-		else
-			choosen = Runprocess;
+		return nullptr;
 	}
-	return choosen;
 }
 
 void Processor_EDF::overheat_check()

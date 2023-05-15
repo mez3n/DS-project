@@ -91,23 +91,19 @@ void Processor_RR::ScheduleAlgo()
 	if(LeftRRslice > 0)
 	    LeftRRslice--;
 }
-Process* Processor_RR::get_chosen_process()
+Process* Processor_RR::get_first_process()
 {
 
-	if (!Runprocess)
+	if (!RDYlist.isEmpty())
 	{
-		if (!RDYlist.isEmpty())
-		{
-			Process* choosen;
-			RDYlist.peek(choosen);
-			return choosen;
-		}
-		else
-		{
-			return nullptr;
-		}
+		Process* choosen;
+		RDYlist.peek(choosen);
+		return choosen;
 	}
-	return Runprocess;
+	else
+	{
+		return nullptr;
+	}
 }
 void Processor_RR::overheat_check() 
 {

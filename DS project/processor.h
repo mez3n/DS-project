@@ -51,7 +51,7 @@ public:
 		state = b;
 	}
 	virtual Process* getprocessbyidfcfs(int id) = 0;
-	virtual Process* get_chosen_process() = 0;// function returns the process chosen to run
+	virtual Process* get_first_process() = 0;// function returns the process chosen to run
 	void checkIO_request();
 	virtual void switch_processes(Processor*& p) = 0;
 	virtual void overheat_check() = 0;// check overheat if there is overheat move all process to another rdylist and count when processor work again

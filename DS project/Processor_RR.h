@@ -29,7 +29,7 @@ public:
 	void removerunprocess();
 	int GetRdyCount();
 	//implement it
-	Process* get_chosen_process() ;// function returns the process chosen to run
+	Process* get_first_process() ;// function returns the process chosen to run
 	void overheat_check();
 	void switch_processes(Processor*& p)
 	{

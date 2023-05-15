@@ -215,22 +215,18 @@ Process* Processor_FCFS::getprocessbyidfcfs(int id)
 	return p;
 
 }
-Process* Processor_FCFS::get_chosen_process()
+Process* Processor_FCFS::get_first_process()
 {
-	if (!Runprocess)
+	if (!RDYlist.isEmpty())
 	{
-		if (!RDYlist.isEmpty())
-		{
-			Process* choosen;
-			RDYlist.peekfirst(choosen);
-			return choosen;
-		}
-		else
-		{
-			return nullptr;
-		}
+		Process* choosen;
+		RDYlist.peekfirst(choosen);
+		return choosen;
 	}
-	return Runprocess;
+	else
+	{
+		return nullptr;
+	}
 }
 void Processor_FCFS::overheat_check()// need modification to handel if process is forked and this is the only FCFS
 {

@@ -79,22 +79,19 @@ void Processor_SJF::ScheduleAlgo()
 	}
 }
 
-Process* Processor_SJF::get_chosen_process()
+Process* Processor_SJF::get_first_process()
 {
-	if (!Runprocess)
+
+	if (!RDYlist->isEmpty())
 	{
-		if (!RDYlist->isEmpty())
-		{
-			Process* choosen;
-			RDYlist->peek(choosen);
-			return choosen;
-		}
-		else
-		{
-			return nullptr;
-		}
+		Process* choosen;
+		RDYlist->peek(choosen);
+		return choosen;
 	}
-	return Runprocess;
+	else
+	{
+		return nullptr;
+	}
 }
 
 void Processor_SJF::overheat_check()
