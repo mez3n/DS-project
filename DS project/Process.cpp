@@ -151,7 +151,7 @@ void Process::REC_kill_children(Process*& parent)
 
 void Process::kill_children()
 {
-	if (is_forked)
+	if (is_forked())
 	{
 		REC_kill_children(left_child);
 		REC_kill_children(right_child);
