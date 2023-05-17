@@ -549,9 +549,9 @@ void scheduler::simulate_system()
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
 		// 10- work stealing part
-		/*if (get_timestep() % STL == 0)
+		if (get_timestep() % STL == 0)
 			while (worksteal())
-				work_steal_count++;*/
+				work_steal_count++;
 		// 11- check overheating 
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
@@ -598,11 +598,12 @@ bool scheduler::worksteal()
 	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has max CT
 		ptr = ptr->getNext();
 	ptr_long = ptr->getItem();
-	if (!ptr_long->get_first_process()->is_forked() && (max_CT - min_CT) / max_CT > 0.4)
-	{
-		ptr_long->switch_processes(ptr_short);
-		return true;
-	}
+	if (!ptr_long->IsRdyEmpty())
+		if (!ptr_long->get_first_process()->is_forked() && (max_CT - min_CT) / max_CT > 0.4)
+		{
+			ptr_long->switch_processes(ptr_short);
+			return true;
+		}
 	return false;
 }
 void scheduler::RUNtoBLK(Process* p)
