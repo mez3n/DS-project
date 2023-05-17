@@ -46,12 +46,14 @@ UI::~UI()
 		cout << "Simulation ends, Output file created";
 	}
 }
-void UI::setmode(int x)
+void UI::setmode()
 {
-	cout << "please enter the mode of the interface:\n ";
+	cout << "please enter the mode of the interface:\n";
 	cout << "0:interactive mode\n";
 	cout << "1:step by step mode\n";
 	cout << "2:silent mode\n";
+	int x =0;   // for testing
+	/*cin >> x;*/
 	Mode = x;
 	if (Mode == 2)
 	{

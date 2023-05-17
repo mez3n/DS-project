@@ -358,6 +358,7 @@ void scheduler::update_TimeStep()
 void scheduler::simulate_system()
 {
 	//Ctrl_Processors = Processors.gethead();
+	Console_out.setmode();
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -548,9 +549,9 @@ void scheduler::simulate_system()
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
 		// 10- work stealing part
-		if (get_timestep() % STL == 0)
+		/*if (get_timestep() % STL == 0)
 			while (worksteal())
-				work_steal_count++;
+				work_steal_count++;*/
 		// 11- check overheating 
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)

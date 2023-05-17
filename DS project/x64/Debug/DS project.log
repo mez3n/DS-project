@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  Mazen_main.cpp
   Process.cpp
   processor.cpp
@@ -25,3 +26,6 @@ C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(593,47): warning
   UI.cpp
   Generating Code...
   DS project.vcxproj -> C:\Users\ma273\Source\Repos\DS-project\x64\Debug\DS project.exe
+=======
+﻿  DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe
+>>>>>>> 0870b613686135f5a29bf70e0df3f488f033c882
