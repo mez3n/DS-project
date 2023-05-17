@@ -9,6 +9,7 @@ Process::Process()
 	fork_count = 0;
 	RT = -1;
 	total_IO_D = 0;
+	in_trm = false;
 }
 void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d)
 {
@@ -109,8 +110,8 @@ void Process::set_termination_times(int tt)
 	TT = tt;     //time when the process finishes execution 
 	TRT = TT - AT; //total time spent from arrival time to termiantion TT-AT
 	WT = TRT - CT; //total time a process spends in system without being executed by the cpu WT=TRT-CT
-
-
+	in_trm = true;
+	kill_children();
 	// you can kill children here
 }
 void Process::Add_child(Process*& child)
@@ -134,7 +135,7 @@ void Process::Add_child(Process*& child)
 
 void Process::REC_kill_children(Process*& parent)
 {
-	if (!parent)
+	if (!parent||in_trm)
 	{
 		return;
 	}
@@ -150,10 +151,13 @@ void Process::REC_kill_children(Process*& parent)
 
 void Process::kill_children()
 {
-	REC_kill_children(left_child);
-	REC_kill_children(right_child);
-	left_child = nullptr;
-	right_child = nullptr;
+	if (is_forked)
+	{
+		REC_kill_children(left_child);
+		REC_kill_children(right_child);
+		left_child = nullptr;
+		right_child = nullptr;
+	}
 }
 
 void Process::set_Processor_id(int n)
@@ -172,9 +176,10 @@ Process* Process::fork_process(int& process_no, int time_step)
 	{
 		process_no++;
 		Process* child = new Process;
-		child->AddProcess(process_no, time_step, CT, 0, nullptr, nullptr);// I think it should be Left CT 
+		child->AddProcess(process_no, time_step, LeftCT, 0, nullptr, nullptr);// I think it should be Left CT 
 		Add_child(child);
 		fork_count++;
+		forked = true;
 		return child;
 	}
 	return nullptr;

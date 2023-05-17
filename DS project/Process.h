@@ -31,7 +31,8 @@ private:
 	void REC_kill_children(Process*& parent); // recursive function of kill orph
 	bool To_Trm; // to kill the children if there parent died
 	int fork_count; // to ensure that no process forked more than 2 times in its life time
-	int total_IO_D;
+	int total_IO_D; //for output file
+	bool in_trm;
 public:
 	Process();
 	void AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d);// will get called by scheduler class in a loop to load each process

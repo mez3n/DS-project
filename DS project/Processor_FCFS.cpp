@@ -80,6 +80,7 @@ void Processor_FCFS::kill_sig(int timestep)
 	}
 	if (p2->getItem()->orphan())
 	{
+		p2->getItem()->set_termination_times(timestep);
 		assistant->move_to_trm(p2->getItem());
 		p1->setNext(p2->getNext());
 		p2 = p2->getNext();

@@ -258,6 +258,7 @@ void scheduler::Migration_FCFS(Process* p)
 void scheduler::move_to_trm(Process* p)
 {
 	p->SetRunState(false);
+	p->set_termination_times(Time_Step);
 	TRM_LIST.InsertEnd(p);
 }
 int scheduler::get_timestep()
@@ -341,6 +342,7 @@ void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 {
 	Pr_ptr->getItem()->SetState(false);
 	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
+	Pr_ptr->getItem()->GetRunProcess()->set_termination_times(Time_Step);
 	TRM_LIST.InsertEnd(Pr_ptr->getItem()->GetRunProcess());
 }
 // transfer process from BLK list to the shortest rdy list
@@ -760,8 +762,8 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime())
 			{
 				shortest = ptr;
-				ptr = ptr->getNext();
 			}
+			ptr = ptr->getNext();
 		}
 	}
 	shortest->getItem()->AddToList(p);
