@@ -94,7 +94,6 @@ void Processor_FCFS::set_sigkill(LinkedQueue<sigkill>& kill_queue_out)
 void Processor_FCFS::AddToList(Process* p)
 {
 	count++;
-	state = true;
 	FinishTime += p->getLeftCT();
 	RDYlist.InsertEnd(p);
 }

@@ -741,7 +741,7 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 	Node<Processor*>* ptr = Processors.gethead();
 	Node<Processor*>* shortest = nullptr;
 	int j = 1;
-	while (ptr) // to get first non_stoped processor
+	while (ptr) // to get first non_stopped processor
 	{
 		if (ptr->getItem()->IsStop())
 		{
