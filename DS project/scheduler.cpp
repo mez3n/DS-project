@@ -719,6 +719,7 @@ void scheduler::ckeckForking(Process* p)
 	Process* k = nullptr;
 	srand((unsigned)time(NULL));
 	float  r = (float)rand() / RAND_MAX;
+	r *= 100;
 	if (r < Fork_prob)
 	{
 		if (p)
