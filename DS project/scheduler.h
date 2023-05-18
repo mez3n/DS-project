@@ -38,9 +38,6 @@ public:
 	void simulate_system();// make the program ready to run
 	void Add_To_Shortest_RDY(Process* p);// insert a process to the processor with the least CT (in phase 2)
 	void update_TimeStep();// inc timestep by 1
-	//int GenerateNo();// generates a number between 1:100 for a process in run list
-	void LoadProcesses(int pid, int no_IO, int at, int rt, int ct, int*& IO_r, int*& IO_d); // will be called in main, the function behind reading all inputs from txt file 
-	void get_counts(int& no_fcfs, int& no_sjf, int& rr, int& process_no);
 	void load_sigkill();
 	void Migration_RR(Process* p);
 	void insertIN_MinSJF_CT(Process* p);
@@ -56,7 +53,7 @@ public:
 	int get_work_steal_count();
 	bool IsAllProcessorStop();// check if all Processors are stoped
 	bool IsAllFCFSstop();// check if all FCFS are stoped
-	void ckeckForking(Process* p);// to be called by FCFS in scheduleAlgo
+	void checkForking(Process* p);// to be called by FCFS in scheduleAlgo
 	void AddToShortestFCFS(Process*);// add forcked process to shortest FCFS
 };
 #endif

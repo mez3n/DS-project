@@ -46,7 +46,6 @@ public:
 	void SetRunState(bool b);
 	//bool GetRunState();
 	void set_termination_times(int current_time); //calculated after termination and calculates TRT and WT by default
-	bool is_parent();
 	void kill_children(); //KILL_ORPH name just for fun I don't actually kill children IRL :D 
 	void set_Processor_id(int n);
 	bool is_forked();
@@ -63,6 +62,7 @@ public:
 	int get_RT(); // use it to make it easier to know if its the first time the process enters a cpu if its -1 then its the first time
 	int get_TT();  // all these getters used to generate the output file
 	int get_TRT();
+	void set_WT(int newwt);
 	int get_WT();
 	int get_total_IO_D();
 	

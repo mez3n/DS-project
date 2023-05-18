@@ -57,6 +57,7 @@ Process* Processor::GetRunProcess()
 void Processor::removerunprocess()
 {
 	Runprocess = nullptr;
+	state = false;
 }
 void Processor::UpdateProcessor()
 {
