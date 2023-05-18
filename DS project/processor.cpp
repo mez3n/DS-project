@@ -50,3 +50,18 @@ bool Processor::IsStop()
 {
 	return (leftn > 0);
 }
+Process* Processor::GetRunProcess()
+{
+	return Runprocess;
+}
+void Processor::removerunprocess()
+{
+	Runprocess = nullptr;
+}
+void Processor::UpdateProcessor()
+{
+	if (state)
+		TotalBusyTime++;
+	else
+		TotalIDLETime++;
+}

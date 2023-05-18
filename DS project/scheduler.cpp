@@ -66,7 +66,7 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", this, MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", this);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
@@ -76,7 +76,7 @@ scheduler::scheduler()
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", this, RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", this, T_RR);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < EDF_no; i++)
@@ -361,6 +361,8 @@ void scheduler::simulate_system()
 {
 	//Ctrl_Processors = Processors.gethead();
 	Console_out.setmode();
+	int FCFS_CNT = 0;
+	int RR_CNT = 0;
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -391,37 +393,94 @@ void scheduler::simulate_system()
 					NEW_LIST.peek(p);
 			}
 		}
+		// check migration first
 		// 2- Check the RDY lists and move one process from each RDY list to RUN state of its processor. This is done if the processor is IDLE. If the processor is BUSY the process should wait in the RDY list.
+		for (int i = 0; i < FCFS_no + SJF_no; i++)
+			Pr_ptr_RR = Pr_ptr_RR->getNext();
 		while (Pr_ptr1)
 		{
 			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
 			{
 				Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specific algorithm (don't forget to remove that process from rdy list)
-				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)// check RR migration
+				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_FCFS->getItem())// check RR migration
 				{
-					Pr_ptr1->getItem()->SetState(false);
-					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
-					Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
-				}
-				else
-				{
-					if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)// check FCFS migration
+					if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)
 					{
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
-						Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+						Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
+						Pr_ptr1->getItem()->removerunprocess();///////
+						continue;
+					}
+					else
+					{
+						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+						FCFS_CNT++;
+						RR_CNT++;
+						if (FCFS_CNT != FCFS_no)
+							Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+						if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+							Pr_ptr_RR = Pr_ptr_RR->getNext();
+						Pr_ptr1 = Pr_ptr1->getNext();
+					}
+				}
+				else
+				{
+					if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_RR->getItem())// check FCFS migration
+					{
+						if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)
+						{
+							Pr_ptr1->getItem()->SetState(false);
+							Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+							Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+							Pr_ptr1->getItem()->removerunprocess();///////
+							continue;
+						}
+						else
+						{
+							Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+							Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+							FCFS_CNT++;
+							RR_CNT++;
+							if (FCFS_CNT != FCFS_no)
+								Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+							if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+								Pr_ptr_RR = Pr_ptr_RR->getNext();
+							Pr_ptr1 = Pr_ptr1->getNext();
+						}
 					}
 					else
 					{
 						// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
 						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+						FCFS_CNT++;
+						RR_CNT++;
+						if (FCFS_CNT != FCFS_no)
+							Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+						if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+							Pr_ptr_RR = Pr_ptr_RR->getNext();
+						Pr_ptr1 = Pr_ptr1->getNext();
 					}
 				}
 			}
-			Pr_ptr1 = Pr_ptr1->getNext();
+			else
+			{
+				FCFS_CNT++;
+				RR_CNT++;
+				if (FCFS_CNT != FCFS_no)
+					Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+				if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+					Pr_ptr_RR = Pr_ptr_RR->getNext();
+				Pr_ptr1 = Pr_ptr1->getNext();
+			}
 		}
+		FCFS_CNT = 0;
+		RR_CNT = 0;
 		Pr_ptr1 = Processors.gethead();
+		Pr_ptr_RR = Processors.gethead();
+		Pr_ptr_FCFS = Processors.gethead();
 		// not needed in phase 1 but i eill keep it for now
 		//// 3- For each process in RUN state, Generate a random number from 1 to 100.
 		//while (Pr_ptr2)
@@ -497,37 +556,39 @@ void scheduler::simulate_system()
 			if (BLK_P->get_IO_D() == 0)
 				BLK_to_RDY(BLK_P);
 		}
-		// 5- check if there is a Run process in RR processors want to migrate to SJF
-		// get first RR processor
-		for (int i = 0; i < FCFS_no + SJF_no; i++)
-			Pr_ptr_RR = Pr_ptr_RR->getNext();
-		while (Pr_ptr_RR)
-		{
-			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-			if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
-			{
-				mig_RR_to_sjf_cnt++;
-				Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
-				Pr_ptr_RR->getItem()->SetState(false);
-				Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
-			}
-			Pr_ptr_RR = Pr_ptr_RR->getNext();
-		}
-		Pr_ptr_RR = Processors.gethead();
-		// 6- check if there is a Run process in FCFS processors want to migrate to RR
-		for (int i = 0; i < FCFS_no; i++)
-		{
-			// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
-			if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
-			{
-				Migration_FCFS(Pr_ptr_FCFS->getItem()->GetRunProcess());
-				mig_fcfs_to_RR_cnt++;
-				Pr_ptr_FCFS->getItem()->SetState(false);
-				Pr_ptr_FCFS->getItem()->GetRunProcess()->SetRunState(false);
-			}
-			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
-		}
-		Pr_ptr_FCFS = Processors.gethead();
+		//// 5- check if there is a Run process in RR processors want to migrate to SJF
+		//// get first RR processor
+		//for (int i = 0; i < FCFS_no + SJF_no; i++)
+		//	Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//while (Pr_ptr_RR)
+		//{
+		//	// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+		//	if (!(Pr_ptr_RR->getItem()->IsIdle()) && Pr_ptr_RR->getItem()->GetRunProcess()->get_CT() < RTF && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
+		//	{
+		//		mig_RR_to_sjf_cnt++;
+		//		Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
+		//		Pr_ptr_RR->getItem()->SetState(false);
+		//		Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+		//		Pr_ptr_RR->getItem()->removerunprocess();///////
+		//	}
+		//	Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//}
+		//Pr_ptr_RR = Processors.gethead();
+		//// 6- check if there is a Run process in FCFS processors want to migrate to RR
+		//for (int i = 0; i < FCFS_no; i++)
+		//{
+		//	// if CT of a process in Run State is less than RTF migrate it to the shortest SJF processor
+		//	if (!(Pr_ptr_FCFS->getItem()->IsIdle()) && Pr_ptr_FCFS->getItem()->GetRunProcess()->get_CT() > MaxW && !Pr_ptr1->getItem()->GetRunProcess()->is_forked())
+		//	{
+		//		Migration_FCFS(Pr_ptr_FCFS->getItem()->GetRunProcess());
+		//		mig_fcfs_to_RR_cnt++;
+		//		Pr_ptr_FCFS->getItem()->SetState(false);
+		//		Pr_ptr_FCFS->getItem()->GetRunProcess()->SetRunState(false);
+		//		Pr_ptr_FCFS->getItem()->removerunprocess();////////////
+		//	}
+		//	Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		//}
+		//Pr_ptr_FCFS = Processors.gethead();
 		// 7-check for io request //made by ali
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
@@ -547,22 +608,27 @@ void scheduler::simulate_system()
 		Pr_ptr6 = Run_List.gethead();
 		while (Pr_ptr6)
 		{
-			Pr_ptr6->getItem()->set_CT(Pr_ptr6->getItem()->get_CT() - 1);
+			Pr_ptr6->getItem()->decrementCT();
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
 		// 10- work stealing part
 		if (get_timestep() % STL == 0)
 			while (worksteal())
 				work_steal_count++;
-		// 11- check overheating 
+		// 11-update Processor
+		Pr_ptr7 = Processors.gethead();
+		while (Pr_ptr7)
+		{
+			Pr_ptr7->getItem()->UpdateProcessor();
+			Pr_ptr7 = Pr_ptr7->getNext();
+		}
+		// 12- check overheating 
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->overheat_check();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
-		// free waiting list if possible
-		checkWaitingList();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
@@ -648,38 +714,6 @@ bool scheduler::IsAllFCFSstop()
 	}
 	return b;
 }
-void scheduler::checkWaitingList() 
-{
-	Process* p;// we will take one process in each time step
-	if (waitingList.isEmpty())
-		return;
-	waitingList.peek(p);
-	if (p->is_forked()) 
-	{
-		if (!IsAllFCFSstop())
-		{
-
-			waitingList.dequeue(p);
-			AddToShortestFCFS(p);
-		}
-		else // to make the next process take its turn 
-		{
-			waitingList.dequeue(p);
-			waitingList.enqueue(p);
-		}
-	}
-	else 
-	{
-		if (!IsAllProcessorStop())
-		{
-
-			waitingList.dequeue(p);
-			Add_To_Shortest_RDY(p);
-		}
-	}
-	
-
-}
 void scheduler::ckeckForking(Process* p) 
 {
 	Process* k = nullptr;
@@ -697,7 +731,17 @@ void scheduler::AddToShortestFCFS(Process* p)
 {
 	if (IsAllFCFSstop())
 	{
-		waitingList.enqueue(p);
+		if (p->is_forked())
+		{
+			p->set_termination_times(Time_Step);
+			p->kill_children();
+			this->move_to_trm(p);
+		}
+		else
+		{
+			p->set_termination_times(Time_Step);
+			this->move_to_trm(p);
+		}
 		return;
 	}
 	Node<Processor*>* ptr = Processors.gethead();
@@ -725,8 +769,8 @@ void scheduler::AddToShortestFCFS(Process* p)
 			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime()) 
 			{
 				shortest = ptr;
-				ptr = ptr->getNext();
 			}
+			ptr = ptr->getNext();
 		}
 	}
 	shortest->getItem()->AddToList(p);
@@ -735,13 +779,23 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 {
 	if (IsAllProcessorStop())
 	{
-		waitingList.enqueue(p);
+		if (p->is_forked())
+		{
+			p->set_termination_times(Time_Step);
+			p->kill_children();
+			this->move_to_trm(p);
+		}
+		else
+		{
+			p->set_termination_times(Time_Step);
+			this->move_to_trm(p);
+		}
 		return;
 	}
 	Node<Processor*>* ptr = Processors.gethead();
 	Node<Processor*>* shortest = nullptr;
 	int j = 1;
-	while (ptr) // to get first non_stoped processor
+	while (ptr) // to get first non_stopped processor
 	{
 		if (ptr->getItem()->IsStop())
 		{

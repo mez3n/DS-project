@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  scheduler.cpp
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(69,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(112,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
@@ -12,3 +13,13 @@ C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(583,4
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(591,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(596,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe
+=======
+﻿  Processor_FCFS.cpp
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_FCFS.cpp(190,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Processor_RR.cpp
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_RR.cpp(95,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Processor_SJF.cpp
+C:\Users\ma273\source\repos\DS-project\DS project\Processor_SJF.cpp(82,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  DS project.vcxproj -> C:\Users\ma273\source\repos\DS-project\x64\Debug\DS project.exe
+>>>>>>> 44dc0baf20d8a8033c569a65b7e672f4dec5965b

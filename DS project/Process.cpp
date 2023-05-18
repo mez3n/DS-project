@@ -17,7 +17,7 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 	PID = pid;   //unique id for each process
 	AT = at;     //the time when the process is ready to get scheduled
 	CT = ct;     //total work time needed to run the process
-
+	LeftCT = ct;
 	IO po;
 	for (int i = 0; i < io_count; i++)
 	{
