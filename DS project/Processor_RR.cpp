@@ -16,6 +16,10 @@ void Processor_RR::print()
 {
 	RDYlist.PrintList();
 }
+void Processor_RR::kill_sig(int timestep)
+{
+
+}
 bool Processor_RR::IsRdyEmpty() { return (RDYlist.isEmpty()); }
 bool  Processor_RR::GetProcessById(int id, Process*& p)
 {

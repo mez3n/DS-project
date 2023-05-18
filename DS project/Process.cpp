@@ -10,6 +10,10 @@ Process::Process()
 	RT = -1;
 	total_IO_D = 0;
 	in_trm = false;
+	WT = 0;
+	RT = 0;
+	TRT = 0;
+	TT = 0;
 }
 void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* IO_d)
 {
@@ -58,6 +62,11 @@ int Process::get_TT()
 int Process::get_TRT()
 {
 	return TRT;
+}
+
+void Process::set_WT(int newwt)
+{
+	WT = newwt;
 }
 
 int Process::get_WT()
@@ -111,6 +120,7 @@ void Process::set_termination_times(int tt)
 	TRT = TT - AT; //total time spent from arrival time to termiantion TT-AT
 	WT = TRT - CT; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	in_trm = true;
+	SetRunState(false);
 	kill_children();
 	// you can kill children here
 }
@@ -135,7 +145,7 @@ void Process::Add_child(Process*& child)
 
 void Process::REC_kill_children(Process*& parent)
 {
-	if (!parent||in_trm)
+	if ((!parent)||(parent->in_trm))
 	{
 		return;
 	}
@@ -235,7 +245,7 @@ int Process::get_IO_R() // please implement it, function get IO_R for a process
 
 void Process::set_RT(int current_time)
 {
-	RT = current_time;
+	RT =current_time-AT;
 }
 
 

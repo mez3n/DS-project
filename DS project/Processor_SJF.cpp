@@ -15,6 +15,9 @@ void Processor_SJF::print()
 	RDYlist->PrintList();
 }
 bool Processor_SJF::IsRdyEmpty() { return (RDYlist->isEmpty()); }
+void Processor_SJF::kill_sig(int timestep)
+{
+}
 Processor_SJF::~Processor_SJF()
 {
 	delete RDYlist;

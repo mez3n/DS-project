@@ -150,6 +150,9 @@ scheduler::scheduler()
 		fcfs_temp = fcfs_temp->getNext();
 	}
 }
+scheduler::~scheduler()
+{
+}
 //////////////////////////////////////////////////////////////////////////// DO NOT DELETE IT 
 /*insert a process to the processor with the least CT*/
 //void scheduler::Add_To_Shortest_RDY(Process* p)
@@ -269,13 +272,13 @@ int scheduler::get_timestep()
 
 void scheduler::Print_output_file()
 {
-	OutputFile = new ofstream("Output File", ios::out);
+	OutputFile = new ofstream("OutputFile.txt", ios::out);
 	Node<Process*>* process_ptr = TRM_LIST.gethead();
+	*OutputFile << "TT\t" << "PID\t" << "AT\t" << "CT\t" << "IO_D\t" << "WT\t" << "RT\t" << "TRT\n";
 	int avg_WT = 0, avg_RT = 0, avg_TRT = 0, total_TRT = 0;
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
-		*OutputFile << "TT\t" << "PID\t" << "AT\t" << "CT\t" << "IO_D\t" << "WT\t" << "RT\t" << "TRT\t";
 		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_CT() << "\t" <<
 			cur_process->get_total_IO_D() << "\t" << cur_process->get_WT() << "\t" << cur_process->get_RT() << "\t" << cur_process->get_TRT() << "\n";
 		avg_WT += cur_process->get_WT();
@@ -381,10 +384,7 @@ void scheduler::simulate_system()
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
-		if (Time_Step == 9)
-		{
-			cout << "hello";
-		}
+		
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
@@ -502,6 +502,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr1 = Processors.gethead();
 		Pr_ptr_RR = Processors.gethead();
+<<<<<<< HEAD
 		
 		
 		
@@ -643,6 +644,9 @@ void scheduler::simulate_system()
 		
 		
 		
+=======
+		Pr_ptr_FCFS = Processors.gethead();
+>>>>>>> 9e6944917c7c620463bdeb70b71b619d56a8439b
 		
 		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
@@ -654,6 +658,8 @@ void scheduler::simulate_system()
 			Pr_ptr4 = Pr_ptr4->getNext();
 		}
 		Pr_ptr4 = Processors.gethead();
+		//------------------------------------------------------------------------------------------------------------------
+		
 		//------------------------------------------------------------------------------------------------------------------
 		// 4- dec IO for the first process entered BLK_List requesing IO by 1
 		BLK_LIST.peek(BLK_P);
@@ -704,7 +710,15 @@ void scheduler::simulate_system()
 			Pr_ptr7->getItem()->checkIO_request();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
-		// 8- filling run list with run processes for each processor
+		// 8- check forking and sig kill for each FCFS processor PS. i update WT inside sigkill too
+		Node<Processor*>* forking_processor = Processors.gethead();
+		for (int i = 0; i < FCFS_no; i++)
+		{
+			checkForking(forking_processor->getItem()->GetRunProcess());
+			forking_processor->getItem()->kill_sig(Time_Step);
+			forking_processor = forking_processor->getNext();
+		}
+		// 9- filling run list with run processes for each processor
 		while (Pr_ptr5)
 		{
 			if (!(Pr_ptr5->getItem()->IsIdle()))// if its busy then there is a process in run state
@@ -712,36 +726,36 @@ void scheduler::simulate_system()
 			Pr_ptr5 = Pr_ptr5->getNext();
 		}
 		Pr_ptr5 = Processors.gethead();
-		// 9- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
+		// 10- dec CT for each process in Run by one. (As a process in Run state Ct will dec)
 		Pr_ptr6 = Run_List.gethead();
 		while (Pr_ptr6)
 		{
 			Pr_ptr6->getItem()->decrementCT();
 			Pr_ptr6 = Pr_ptr6->getNext();
 		}
-		// 10- work stealing part
+		// 11- work stealing part
 		if (get_timestep() % STL == 0)
 			while (worksteal())
 				work_steal_count++;
-		// 11-update Processor
+		// 12-update Processor
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->UpdateProcessor();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
-		// 12- check overheating 
+		// 13- check overheating 
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->overheat_check();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
-		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
 		update_TimeStep();
 	}
+	Print_output_file();
 }
 bool scheduler::worksteal()
 {
@@ -822,12 +836,11 @@ bool scheduler::IsAllFCFSstop()
 	}
 	return b;
 }
-void scheduler::ckeckForking(Process* p) 
+void scheduler::checkForking(Process* p) 
 {
 	Process* k = nullptr;
 	srand((unsigned)time(NULL));
-	float  r = (float)rand() / RAND_MAX;
-	r *= 100;
+	int r = 1 + (rand() % 100);
 	if (r < Fork_prob)
 	{
 		if (p)
@@ -843,7 +856,7 @@ void scheduler::AddToShortestFCFS(Process* p)
 		if (p->is_forked())
 		{
 			p->set_termination_times(Time_Step);
-			p->kill_children();
+
 			this->move_to_trm(p);
 		}
 		else
@@ -891,7 +904,6 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 		if (p->is_forked())
 		{
 			p->set_termination_times(Time_Step);
-			p->kill_children();
 			this->move_to_trm(p);
 		}
 		else

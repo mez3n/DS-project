@@ -18,20 +18,23 @@ void Processor_FCFS::kill_sig(int timestep)
 			if (s1.Pid == Runprocess->getPID())
 			{
 				assistant->move_to_trm(Runprocess);
-				Runprocess = nullptr;
+				removerunprocess();
+				
 			}
 		}
 		LNode<Process*>* p1 = RDYlist.getbrain();
 		if (!p1) // rdylist empty
 		{
-			return;
+			kill_queue.peek(s1);
+			continue;
 		}
 		LNode<Process*>* p2 = RDYlist.getbrain()->getNext();
 
 
-
-		while (!RDYlist.Is_brain(p2)) // transversing the ready list to see if any process has a sig kill
+		p1->getItem()->set_WT(p1->getItem()->get_WT() + 1);  // updating WT for first process in RDY list
+		while (p2) // transversing the ready list to see if any process has a sig kill
 		{
+			p2->getItem()->set_WT(p2->getItem()->get_WT() + 1); //updating WT for all process in RDY list
 			if (s1.Pid == p2->getItem()->getPID())
 			{
 				assistant->move_to_trm(p2->getItem());
@@ -45,22 +48,32 @@ void Processor_FCFS::kill_sig(int timestep)
 			}
 
 		}
-		if (s1.Pid == p2->getItem()->getPID())
+		if (s1.Pid == p1->getItem()->getPID())
 		{
-			assistant->move_to_trm(p2->getItem());
-			p1->setNext(p2->getNext());
-			p2 = p2->getNext();
+			assistant->move_to_trm(p1->getItem());
+			p1 = p1->getNext();
 		}
 		kill_queue.peek(s1);
 	}
 	// to see if there is any children that needs to be killed
+
+	
+	if (Runprocess)  // to see if running process is orphan
+	{
+		if (Runprocess->orphan())
+		{
+			assistant->move_to_trm(Runprocess);
+			removerunprocess();
+		}
+	}
+
 	LNode<Process*>* p1 = RDYlist.getbrain();
 	if (!p1) // rdylist empty
 	{
 		return;
 	}
 	LNode<Process*>* p2 = RDYlist.getbrain()->getNext();
-	while (!RDYlist.Is_brain(p2)) // transversing the ready list to see if any process has been marked by oprh
+	while (p2) // transversing the ready list to see if any process has been marked by oprh
 	{
 		if (p2->getItem()->orphan())
 		{
@@ -75,12 +88,15 @@ void Processor_FCFS::kill_sig(int timestep)
 		}
 
 	}
-	if (p2->getItem()->orphan())
+	p1 = RDYlist.getbrain();
+	if (!p1) // rdylist empty
 	{
-		p2->getItem()->set_termination_times(timestep);
-		assistant->move_to_trm(p2->getItem());
-		p1->setNext(p2->getNext());
-		p2 = p2->getNext();
+		return;
+	}
+	if (p1->getItem()->orphan())
+	{
+		assistant->move_to_trm(p1->getItem());
+		p1 = p1->getNext();
 	}
 
 }
@@ -135,7 +151,6 @@ void Processor_FCFS::ScheduleAlgo()
 			{
 				Runprocess->set_RT(assistant->get_timestep());
 			}
-			assistant->ckeckForking(Runprocess);
 		}
 		else
 		{
@@ -145,7 +160,6 @@ void Processor_FCFS::ScheduleAlgo()
 	else
 	{
 		state = true;
-		assistant->ckeckForking(Runprocess);
 	}
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
