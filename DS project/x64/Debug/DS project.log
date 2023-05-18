@@ -1,8 +1,13 @@
-﻿  Processor_FCFS.cpp
-C:\Users\ma273\source\repos\DS-project\DS project\Processor_FCFS.cpp(190,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Processor_RR.cpp
-C:\Users\ma273\source\repos\DS-project\DS project\Processor_RR.cpp(95,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Processor_SJF.cpp
-C:\Users\ma273\source\repos\DS-project\DS project\Processor_SJF.cpp(82,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
+﻿  scheduler.cpp
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(112,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(91,19): warning C4101: 'IO_d': unreferenced local variable
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(91,8): warning C4101: 'IO_r': unreferenced local variable
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(90,23): warning C4101: 'rt': unreferenced local variable
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(319,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(331,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(366,6): warning C4101: 'NO_Generated': unreferenced local variable
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(752,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(757,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(765,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(770,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   DS project.vcxproj -> C:\Users\ma273\source\repos\DS-project\x64\Debug\DS project.exe
