@@ -14,10 +14,6 @@ void Processor_EDF::print()
 {
 	RDYlist->PrintList();
 }
-Process* Processor_EDF::GetRunProcess()
-{
-	return Runprocess;
-}
 bool Processor_EDF::IsRdyEmpty() { return (RDYlist->isEmpty()); }
 void Processor_EDF::set_sigkill(LinkedQueue<sigkill>& kill_queue)
 {
@@ -35,10 +31,6 @@ bool  Processor_EDF::GetProcessById(int id, Process*& p)
 	return true;
 }
 
-void Processor_EDF::removerunprocess()
-{
-	Runprocess = nullptr;
-}
 
 void Processor_EDF::ScheduleAlgo()
 {
@@ -48,7 +40,6 @@ void Processor_EDF::ScheduleAlgo()
 		{
 			RDYlist->dequeue(Runprocess);
 			state = true;
-			TotalBusyTime++;
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
 			if (Runprocess->get_RT() == -1)
@@ -59,7 +50,6 @@ void Processor_EDF::ScheduleAlgo()
 		else
 		{
 			state = false;
-			TotalIDLETime++;
 			return;
 		}
 	}
@@ -73,7 +63,6 @@ void Processor_EDF::ScheduleAlgo()
 			RDYlist->enqueue(Runprocess, Runprocess->getdeadline());
 			RDYlist->dequeue(Runprocess);
 			state = true;
-			TotalBusyTime++;
 			FinishTime -= Runprocess->getLeftCT();
 			if (Runprocess->get_RT() == -1)
 			{
