@@ -27,8 +27,8 @@ public:
 	float GetPload(int TotalTRTProcesses);//Get pload for each processor
 	float calcPutil();// calculate Putil for processor
 	bool IsIdle();// return true if idle and return false if busy
-	virtual void removerunprocess() = 0;// set runprocess null
-	virtual Process* GetRunProcess() = 0;// function to get the process that runs in a processor
+	void removerunprocess();// set runprocess null
+	Process* GetRunProcess();// function to get the process that runs in a processor
 	virtual bool IsRdyEmpty() = 0;//returns if the ready list is empty or not 
 	bool IsStop();// determine if the processor stop due to overheaten take probability 5%
 	virtual int GetRdyCount() = 0;  //returns count of ready processes
@@ -52,4 +52,5 @@ public:
 	void checkIO_request();
 	virtual void switch_processes(Processor*& p) = 0;
 	virtual void overheat_check() = 0;// check overheat if there is overheat move all process to another rdylist and count when processor work again
+	void UpdateProcessor();// update TotalBusyTime and TotalIDLETime 
 };

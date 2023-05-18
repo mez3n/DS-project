@@ -66,7 +66,7 @@ scheduler::scheduler()
 	// we will make one list of processors divided to three parts first part for FCFS, second for SJF and the third for RR
 	for (int i = 0; i < FCFS_no; i++)
 	{
-		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", this, MaxW, Fork_prob);
+		Processor_FCFS* P = new Processor_FCFS(8, i + 1, "FCFS", this);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < SJF_no; i++)
@@ -76,7 +76,7 @@ scheduler::scheduler()
 	}
 	for (int i = 0; i < RR_no; i++)
 	{
-		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", this, RTF, T_RR);
+		Processor_RR* P = new Processor_RR(8, i + 1 + FCFS_no + SJF_no, "RR", this, T_RR);
 		Processors.InsertEnd(P);
 	}
 	for (int i = 0; i < EDF_no; i++)
@@ -403,6 +403,7 @@ void scheduler::simulate_system()
 					Pr_ptr1->getItem()->SetState(false);
 					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
 					Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
+					Pr_ptr1->getItem()->removerunprocess();///////
 				}
 				else
 				{
@@ -411,6 +412,7 @@ void scheduler::simulate_system()
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
 						Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+						Pr_ptr1->getItem()->removerunprocess();///////
 					}
 					else
 					{
@@ -511,6 +513,7 @@ void scheduler::simulate_system()
 				Migration_RR(Pr_ptr_RR->getItem()->GetRunProcess());
 				Pr_ptr_RR->getItem()->SetState(false);
 				Pr_ptr_RR->getItem()->GetRunProcess()->SetRunState(false);
+				Pr_ptr_RR->getItem()->removerunprocess();///////
 			}
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
 		}
@@ -525,6 +528,7 @@ void scheduler::simulate_system()
 				mig_fcfs_to_RR_cnt++;
 				Pr_ptr_FCFS->getItem()->SetState(false);
 				Pr_ptr_FCFS->getItem()->GetRunProcess()->SetRunState(false);
+				Pr_ptr_FCFS->getItem()->removerunprocess();////////////
 			}
 			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
 		}
@@ -555,15 +559,20 @@ void scheduler::simulate_system()
 		if (get_timestep() % STL == 0)
 			while (worksteal())
 				work_steal_count++;
-		// 11- check overheating 
+		// 11-update Processor
+		Pr_ptr7 = Processors.gethead();
+		while (Pr_ptr7)
+		{
+			Pr_ptr7->getItem()->UpdateProcessor();
+			Pr_ptr7 = Pr_ptr7->getNext();
+		}
+		// 12- check overheating 
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
 		{
 			Pr_ptr7->getItem()->overheat_check();
 			Pr_ptr7 = Pr_ptr7->getNext();
 		}
-		// free waiting list if possible
-		checkWaitingList();
 		/*Console_out.PrintOutput(NEW_LIST, BLK_LIST,TRM_LIST,Processors, Time_Step, Processes_no, Term_no);*/
 		Console_out.PrintOutput(Run_List, NEW_LIST, BLK_LIST, TRM_LIST, Processors, Time_Step, Processes_no, Term_no);
 		Run_List.DeleteAll();
@@ -649,38 +658,6 @@ bool scheduler::IsAllFCFSstop()
 	}
 	return b;
 }
-void scheduler::checkWaitingList() 
-{
-	Process* p;// we will take one process in each time step
-	if (waitingList.isEmpty())
-		return;
-	waitingList.peek(p);
-	if (p->is_forked()) 
-	{
-		if (!IsAllFCFSstop())
-		{
-
-			waitingList.dequeue(p);
-			AddToShortestFCFS(p);
-		}
-		else // to make the next process take its turn 
-		{
-			waitingList.dequeue(p);
-			waitingList.enqueue(p);
-		}
-	}
-	else 
-	{
-		if (!IsAllProcessorStop())
-		{
-
-			waitingList.dequeue(p);
-			Add_To_Shortest_RDY(p);
-		}
-	}
-	
-
-}
 void scheduler::ckeckForking(Process* p) 
 {
 	Process* k = nullptr;
@@ -698,7 +675,17 @@ void scheduler::AddToShortestFCFS(Process* p)
 {
 	if (IsAllFCFSstop())
 	{
-		waitingList.enqueue(p);
+		if (p->is_forked())
+		{
+			p->set_termination_times(Time_Step);
+			p->kill_children();
+			this->move_to_trm(p);
+		}
+		else
+		{
+			p->set_termination_times(Time_Step);
+			this->move_to_trm(p);
+		}
 		return;
 	}
 	Node<Processor*>* ptr = Processors.gethead();
@@ -726,8 +713,8 @@ void scheduler::AddToShortestFCFS(Process* p)
 			if (shortest->getItem()->ExpectedFinishTime() > ptr->getItem()->ExpectedFinishTime()) 
 			{
 				shortest = ptr;
-				ptr = ptr->getNext();
 			}
+			ptr = ptr->getNext();
 		}
 	}
 	shortest->getItem()->AddToList(p);
@@ -736,7 +723,17 @@ void scheduler::Add_To_Shortest_RDY(Process* p)
 {
 	if (IsAllProcessorStop())
 	{
-		waitingList.enqueue(p);
+		if (p->is_forked())
+		{
+			p->set_termination_times(Time_Step);
+			p->kill_children();
+			this->move_to_trm(p);
+		}
+		else
+		{
+			p->set_termination_times(Time_Step);
+			this->move_to_trm(p);
+		}
 		return;
 	}
 	Node<Processor*>* ptr = Processors.gethead();

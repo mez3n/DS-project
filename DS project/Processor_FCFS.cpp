@@ -1,11 +1,8 @@
 #include"Processor_FCFS.h"
 #include"scheduler.h"
 struct sigkill;
-Processor_FCFS::Processor_FCFS(int N, int id, string name, scheduler* p, int maxw, float fork) :Processor(N, id, name, p)
+Processor_FCFS::Processor_FCFS(int N, int id, string name, scheduler* p) :Processor(N, id, name, p)
 {
-	MaxW = maxw;
-	Fork = fork;
-	numMaxW = 0;
 	assistant = p;
 }
 void Processor_FCFS::kill_sig(int timestep)
@@ -101,10 +98,6 @@ void Processor_FCFS::print()
 {
 	RDYlist.PrintList();
 }
-Process* Processor_FCFS::GetRunProcess()
-{
-	return Runprocess;
-}
 bool Processor_FCFS::IsRdyEmpty() { return (RDYlist.isEmpty()); }
 bool  Processor_FCFS::GetProcessById(int id, Process*& p)
 {
@@ -127,10 +120,6 @@ int Processor_FCFS::GetRdyCount()
 {
 	return count;
 }
-void Processor_FCFS::removerunprocess()
-{
-	Runprocess = nullptr;
-}
 
 void Processor_FCFS::ScheduleAlgo()
 {
@@ -142,7 +131,6 @@ void Processor_FCFS::ScheduleAlgo()
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
 			state = true;
-			TotalBusyTime++;
 			if (Runprocess->get_RT() == -1)
 			{
 				Runprocess->set_RT(assistant->get_timestep());
@@ -152,13 +140,11 @@ void Processor_FCFS::ScheduleAlgo()
 		else
 		{
 			state = false;
-			TotalIDLETime++;
 		}
 	}
 	else
 	{
 		state = true;
-		TotalBusyTime++;
 		assistant->ckeckForking(Runprocess);
 	}
 }

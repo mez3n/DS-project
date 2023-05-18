@@ -29,7 +29,6 @@ class scheduler
 	int mig_RR_to_sjf_cnt;
 	int work_steal_count;
 	LinkedQueue<sigkill> kill_queue;
-	LinkedQueue<Process*> waitingList;// in case all processor of kind FCFS are overheated and there is forked process
 public:
 	scheduler();
 	//void AddToRdy(Process* p);
@@ -55,7 +54,6 @@ public:
 	int get_mig_RR_to_sjf_cnt();
 	int get_work_steal_count();
 	bool IsAllProcessorStop();// check if all Processors are stoped
-	void checkWaitingList();// move process from waiting list to shortest RDY list one in each time step
 	bool IsAllFCFSstop();// check if all FCFS are stoped
 	void ckeckForking(Process* p);// to be called by FCFS in scheduleAlgo
 	void AddToShortestFCFS(Process*);// add forcked process to shortest FCFS

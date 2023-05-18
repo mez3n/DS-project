@@ -2,11 +2,9 @@
 #include"scheduler.h"
 #include<cstdlib>
 #include"time.h"
-Processor_RR::Processor_RR(int N, int id, string name, scheduler* p, int rtf, int rrslice) :Processor(N, id, name, p), RRslice(rrslice)
+Processor_RR::Processor_RR(int N, int id, string name, scheduler* p, int rrslice) :Processor(N, id, name, p), RRslice(rrslice)
 {
-	RTF = rtf;
 	LeftRRslice = 0;
-	numRTF = 0;
 }
 void Processor_RR::AddToList(Process* p)
 {
@@ -17,10 +15,6 @@ void Processor_RR::AddToList(Process* p)
 void Processor_RR::print()
 {
 	RDYlist.PrintList();
-}
-Process* Processor_RR::GetRunProcess()
-{
-	return Runprocess;
 }
 bool Processor_RR::IsRdyEmpty() { return (RDYlist.isEmpty()); }
 bool  Processor_RR::GetProcessById(int id, Process*& p)
@@ -36,11 +30,6 @@ int Processor_RR::GetRdyCount()
 void Processor_RR::set_sigkill(LinkedQueue<sigkill>& kill_queue)
 {
 }
-
-void Processor_RR::removerunprocess()
-{
-	Runprocess = nullptr;
-}
 void Processor_RR::ScheduleAlgo()
 {
 	if (!Runprocess)
@@ -51,7 +40,6 @@ void Processor_RR::ScheduleAlgo()
 			LeftRRslice = RRslice;
 			FinishTime -= Runprocess->getLeftCT();
 			count--;
-			TotalBusyTime++;
 			state = true;
 			if (Runprocess->get_RT() == -1)
 			{
@@ -61,12 +49,10 @@ void Processor_RR::ScheduleAlgo()
 		else
 		{
 			state = false;
-			TotalIDLETime++;
 		}
 	}
 	else 
 	{
-		TotalBusyTime++;
 		state = true;
 		if (LeftRRslice == 0)
 		{
