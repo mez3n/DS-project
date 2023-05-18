@@ -1,15 +1,4 @@
-﻿  Mazen_main.cpp
-  Process.cpp
-  processor.cpp
-  Processor_EDF.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\Processor_EDF.cpp(108,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Processor_FCFS.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\Processor_FCFS.cpp(205,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Processor_RR.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\Processor_RR.cpp(109,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Processor_SJF.cpp
-C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\Processor_SJF.cpp(94,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  scheduler.cpp
+﻿  scheduler.cpp
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(69,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(112,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(91,19): warning C4101: 'IO_d': unreferenced local variable
@@ -22,6 +11,4 @@ C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(578,4
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(583,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(591,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\moham\source\repos\DS-project_phase2_1.1\DS project\scheduler.cpp(596,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  UI.cpp
-  Generating Code...
   DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.1\x64\Debug\DS project.exe
