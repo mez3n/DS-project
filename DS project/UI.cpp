@@ -34,7 +34,7 @@ void UI::PrintOutput(LinkedList<Process*>& RUN_List,LinkedQueue<Process*>& NEW_L
 		}
 		else // step by step mode
 		{
-			Sleep(1000);
+			Sleep(10);
 		}
 	}
 }
@@ -53,7 +53,7 @@ void UI::setmode()
 	cout << "1:step by step mode\n";
 	cout << "2:silent mode\n";
 	int x =0;   // for testing
-	/*cin >> x;*/
+	cin >> x;
 	Mode = x;
 	if (Mode == 2)
 	{

@@ -15,7 +15,7 @@ public:
 	Node(const T& r_Item, Node<T>* nextNodePtr);
 	void setItem(const T& r_Item);
 	void setNext(Node<T>* nextNodePtr);
-	T getItem() const;
+	T getItem() ;
 	Node<T>* getNext() const;
 }; // end Node
 #endif
@@ -48,7 +48,7 @@ void Node<T>::setNext(Node<T>* nextNodePtr)
 	next = nextNodePtr;
 }
 template < typename T>
-T Node<T>::getItem() const
+T  Node<T>::getItem() 
 {
 	return item;
 }
@@ -70,7 +70,7 @@ public:
 	bool isEmpty() const;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
-	bool peek(T& frntEntry)  const;
+	bool peek(T& frntEntry) ;
 	void PrintQueue(LinkedQueue<T> Q);
 	void PrintList();
 	int Get_Count();
@@ -126,15 +126,16 @@ bool LinkedQueue<T>::dequeue(T& frntEntry)
 
 }
 template <typename T>
-bool LinkedQueue<T>::peek(T& frntEntry) const
+bool LinkedQueue<T>::peek(T& frntEntry)  
 {
 	if (isEmpty())
 		return false;
 
 	frntEntry = frontPtr->getItem();
 	return true;
-
 }
+
+
 template <typename T>
 LinkedQueue<T>::~LinkedQueue()
 {

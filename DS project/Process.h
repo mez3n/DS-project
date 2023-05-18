@@ -23,7 +23,7 @@ private:
 	int LeftCT;// we don't want to change CT for output file so we use this
 	int Deadline;// the expected deadline for process
 	int Processor_id; //id of the processor running the process else it is -1 
-	LinkedQueue<IO> IO_queue; // storage for all IO 
+	LinkedQueue<IO*> IO_queue; // storage for all IO 
 	Process* left_child, * right_child;  //forking data members it represents a tree with a parent pointer 
 	bool forked; // to see if the process is the result of forking
 	void Add_child(Process*& child);
@@ -54,7 +54,7 @@ public:
 	bool orphan();
 	friend ostream& operator << (ostream& out, Process* P);
 	void set_CT(int c);
-	int get_IO_D();// check if its implemented correctly         //done
+	int & get_IO_D();// check if its implemented correctly         //done
 	void set_IO_D(int c);// check if its implemented correctly   //done , not sure why do you need this.
 	void remove_first_io();// check if its implemented correctly //done
 	int getdeadline();
