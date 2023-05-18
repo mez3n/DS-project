@@ -391,6 +391,7 @@ void scheduler::simulate_system()
 					NEW_LIST.peek(p);
 			}
 		}
+		// check migration first
 		// 2- Check the RDY lists and move one process from each RDY list to RUN state of its processor. This is done if the processor is IDLE. If the processor is BUSY the process should wait in the RDY list.
 		while (Pr_ptr1)
 		{
