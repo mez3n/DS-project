@@ -92,7 +92,7 @@ void Processor_SJF::overheat_check()
 				state = false;
 			}
 			Process* p;
-			while (RDYlist->isEmpty())
+			while (!RDYlist->isEmpty())// modified (not added)
 			{
 				RDYlist->dequeue(p);
 				assistant->Add_To_Shortest_RDY(p);
