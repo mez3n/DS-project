@@ -18,13 +18,13 @@ void Process::AddProcess(int pid, int at, int ct, int io_count, int* IO_r, int* 
 	AT = at;     //the time when the process is ready to get scheduled
 	CT = ct;     //total work time needed to run the process
 	LeftCT = ct;
-	IO po;
+	IO* po = new IO;
 	for (int i = 0; i < io_count; i++)
 	{
-		po.IO_R = IO_r[i];
-		po.IO_D = IO_d[i];
+		po->IO_R = IO_r[i];
+		po->IO_D = IO_d[i];
 		IO_queue.enqueue(po);
-		total_IO_D += po.IO_D;
+		total_IO_D += po->IO_D;
 	}
 
 	//rest of data members should be calculated later
@@ -202,20 +202,20 @@ void Process::decrementCT()
 
 void Process::remove_first_io()
 {
-	IO p;
+	IO* p;
 	IO_queue.dequeue(p);
 }
-int Process::get_IO_D() // please implement it, function get IO_D for a process
+int &Process::get_IO_D() // please implement it, function get IO_D for a process
 {
-	IO p;
+	IO *p;
 	IO_queue.peek(p);
-	return p.IO_D;
+	return p->IO_D;
 }
 void Process::set_IO_D(int c) // please implement it, function set IO_D for a process 
 {
-	IO p;
+	IO*p;
 	IO_queue.peek(p);
-	p.IO_D = c;
+	p->IO_D = c;
 }
 void Process::set_CT(int c)
 {
@@ -228,9 +228,9 @@ int Process::getdeadline()
 }
 int Process::get_IO_R() // please implement it, function get IO_R for a process
 {
-	IO p;
+	IO *p;
 	IO_queue.peek(p);
-	return p.IO_R;
+	return p->IO_R;
 }
 
 void Process::set_RT(int current_time)

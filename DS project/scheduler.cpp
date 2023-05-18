@@ -381,6 +381,10 @@ void scheduler::simulate_system()
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
+		if (Time_Step == 9)
+		{
+			cout << "hello";
+		}
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
@@ -481,67 +485,13 @@ void scheduler::simulate_system()
 		Pr_ptr1 = Processors.gethead();
 		Pr_ptr_RR = Processors.gethead();
 		Pr_ptr_FCFS = Processors.gethead();
-		// not needed in phase 1 but i eill keep it for now
-		//// 3- For each process in RUN state, Generate a random number from 1 to 100.
-		//while (Pr_ptr2)
-		//{
-		//	if (!Pr_ptr2->getItem()->IsIdle())// if there is a process in the run state
-		//	{
-		//		Run_P = Pr_ptr2->getItem()->GetRunProcess();// get thr run process
-		//		NO_Generated = GenerateNo();// generate a number for that process
-		//		if (1 <= NO_Generated && NO_Generated <= 15)
-		//		{
-		//			Pr_ptr2->getItem()->SetState(false);
-		//			Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-		//			BLK_LIST.enqueue(Run_P);
-		//		}
-		//		else
-		//			if (20 <= NO_Generated && NO_Generated <= 30)
-		//			{
-		//				Pr_ptr2->getItem()->SetState(false);
-		//				Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-		//				Pr_ptr2->getItem()->AddToList(Run_P);
-		//			}
-		//			else
-		//				if (50 <= NO_Generated && NO_Generated <= 60)
-		//				{
-		//					Pr_ptr2->getItem()->SetState(false);
-		//					Pr_ptr2->getItem()->GetRunProcess()->SetRunState(false);
-		//					TRM_LIST.InsertEnd(Run_P);
-		//				}
-		//	}
-		//	Pr_ptr2 = Pr_ptr2->getNext();
-		//}
-		//Pr_ptr2 = Processors.gethead();
-		// 4- For the process at the top of the BLK list, Generate a random number from 1 to 100. If this number is less than 10, move the process from BLK to RDY
-		/*if (!BLK_LIST.isEmpty())
-		{
-			NO_Generated = GenerateNo();
-			if (NO_Generated < 10)
-			{
-				BLK_LIST.dequeue(p1);
-				AddToRdy(p1);
-			}
-		}*/
-		// 5- For the processes in the FFS RDY list, randomly pick any process in the list and terminate it. This can be done by generating a random ID and checking if this ID is in any RDY list then kill it.
-		//NO_Generated = 1 + (rand() % Processes_no);
-		//for (int i = 0; i < FCFS_no; i++)
-		//{
-		//	if (!(Pr_ptr3->getItem()->IsRdyEmpty())/* && Pr_ptr3->getItem()->GetProcessById(NO_Generated, p2)*/)
-		//	{
-		//		p2 = Pr_ptr3->getItem()->getprocessbyidfcfs(NO_Generated);
-		//		if (p2)
-		//			TRM_LIST.InsertEnd(p2);
-		//	}
-		//	Pr_ptr3 = Pr_ptr3->getNext();
-		//}
-		//Pr_ptr3 = Processors.gethead();
+	
 		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
 		while (Pr_ptr4)
 		{
 			if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
-				if (Pr_ptr4->getItem()->GetRunProcess()->get_CT() == 0)
+				if (Pr_ptr4->getItem()->GetRunProcess()->getLeftCT() == 0)
 					RUN_to_TRM(Pr_ptr4);
 			Pr_ptr4 = Pr_ptr4->getNext();
 		}
@@ -658,12 +608,12 @@ bool scheduler::worksteal()
 	ptr = ptr->getNext();
 	while (ptr) // get max CT
 	{
-		if (ptr->getItem()->ExpectedFinishTime() > min_CT)
+		if (ptr->getItem()->ExpectedFinishTime() > max_CT)
 			max_CT = ptr->getItem()->ExpectedFinishTime();
 		ptr = ptr->getNext();
 	}
 	ptr = Processors.gethead();
-	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has max CT
+	while (ptr->getItem()->ExpectedFinishTime() != max_CT)// get the processor that has max CT
 		ptr = ptr->getNext();
 	ptr_long = ptr->getItem();
 	if (!ptr_long->IsRdyEmpty())

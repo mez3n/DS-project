@@ -210,7 +210,7 @@ void Processor_FCFS::overheat_check()// need modification to handel if process i
 			while (!RDYlist.isEmpty())// modified (not added)
 			{
 				RDYlist.DeleteFirst(p);
-				if (Runprocess->is_forked())
+				if (p->is_forked())
 				{
 					assistant->AddToShortestFCFS(p);
 				}
