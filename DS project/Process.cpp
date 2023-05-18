@@ -111,6 +111,7 @@ void Process::set_termination_times(int tt)
 	TRT = TT - AT; //total time spent from arrival time to termiantion TT-AT
 	WT = TRT - CT; //total time a process spends in system without being executed by the cpu WT=TRT-CT
 	in_trm = true;
+	SetRunState(false);
 	kill_children();
 	// you can kill children here
 }

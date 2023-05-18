@@ -147,6 +147,7 @@ void Processor_FCFS::ScheduleAlgo()
 		state = true;
 		assistant->ckeckForking(Runprocess);
 	}
+	kill_sig(assistant->get_timestep());
 }
 Process* Processor_FCFS::getprocessbyidfcfs(int id)
 {

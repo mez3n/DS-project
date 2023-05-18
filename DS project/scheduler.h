@@ -31,6 +31,7 @@ class scheduler
 	LinkedQueue<sigkill> kill_queue;
 public:
 	scheduler();
+	~scheduler();
 	//void AddToRdy(Process* p);
 	void RUN_to_TRM(Node<Processor*>*& Pr_ptr);
 	void BLK_to_RDY(Process*& Pr_ptr);

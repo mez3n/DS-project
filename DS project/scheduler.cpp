@@ -150,6 +150,12 @@ scheduler::scheduler()
 		fcfs_temp = fcfs_temp->getNext();
 	}
 }
+scheduler::~scheduler()
+{
+	
+	Processors.DeleteAll();
+	
+}
 //////////////////////////////////////////////////////////////////////////// DO NOT DELETE IT 
 /*insert a process to the processor with the least CT*/
 //void scheduler::Add_To_Shortest_RDY(Process* p)
@@ -381,7 +387,7 @@ void scheduler::simulate_system()
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
-		if (Time_Step == 9)
+		if (Time_Step == 2)
 		{
 			cout << "hello";
 		}
@@ -584,6 +590,7 @@ void scheduler::simulate_system()
 		Run_List.DeleteAll();
 		update_TimeStep();
 	}
+	Print_output_file();
 }
 bool scheduler::worksteal()
 {
