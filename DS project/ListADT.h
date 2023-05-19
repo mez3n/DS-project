@@ -192,6 +192,8 @@ public:
 			prevcur = prevcur->getNext();
 		}
 	}
+
+	
 	LNode<T>* getbrain()
 	{
 		return Head;
