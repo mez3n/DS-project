@@ -364,8 +364,8 @@ void scheduler::simulate_system()
 {
 	//Ctrl_Processors = Processors.gethead();
 	Console_out.setmode();
-	int FCFS_CNT = 0;
-	int RR_CNT = 0;
+	/*int FCFS_CNT = 0;
+	int RR_CNT = 0;*/
 	int NO_Generated;// number generated for a run process
 	Process* p = nullptr;
 	Process* p1 = nullptr;// temporary pointer to move from blk to rdy
@@ -378,13 +378,18 @@ void scheduler::simulate_system()
 	Node<Processor*>* Pr_ptr4 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr5 = Processors.gethead();// a pointer to processors list
 	Node<Processor*>* Pr_ptr_RR = Processors.gethead();// pointer to RR processors
-	Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
+	//Node<Processor*>* Pr_ptr_FCFS = Processors.gethead();// pointer to FCFS processors
 	Node<Process*>* Pr_ptr6 = Run_List.gethead();// a pointer to Run list
 	Node<Processor*>* Pr_ptr7 = Processors.gethead();// a pointer to processors list
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
-		
+		// for debugging remove
+		if (get_timestep() == 49)
+		{
+			cout << "error";
+		}
+
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
@@ -401,91 +406,245 @@ void scheduler::simulate_system()
 		// 2- Check the RDY lists and move one process from each RDY list to RUN state of its processor. This is done if the processor is IDLE. If the processor is BUSY the process should wait in the RDY list.
 		for (int i = 0; i < FCFS_no + SJF_no; i++)
 			Pr_ptr_RR = Pr_ptr_RR->getNext();
-		while (Pr_ptr1)
+		for (int i = 0; i < FCFS_no; i++)
 		{
-			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
+			if (!(Pr_ptr1->getItem()->IsRdyEmpty())) // if the rdy list is empty go to the next processor else check migration
 			{
-				Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specific algorithm (don't forget to remove that process from rdy list)
-				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_FCFS->getItem())// check RR migration
+				if (Pr_ptr1->getItem()->IsIdle())// if idle then get run process else nothing happen as wehas the run process already
+					Pr_ptr1->getItem()->ScheduleAlgo();
+				// if there is a process in run state check migration
+				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked())// check if it is forked and satisfy migration condition, if forked no migration will happen, run it
 				{
-					if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)
+					while (Pr_ptr1->getItem()->GetRunProcess()->get_WT() > MaxW) // check migration for the same processor till the condtion won't be satisfied
 					{
+						// migrate form fcfs to rr
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
-						Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
-						Pr_ptr1->getItem()->removerunprocess();///////
-						continue;
+						Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+						Pr_ptr1->getItem()->removerunprocess();
+						if (!(Pr_ptr1->getItem()->IsRdyEmpty()))
+							Pr_ptr1->getItem()->ScheduleAlgo();
+						else
+							break;
 					}
-					else
+					// we check here if we exit the loop due to the rdy list became empty or the condition is not satisfied
+					if (Pr_ptr1->getItem()->GetRunProcess() != NULL)// if runprocess not null then the condition not sat else the list is empty
 					{
+						// makeing process state true as it will be busy
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
 						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
-						FCFS_CNT++;
-						RR_CNT++;
-						if (FCFS_CNT != FCFS_no)
-							Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
-						if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
-							Pr_ptr_RR = Pr_ptr_RR->getNext();
-						Pr_ptr1 = Pr_ptr1->getNext();
 					}
 				}
 				else
 				{
-					if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_RR->getItem())// check FCFS migration
-					{
-						if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)
-						{
-							Pr_ptr1->getItem()->SetState(false);
-							Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
-							Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
-							Pr_ptr1->getItem()->removerunprocess();///////
-							continue;
-						}
-						else
-						{
-							Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
-							Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
-							FCFS_CNT++;
-							RR_CNT++;
-							if (FCFS_CNT != FCFS_no)
-								Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
-							if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
-								Pr_ptr_RR = Pr_ptr_RR->getNext();
-							Pr_ptr1 = Pr_ptr1->getNext();
-						}
-					}
-					else
-					{
-						// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
-						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
-						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
-						FCFS_CNT++;
-						RR_CNT++;
-						if (FCFS_CNT != FCFS_no)
-							Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
-						if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
-							Pr_ptr_RR = Pr_ptr_RR->getNext();
-						Pr_ptr1 = Pr_ptr1->getNext();
-					}
+					Pr_ptr1->getItem()->ScheduleAlgo();
+					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
 				}
 			}
-			else
-			{
-				FCFS_CNT++;
-				RR_CNT++;
-				if (FCFS_CNT != FCFS_no)
-					Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
-				if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
-					Pr_ptr_RR = Pr_ptr_RR->getNext();
-				Pr_ptr1 = Pr_ptr1->getNext();
-			}
+			Pr_ptr1 = Pr_ptr1->getNext();
 		}
-		FCFS_CNT = 0;
-		RR_CNT = 0;
+		// here pr_ptr1 will be pointing to sjf processor no migration here run only
+		while (Pr_ptr1 != Pr_ptr_RR) // we will loop till reaching RR processors
+		{
+			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
+			{
+				Pr_ptr1->getItem()->ScheduleAlgo();
+				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+			}
+			Pr_ptr1 = Pr_ptr1->getNext();
+		}
+		// here pr_ptr1 will points to the first RR pointer
+		for (int i = 0; i < RR_no; i++)
+		{
+			if (!(Pr_ptr1->getItem()->IsRdyEmpty())) // if the rdy list is empty go to the next processor else check migration
+			{
+				if (Pr_ptr1->getItem()->IsIdle())// if idle then get run process else nothing happen as wehas the run process already
+					Pr_ptr1->getItem()->ScheduleAlgo();
+				// if there is a process in run state check migration
+				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked())// check if it is forked and satisfy migration condition, if forked no migration will happen, run it
+				{
+					while (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF) // check migration for the same processor till the condtion won't be satisfied
+					{
+						// migrate form fcfs to rr
+						Pr_ptr1->getItem()->SetState(false);
+						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+						Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
+						Pr_ptr1->getItem()->removerunprocess();
+						if (!(Pr_ptr1->getItem()->IsRdyEmpty()))
+							Pr_ptr1->getItem()->ScheduleAlgo();
+						else
+							break;
+					}
+					// we check here if we exit the loop due to the rdy list became empty or the condition is not satisfied
+					if (Pr_ptr1->getItem()->GetRunProcess() != NULL)// if runprocess not null then the condition not sat else the list is empty
+					{
+						// makeing process state true as it will be busy
+						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+						Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+					}
+				}
+				else
+				{
+					Pr_ptr1->getItem()->ScheduleAlgo();
+					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+				}
+			}
+			Pr_ptr1 = Pr_ptr1->getNext();
+		}
+		// here pr_ptr1 will be pointing to edf processors no migration here run only
+		while (Pr_ptr1) // we will loop till reaching null 
+		{
+			if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
+			{
+				Pr_ptr1->getItem()->ScheduleAlgo();
+				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+			}
+			Pr_ptr1 = Pr_ptr1->getNext();
+		}
 		Pr_ptr1 = Processors.gethead();
 		Pr_ptr_RR = Processors.gethead();
-		Pr_ptr_FCFS = Processors.gethead();
+
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//for (int i = 0; i < FCFS_no + SJF_no; i++)
+		//	Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//while (Pr_ptr1)
+		//{
+		//	if (!(Pr_ptr1->getItem()->IsRdyEmpty()) && Pr_ptr1->getItem()->IsIdle())
+		//	{
+		//		Pr_ptr1->getItem()->ScheduleAlgo();// this function just get the process and run it according to a specific algorithm (don't forget to remove that process from rdy list)
+		//		if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_FCFS->getItem())// check RR migration
+		//		{
+		//			if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF)
+		//			{
+		//				Pr_ptr1->getItem()->SetState(false);
+		//				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+		//				Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
+		//				Pr_ptr1->getItem()->removerunprocess();///////
+		//				continue;
+		//			}
+		//			else
+		//			{
+		//				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+		//				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+		//				FCFS_CNT++;
+		//				RR_CNT++;
+		//				if (FCFS_CNT != FCFS_no)
+		//					Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		//				if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+		//					Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//				Pr_ptr1 = Pr_ptr1->getNext();
+		//			}
+		//		}
+		//		else
+		//		{
+		//			if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked() && Pr_ptr1->getItem() == Pr_ptr_RR->getItem())// check FCFS migration
+		//			{
+		//				if (Pr_ptr1->getItem()->GetRunProcess()->get_CT() > MaxW)
+		//				{
+		//					Pr_ptr1->getItem()->SetState(false);
+		//					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
+		//					Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+		//					Pr_ptr1->getItem()->removerunprocess();///////
+		//					continue;
+		//				}
+		//				else
+		//				{
+		//					Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+		//					Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+		//					FCFS_CNT++;
+		//					RR_CNT++;
+		//					if (FCFS_CNT != FCFS_no)
+		//						Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		//					if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+		//						Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//					Pr_ptr1 = Pr_ptr1->getNext();
+		//				}
+		//			}
+		//			else
+		//			{
+		//				// note : as shown in the project document that when a process move to run state it won't be in the ready list anymore
+		//				Pr_ptr1->getItem()->GetRunProcess()->SetRunState(true);
+		//				Pr_ptr1->getItem()->GetRunProcess()->set_Processor_id(Pr_ptr1->getItem()->getProcessorId());
+		//				FCFS_CNT++;
+		//				RR_CNT++;
+		//				if (FCFS_CNT != FCFS_no)
+		//					Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		//				if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+		//					Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//				Pr_ptr1 = Pr_ptr1->getNext();
+		//			}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		FCFS_CNT++;
+		//		RR_CNT++;
+		//		if (FCFS_CNT != FCFS_no)
+		//			Pr_ptr_FCFS = Pr_ptr_FCFS->getNext();
+		//		if (Pr_ptr1 == Pr_ptr_RR && RR_CNT != RR_no)
+		//			Pr_ptr_RR = Pr_ptr_RR->getNext();
+		//		Pr_ptr1 = Pr_ptr1->getNext();
+		//	}
+		//}
+		//FCFS_CNT = 0;
+		//RR_CNT = 0;
+		//Pr_ptr1 = Processors.gethead();
+		//Pr_ptr_RR = Processors.gethead();
+		//Pr_ptr_FCFS = Processors.gethead();
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
 		while (Pr_ptr4)
@@ -573,8 +732,7 @@ void scheduler::simulate_system()
 		}
 		// 11- work stealing part
 		if (get_timestep() % STL == 0)
-			while (worksteal())
-				work_steal_count++;
+			worksteal();
 		// 12-update Processor
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
@@ -595,7 +753,7 @@ void scheduler::simulate_system()
 	}
 	Print_output_file();
 }
-bool scheduler::worksteal()
+void scheduler::worksteal()
 {
 	Node<Processor*>* ptr = Processors.gethead();// pointer to processors
 	Processor* ptr_short;
@@ -626,13 +784,20 @@ bool scheduler::worksteal()
 	while (ptr->getItem()->ExpectedFinishTime() != max_CT)// get the processor that has max CT
 		ptr = ptr->getNext();
 	ptr_long = ptr->getItem();
-	if (!ptr_long->IsRdyEmpty())
-		if (!ptr_long->get_first_process()->is_forked() && (max_CT - min_CT) / max_CT > 0.4)
-		{
-			ptr_long->switch_processes(ptr_short);
-			return true;
-		}
-	return false;
+
+	while ((max_CT - min_CT) / max_CT > 0.4)
+	{
+		if (!ptr_long->IsRdyEmpty())
+			if (!ptr_long->get_first_process()->is_forked())
+			{
+				ptr_long->switch_processes(ptr_short);
+				work_steal_count++;
+			}
+			else
+				break;
+		else
+			break;
+	}
 }
 void scheduler::RUNtoBLK(Process* p)
 {

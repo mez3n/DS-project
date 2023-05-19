@@ -12,7 +12,11 @@ void Processor_FCFS::kill_sig(int timestep)
 	kill_queue.peek(s1);
 	while (s1.time == timestep)
 	{
-		kill_queue.dequeue(s1);
+		if (!kill_queue.dequeue(s1))
+		{
+			break;
+		}
+		
 		if (Runprocess)
 		{
 			if (s1.Pid == Runprocess->getPID())
