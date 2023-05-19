@@ -384,8 +384,12 @@ void scheduler::simulate_system()
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
+		// for debugging remove
 		if (get_timestep() == 49)
-			cout << "h";
+		{
+			cout << "error";
+		}
+
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
