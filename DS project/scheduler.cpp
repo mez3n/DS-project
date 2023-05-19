@@ -212,40 +212,44 @@ void scheduler::insertIN_MinRR_CT(Process* p)
 	Node<Processor*>* Pr_RR = Processors.gethead();// a pointer to RR_processors 
 	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
 		Pr_RR = Pr_RR->getNext();
-	int min_CT = Pr_RR->getItem()->ExpectedFinishTime();
-	Pr_RR = Pr_RR->getNext();
-	while (Pr_RR) // get min CT
+	Processor* ptr_short = Pr_RR->getItem();
+	Node<Processor*>* ptr = Pr_RR->getNext();
+	/*int min_CT = Pr_RR->getItem()->ExpectedFinishTime();
+	Pr_RR = Pr_RR->getNext();*/
+	for (int i = 0; i < RR_no - 1; i++) // get min CT
 	{
-		if (Pr_RR->getItem()->ExpectedFinishTime() < min_CT)
-			min_CT = Pr_RR->getItem()->ExpectedFinishTime();
-		Pr_RR = Pr_RR->getNext();
+		if (ptr->getItem()->ExpectedFinishTime() < ptr_short->ExpectedFinishTime())
+			ptr_short = ptr->getItem();
+		ptr = ptr->getNext();
 	}
-	Pr_RR = Processors.gethead();
-	for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
-		Pr_RR = Pr_RR->getNext();
-	while (Pr_RR->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-		Pr_RR = Pr_RR->getNext();
-	Pr_RR->getItem()->AddToList(p);// add process to that processor whatever its type
+	//Pr_RR = Processors.gethead();
+	//for (int i = 0; i < FCFS_no + SJF_no; i++)// get first RR processor
+	//	Pr_RR = Pr_RR->getNext();
+	//while (Pr_RR->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+	//	Pr_RR = Pr_RR->getNext();
+	ptr_short->AddToList(p);// add process to that processor whatever its type
 }
 void scheduler::insertIN_MinSJF_CT(Process* p)
 {
 	Node<Processor*>* Pr_ptr_SJF = Processors.gethead();// a pointer to SJF_processors 
 	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
 		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
-	int min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
-	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
-	while (Pr_ptr_SJF) // get min CT
+	Processor* ptr_short = Pr_ptr_SJF->getItem();
+	Node<Processor*>* ptr = Pr_ptr_SJF->getNext();
+	//int min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
+	//Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	for (int i = 0; i < SJF_no - 1;i++) // get min CT
 	{
-		if (Pr_ptr_SJF->getItem()->ExpectedFinishTime() < min_CT)
-			min_CT = Pr_ptr_SJF->getItem()->ExpectedFinishTime();
-		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+		if (ptr->getItem()->ExpectedFinishTime() < ptr_short->ExpectedFinishTime())
+			ptr_short = ptr->getItem();
+		ptr = ptr->getNext();
 	}
-	Pr_ptr_SJF = Processors.gethead();
-	for (int i = 0; i < FCFS_no; i++)// get first SJF processor
-		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
-	while (Pr_ptr_SJF->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-		Pr_ptr_SJF = Pr_ptr_SJF->getNext();
-	Pr_ptr_SJF->getItem()->AddToList(p);// add process to that processor whatever its type
+	//Pr_ptr_SJF = Processors.gethead();
+	//for (int i = 0; i < FCFS_no; i++)// get first SJF processor
+	//	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	//while (Pr_ptr_SJF->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+	//	Pr_ptr_SJF = Pr_ptr_SJF->getNext();
+	ptr_short->AddToList(p);// add process to that processor whatever its type
 }
 // migrate a run process from RR to SJF
 void scheduler::Migration_RR(Process* p)
