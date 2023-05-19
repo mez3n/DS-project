@@ -4,12 +4,12 @@ UI::UI()
 {
 }
 
-void UI::PrintOutput(LinkedList<Process*>& RUN_List,LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK_LIST, LinkedList<Process*>& TRM_LIST, LinkedList<Processor*>& Processors,
+void UI::PrintOutput(LinkedList<Process*>& RUN_List, LinkedQueue<Process*>& NEW_LIST, LinkedQueue<Process*>& BLK_LIST, LinkedList<Process*>& TRM_LIST, LinkedList<Processor*>& Processors,
 	int timestep, int Processes_no, int Term_no)
 {
 	if (Mode != 2) // not silent mode
 	{
-		cout << "Current Timestep:" << timestep << endl;
+		cout << "\nCurrent Timestep:" << timestep << endl;
 		cout << "---------------" << "	RDY processes	" << "---------------" << endl;
 		cout << " ";
 		Processors.PrintList();
@@ -52,7 +52,7 @@ void UI::setmode()
 	cout << "0:interactive mode\n";
 	cout << "1:step by step mode\n";
 	cout << "2:silent mode\n";
-	int x =0;   // for testing
+	int x = 0;   // for testing
 	cin >> x;
 	Mode = x;
 	if (Mode == 2)
@@ -62,10 +62,10 @@ void UI::setmode()
 }
 ostream& operator << (ostream& out, Process* P)
 {
-	cout <<P->PID;
+	cout << P->PID;
 	if (P->Processor_id != -1)
 	{
-		cout << "(P" << P->Processor_id<<")";
+		cout << "(P" << P->Processor_id << ")";
 	}
 	cout << ",";
 	return out;
@@ -73,8 +73,8 @@ ostream& operator << (ostream& out, Process* P)
 ostream& operator << (ostream& out, Processor* P)
 {
 	cout << "Processor " << P->ID << " [" << P->Name << "]: ";
-	cout << P->GetRdyCount()<<" ";
-	cout<< "RDY: ";
+	cout << P->GetRdyCount() << " ";
+	cout << "RDY: ";
 	P->print();
 	cout << endl;
 	return out;
