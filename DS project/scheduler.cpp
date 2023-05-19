@@ -40,7 +40,7 @@ scheduler::scheduler()
 	mig_fcfs_to_RR_cnt = 0;
 	mig_RR_to_sjf_cnt = 0;
 	work_steal_count = 0;
-	InputFile = new ifstream("InputFile.txt", ios::in);
+	InputFile = new ifstream("InputFile2.txt", ios::in);
 	string no_rr, no_fcfs, no_sjf, no_edf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
 	string S_T_RR;
@@ -279,7 +279,7 @@ void scheduler::Print_output_file()
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
-		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_CT() << "\t" <<
+		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_AT() << "\t"  << cur_process->get_AT()<< "\t"<<
 			cur_process->get_total_IO_D() << "\t" << cur_process->get_WT() << "\t" << cur_process->get_RT() << "\t" << cur_process->get_TRT() << "\n";
 		avg_WT += cur_process->get_WT();
 		avg_RT += cur_process->get_RT();
@@ -321,6 +321,7 @@ void scheduler::Print_output_file()
 	{
 		int load_per = (processor_out->getItem()->GetPload(total_TRT)) * 100;
 		*OutputFile << "p" << i + 1 << "=" << load_per << "%,\t";
+		processor_out = processor_out->getNext();
 	}
 	*OutputFile << "\n\n";
 
@@ -334,6 +335,7 @@ void scheduler::Print_output_file()
 		int util_per = (processor_out->getItem()->calcPutil()) * 100;
 		avg_util += util_per;
 		*OutputFile << "p" << i + 1 << "=" << util_per << "%,\t";
+		processor_out = processor_out->getNext();
 	}
 	avg_util /= FCFS_no + SJF_no + RR_no + EDF_no;
 	*OutputFile << "\n Avg utilization = " << avg_util << "%,\n";
@@ -385,11 +387,6 @@ void scheduler::simulate_system()
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// for debugging remove
-		if (get_timestep() == 49)
-		{
-			cout << "error";
-		}
-
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
