@@ -388,7 +388,7 @@ void scheduler::simulate_system()
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// for debugging remove
-		if (get_timestep() == 29)
+		if (get_timestep() == 61)
 		{
 			cout << "error";
 		}
@@ -618,7 +618,8 @@ void scheduler::simulate_system()
 			BLK_P = NULL;
 		if (BLK_P)
 		{
-			BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
+			if (BLK_P->get_IO_D() > 0)
+				BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
 			// then check if that process has finished
 			if (BLK_P->get_IO_D() == 0)
 				BLK_to_RDY(BLK_P);
