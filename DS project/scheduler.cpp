@@ -347,6 +347,8 @@ void scheduler::RUN_to_TRM(Node<Processor*>*& Pr_ptr)
 	Pr_ptr->getItem()->GetRunProcess()->SetRunState(false);
 	Pr_ptr->getItem()->GetRunProcess()->set_termination_times(Time_Step);
 	TRM_LIST.InsertEnd(Pr_ptr->getItem()->GetRunProcess());
+	Pr_ptr->getItem()->removerunprocess();
+
 }
 // transfer process from BLK list to the shortest rdy list
 void scheduler::BLK_to_RDY(Process*& Pr_ptr)
@@ -385,7 +387,7 @@ void scheduler::simulate_system()
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// for debugging remove
-		if (get_timestep() == 49)
+		if (get_timestep() == 59)
 		{
 			cout << "error";
 		}
@@ -421,6 +423,7 @@ void scheduler::simulate_system()
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
 						Migration_FCFS(Pr_ptr1->getItem()->GetRunProcess());
+						mig_fcfs_to_RR_cnt++;
 						Pr_ptr1->getItem()->removerunprocess();
 						if (!(Pr_ptr1->getItem()->IsRdyEmpty()))
 							Pr_ptr1->getItem()->ScheduleAlgo();
@@ -471,6 +474,7 @@ void scheduler::simulate_system()
 						Pr_ptr1->getItem()->SetState(false);
 						Pr_ptr1->getItem()->GetRunProcess()->SetRunState(false);
 						Migration_RR(Pr_ptr1->getItem()->GetRunProcess());
+						mig_RR_to_sjf_cnt++;
 						Pr_ptr1->getItem()->removerunprocess();
 						if (!(Pr_ptr1->getItem()->IsRdyEmpty()))
 							Pr_ptr1->getItem()->ScheduleAlgo();
@@ -651,7 +655,11 @@ void scheduler::simulate_system()
 		{
 			if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
 				if (Pr_ptr4->getItem()->GetRunProcess()->getLeftCT() == 0)
+				{
+
 					RUN_to_TRM(Pr_ptr4);
+
+				}
 			Pr_ptr4 = Pr_ptr4->getNext();
 		}
 		Pr_ptr4 = Processors.gethead();
@@ -665,7 +673,14 @@ void scheduler::simulate_system()
 			BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
 			// then check if that process has finished
 			if (BLK_P->get_IO_D() == 0)
+			{
+
+
+
+
 				BLK_to_RDY(BLK_P);
+
+			}
 		}
 		//// 5- check if there is a Run process in RR processors want to migrate to SJF
 		//// get first RR processor
