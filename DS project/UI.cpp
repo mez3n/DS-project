@@ -34,7 +34,7 @@ void UI::PrintOutput(LinkedList<Process*>& RUN_List, LinkedQueue<Process*>& NEW_
 		}
 		else // step by step mode
 		{
-			Sleep(10);
+			Sleep(1);
 		}
 	}
 }

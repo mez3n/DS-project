@@ -71,7 +71,6 @@ public:
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry) ;
-	void PrintQueue(LinkedQueue<T> Q);
 	void PrintList();
 	int Get_Count();
 	~LinkedQueue();
@@ -120,7 +119,7 @@ bool LinkedQueue<T>::dequeue(T& frntEntry)
 		backPtr = nullptr;
 
 	// Free memory reserved for the dequeued node
-	delete nodeToDeletePtr;
+	nodeToDeletePtr =nullptr; //
 	count--;
 	return true;
 
@@ -167,7 +166,7 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& LQ)
 		backPtr = ptr;
 		NodePtr = NodePtr->getNext();
 	}
-	LQ.count = count;
+          count=LQ.count;
 }
 template<typename T>
 void LinkedQueue<T>::PrintList()
