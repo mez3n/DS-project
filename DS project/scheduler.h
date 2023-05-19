@@ -47,7 +47,7 @@ public:
 	void move_to_trm(Process* p);
 	int get_timestep(); // not sure if i will need this -- keep it I wil need it
 	void Print_output_file();
-	bool worksteal();
+	void worksteal();
 	int get_mig_fcfs_to_RR_cnt();
 	int get_mig_RR_to_sjf_cnt();
 	int get_work_steal_count();

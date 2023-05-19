@@ -384,7 +384,8 @@ void scheduler::simulate_system()
 	NEW_LIST.peek(p);
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
-		
+		if (get_timestep() == 49)
+			cout << "h";
 		// in each timestep we check:
 		// 1- processes with this time step will transfer them to the rdy list. Note: we won't make any balance in this phase
 		if (!NEW_LIST.isEmpty())
@@ -502,7 +503,7 @@ void scheduler::simulate_system()
 		}
 		Pr_ptr1 = Processors.gethead();
 		Pr_ptr_RR = Processors.gethead();
-<<<<<<< HEAD
+
 		
 		
 		
@@ -639,15 +640,7 @@ void scheduler::simulate_system()
 		
 		
 		
-		
-		
-		
-		
-		
-=======
-		Pr_ptr_FCFS = Processors.gethead();
->>>>>>> 9e6944917c7c620463bdeb70b71b619d56a8439b
-		
+
 		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
 		while (Pr_ptr4)
@@ -735,8 +728,7 @@ void scheduler::simulate_system()
 		}
 		// 11- work stealing part
 		if (get_timestep() % STL == 0)
-			while (worksteal())
-				work_steal_count++;
+			worksteal();
 		// 12-update Processor
 		Pr_ptr7 = Processors.gethead();
 		while (Pr_ptr7)
@@ -757,7 +749,7 @@ void scheduler::simulate_system()
 	}
 	Print_output_file();
 }
-bool scheduler::worksteal()
+void scheduler::worksteal()
 {
 	Node<Processor*>* ptr = Processors.gethead();// pointer to processors
 	Processor* ptr_short;
@@ -788,13 +780,20 @@ bool scheduler::worksteal()
 	while (ptr->getItem()->ExpectedFinishTime() != max_CT)// get the processor that has max CT
 		ptr = ptr->getNext();
 	ptr_long = ptr->getItem();
-	if (!ptr_long->IsRdyEmpty())
-		if (!ptr_long->get_first_process()->is_forked() && (max_CT - min_CT) / max_CT > 0.4)
-		{
-			ptr_long->switch_processes(ptr_short);
-			return true;
-		}
-	return false;
+
+	while ((max_CT - min_CT) / max_CT > 0.4)
+	{
+		if (!ptr_long->IsRdyEmpty())
+			if (!ptr_long->get_first_process()->is_forked())
+			{
+				ptr_long->switch_processes(ptr_short);
+				work_steal_count++;
+			}
+			else
+				break;
+		else
+			break;
+	}
 }
 void scheduler::RUNtoBLK(Process* p)
 {
