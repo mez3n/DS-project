@@ -239,8 +239,11 @@ int Process::getdeadline()
 int Process::get_IO_R() // please implement it, function get IO_R for a process
 {
 	IO *p;
-	IO_queue.peek(p);
-	return p->IO_R;
+	if (IO_queue.peek(p))
+	{
+		return p->IO_R;
+	}
+	else return -1;
 }
 
 void Process::set_RT(int current_time)

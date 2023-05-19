@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  scheduler.cpp
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(112,10): warning C4091: '': ignored on left of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' when no variable is declared
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(91,19): warning C4101: 'IO_d': unreferenced local variable
@@ -11,3 +12,7 @@ C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(782,47): warning
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(790,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(795,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   DS project.vcxproj -> C:\Users\ma273\source\repos\DS-project\x64\Debug\DS project.exe
+=======
+﻿  Process.cpp
+  DS project.vcxproj -> C:\Users\moham\source\repos\DS-project_phase2_1.3\x64\Debug\DS project.exe
+>>>>>>> 4b9fe848b08de5fd04c177d015da50bf0f81b015
