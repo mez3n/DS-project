@@ -388,7 +388,7 @@ void scheduler::simulate_system()
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// for debugging remove
-		if (get_timestep() == 59)
+		if (get_timestep() == 29)
 		{
 			cout << "error";
 		}
@@ -513,26 +513,6 @@ void scheduler::simulate_system()
 		Pr_ptr1 = Processors.gethead();
 		Pr_ptr_RR = Processors.gethead();
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		//for (int i = 0; i < FCFS_no + SJF_no; i++)
 		//	Pr_ptr_RR = Pr_ptr_RR->getNext();
 		//while (Pr_ptr1)
@@ -620,47 +600,13 @@ void scheduler::simulate_system()
 		//Pr_ptr_RR = Processors.gethead();
 		//Pr_ptr_FCFS = Processors.gethead();
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 		// 3- if CT for a process is finished it goes to TRM_LIST
 		//------------------------------------------------------------------------------------------------------------------
 		while (Pr_ptr4)
 		{
 			if (!(Pr_ptr4->getItem()->IsIdle()))// if its busy then there is a process in run state
 				if (Pr_ptr4->getItem()->GetRunProcess()->getLeftCT() == 0)
-				{
-
 					RUN_to_TRM(Pr_ptr4);
-
-				}
 			Pr_ptr4 = Pr_ptr4->getNext();
 		}
 		Pr_ptr4 = Processors.gethead();
@@ -668,20 +614,14 @@ void scheduler::simulate_system()
 		
 		//------------------------------------------------------------------------------------------------------------------
 		// 4- dec IO for the first process entered BLK_List requesing IO by 1
-		BLK_LIST.peek(BLK_P);
+		if (!BLK_LIST.peek(BLK_P))
+			BLK_P = NULL;
 		if (BLK_P)
 		{
 			BLK_P->set_IO_D(BLK_P->get_IO_D() - 1);
 			// then check if that process has finished
 			if (BLK_P->get_IO_D() == 0)
-			{
-
-
-
-
 				BLK_to_RDY(BLK_P);
-
-			}
 		}
 		//// 5- check if there is a Run process in RR processors want to migrate to SJF
 		//// get first RR processor
