@@ -388,7 +388,7 @@ void scheduler::simulate_system()
 	while (TRM_LIST.getcount() != Processes_no)// stop when all processes move to trm list  
 	{
 		// for debugging remove
-		if (get_timestep() == 61)
+		if (get_timestep() == 23)
 		{
 			cout << "error";
 		}
@@ -469,7 +469,7 @@ void scheduler::simulate_system()
 				// if there is a process in run state check migration
 				if (!Pr_ptr1->getItem()->GetRunProcess()->is_forked())// check if it is forked and satisfy migration condition, if forked no migration will happen, run it
 				{
-					while (Pr_ptr1->getItem()->GetRunProcess()->get_CT() < RTF) // check migration for the same processor till the condtion won't be satisfied
+					while (Pr_ptr1->getItem()->GetRunProcess()->getLeftCT() < RTF) // check migration for the same processor till the condtion won't be satisfied
 					{
 						// migrate form fcfs to rr
 						Pr_ptr1->getItem()->SetState(false);
@@ -713,47 +713,38 @@ void scheduler::simulate_system()
 void scheduler::worksteal()
 {
 	Node<Processor*>* ptr = Processors.gethead();// pointer to processors
-	Processor* ptr_short;
-	Processor* ptr_long;
-	float min_CT = 0, max_CT = 0;
-	min_CT = ptr->getItem()->ExpectedFinishTime();
+	Processor* ptr_short = ptr->getItem();
+	Processor* ptr_long = ptr->getItem();
+	//float min_CT = 0, max_CT = 0;
+	//min_CT = ptr->getItem()->ExpectedFinishTime();
 	ptr = ptr->getNext();
 	while (ptr) // get min CT
 	{
-		if (ptr->getItem()->ExpectedFinishTime() < min_CT)
-			min_CT = ptr->getItem()->ExpectedFinishTime();
+		if (ptr->getItem()->ExpectedFinishTime() < ptr_short->ExpectedFinishTime())
+			ptr_short = ptr->getItem();
 		ptr = ptr->getNext();
 	}
 	ptr = Processors.gethead();
-	while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
-		ptr = ptr->getNext();
-	ptr_short = ptr->getItem();
-	ptr = Processors.gethead();
-	max_CT = ptr->getItem()->ExpectedFinishTime();
+	//while (ptr->getItem()->ExpectedFinishTime() != min_CT)// get the processor that has min CT
+	//	ptr = ptr->getNext();
+	//ptr_short = ptr->getItem();
+	//ptr = Processors.gethead();
+	//max_CT = ptr->getItem()->ExpectedFinishTime();
 	ptr = ptr->getNext();
 	while (ptr) // get max CT
 	{
-		if (ptr->getItem()->ExpectedFinishTime() > max_CT)
-			max_CT = ptr->getItem()->ExpectedFinishTime();
+		if (ptr->getItem()->ExpectedFinishTime() > ptr_long->ExpectedFinishTime())
+			ptr_long = ptr->getItem();
 		ptr = ptr->getNext();
 	}
-	ptr = Processors.gethead();
-	while (ptr->getItem()->ExpectedFinishTime() != max_CT)// get the processor that has max CT
-		ptr = ptr->getNext();
-	ptr_long = ptr->getItem();
-
-	while ((max_CT - min_CT) / max_CT > 0.4)
+	//ptr = Processors.gethead();
+	//while (ptr->getItem()->ExpectedFinishTime() != max_CT)// get the processor that has max CT
+	//	ptr = ptr->getNext();
+	//ptr_long = ptr->getItem();
+	while (!ptr_long->IsRdyEmpty() && !ptr_long->get_first_process()->is_forked()  && (ptr_long->ExpectedFinishTime() - ptr_short->ExpectedFinishTime()) / ptr_long->ExpectedFinishTime() > 0.4)
 	{
-		if (!ptr_long->IsRdyEmpty())
-			if (!ptr_long->get_first_process()->is_forked())
-			{
-				ptr_long->switch_processes(ptr_short);
-				work_steal_count++;
-			}
-			else
-				break;
-		else
-			break;
+		ptr_long->switch_processes(ptr_short);
+		work_steal_count++;
 	}
 }
 void scheduler::RUNtoBLK(Process* p)

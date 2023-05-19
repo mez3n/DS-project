@@ -11,7 +11,7 @@ protected:
 	string Name;// each processor has name 
 	int count;// the number of processes in RDY list
 	float TotalBusyTime; // for calculate total busy time along the program
-	int FinishTime;// in every time process is added or removed it must be edited
+	float FinishTime;// in every time process is added or removed it must be edited
 	float TotalIDLETime;// for calculate total idle time along the program
 	Process* Runprocess;// point to processes in run state
 	const int n;// time step that processor will be out of work
@@ -22,7 +22,7 @@ public:
 	Processor(int N, int id, string name, scheduler* p);
 	virtual void ScheduleAlgo() = 0;// determine next process to be run 
 	virtual void AddToList(Process* p) = 0;//  Add new process to RDY list
-	int ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose
+	float ExpectedFinishTime();// get expected time for processor to finish to help scheduler determine which processor to choose
 	virtual void print() = 0; // print process PID. UI class must call it.
 	float GetPload(int TotalTRTProcesses);//Get pload for each processor
 	float calcPutil();// calculate Putil for processor

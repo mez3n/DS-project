@@ -42,7 +42,7 @@ void Processor::checkIO_request()
 		}
 	}
 }
-int Processor::ExpectedFinishTime()
+float Processor::ExpectedFinishTime()
 {
 	return FinishTime;
 }

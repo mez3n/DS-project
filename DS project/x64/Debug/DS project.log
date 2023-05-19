@@ -3,11 +3,11 @@ C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(112,10): warning
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(91,19): warning C4101: 'IO_d': unreferenced local variable
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(91,8): warning C4101: 'IO_r': unreferenced local variable
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(90,23): warning C4101: 'rt': unreferenced local variable
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(215,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(220,49): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(235,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(240,54): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(321,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(334,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(372,6): warning C4101: 'NO_Generated': unreferenced local variable
-C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(719,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(724,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(732,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\ma273\source\repos\DS-project\DS project\scheduler.cpp(737,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   DS project.vcxproj -> C:\Users\ma273\source\repos\DS-project\x64\Debug\DS project.exe
