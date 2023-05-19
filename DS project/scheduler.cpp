@@ -40,7 +40,7 @@ scheduler::scheduler()
 	mig_fcfs_to_RR_cnt = 0;
 	mig_RR_to_sjf_cnt = 0;
 	work_steal_count = 0;
-	InputFile = new ifstream("InputFile2.txt", ios::in);
+	InputFile = new ifstream("InputFile.txt", ios::in);
 	string no_rr, no_fcfs, no_sjf, no_edf;
 	string S_RTF, S_MaxW, S_STL, S_Fork_Prob;
 	string S_T_RR;
@@ -149,6 +149,7 @@ scheduler::scheduler()
 		fcfs_temp->getItem()->set_sigkill(kill_queue);
 		fcfs_temp = fcfs_temp->getNext();
 	}
+	
 }
 scheduler::~scheduler()
 {
@@ -194,8 +195,6 @@ void scheduler::load_sigkill()
 		kill_queue.enqueue(s1);
 		no_sigkill++;
 	}
-
-
 }
 
 //void scheduler::AddToRdy(Process* p)
@@ -279,7 +278,7 @@ void scheduler::Print_output_file()
 	while (process_ptr)
 	{
 		Process* cur_process = process_ptr->getItem();
-		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_AT() << "\t"  << cur_process->get_AT()<< "\t"<<
+		*OutputFile << cur_process->get_TT() << "\t" << cur_process->getPID() << "\t" << cur_process->get_AT() << "\t"  << cur_process->get_CT()<< "\t"<<
 			cur_process->get_total_IO_D() << "\t" << cur_process->get_WT() << "\t" << cur_process->get_RT() << "\t" << cur_process->get_TRT() << "\n";
 		avg_WT += cur_process->get_WT();
 		avg_RT += cur_process->get_RT();
@@ -866,7 +865,10 @@ void scheduler::checkForking(Process* p)
 		if (p)
 			k = p->fork_process(Processes_no,Time_Step);
 		if (k)
+		{
+			no_forked++;
 			AddToShortestFCFS(k);
+		}
 	}
 }
 void scheduler::AddToShortestFCFS(Process* p)

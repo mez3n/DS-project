@@ -104,7 +104,7 @@ void Processor_FCFS::kill_sig(int timestep)
 	}
 
 }
-void Processor_FCFS::set_sigkill(LinkedQueue<sigkill>& kill_queue_out)
+void Processor_FCFS::set_sigkill(LinkedQueue<sigkill> & kill_queue_out)
 {
 	kill_queue = kill_queue_out;
 }

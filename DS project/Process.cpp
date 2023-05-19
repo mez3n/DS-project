@@ -11,7 +11,6 @@ Process::Process()
 	total_IO_D = 0;
 	in_trm = false;
 	WT = 0;
-	RT = 0;
 	TRT = 0;
 	TT = 0;
 }
@@ -243,7 +242,10 @@ int Process::get_IO_R() // please implement it, function get IO_R for a process
 	{
 		return p->IO_R;
 	}
-	else return -1;
+	else
+	{
+		return -1;
+	}
 }
 
 void Process::set_RT(int current_time)
